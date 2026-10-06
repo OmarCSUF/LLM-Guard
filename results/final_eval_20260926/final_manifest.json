@@ -1,0 +1,504 @@
+{
+  "output": "data/benchmarks_final/final_test/test.jsonl",
+  "output_sha256": "39425a51fc671079dc341f57ec6a4821b1fb2732b50ae23cc95ccda3135e11a0",
+  "n_total": 3453,
+  "n_by_source": {
+    "sst": 99,
+    "catqa": 543,
+    "dna_core": 573,
+    "dna_other": 364,
+    "coconot": 378,
+    "phtest": 1000,
+    "no_robots": 496
+  },
+  "n_by_source_label": {
+    "catqa:0": 543,
+    "coconot:1": 378,
+    "dna_core:0": 573,
+    "dna_other:0": 364,
+    "no_robots:1": 496,
+    "phtest:1": 1000,
+    "sst:0": 99
+  },
+  "n_safe": 1874,
+  "n_harmful_primary": 1215,
+  "n_harmful_secondary": 364,
+  "stages": {
+    "loaded": {
+      "sst": 100,
+      "catqa": 550,
+      "dna_core": 574,
+      "dna_other": 365,
+      "coconot": 379,
+      "phtest": 2077,
+      "no_robots": 500
+    },
+    "phtest_controversial_dropped": 1192,
+    "after_rule1_within_source": {
+      "sst": 100,
+      "catqa": 543,
+      "dna_core": 574,
+      "dna_other": 364,
+      "coconot": 379,
+      "phtest": 2073,
+      "no_robots": 498
+    },
+    "rule1_dropped": {
+      "sst": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 0
+      },
+      "catqa": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 7
+      },
+      "dna_core": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 0
+      },
+      "dna_other": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 1
+      },
+      "coconot": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 0
+      },
+      "phtest": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 4
+      },
+      "no_robots": {
+        "empty_dropped": 0,
+        "duplicates_dropped": 2
+      }
+    },
+    "reference_sizes": {
+      "pool_train": 15296,
+      "pool_val": 1912,
+      "pool_test": 1912,
+      "bench_jailbreakbench": 200,
+      "bench_xstest": 450,
+      "bench_harmbench": 200,
+      "bench_toxicchat": 4951,
+      "bench_orbench": 1974
+    },
+    "after_rule2_reference_screen": {
+      "sst": 99,
+      "catqa": 543,
+      "dna_core": 573,
+      "dna_other": 364,
+      "coconot": 378,
+      "phtest": 2073,
+      "no_robots": 496
+    },
+    "rule2_dropped_by_reference": {
+      "sst": {
+        "exact:bench_toxicchat": 1
+      },
+      "catqa": {},
+      "dna_core": {
+        "near:pool_train": 1
+      },
+      "dna_other": {},
+      "coconot": {
+        "near:pool_train": 1
+      },
+      "phtest": {},
+      "no_robots": {
+        "exact:bench_toxicchat": 1,
+        "near:bench_toxicchat": 1
+      }
+    },
+    "after_rule3_cross_source": {
+      "sst": 99,
+      "catqa": 543,
+      "dna_core": 573,
+      "dna_other": 364,
+      "coconot": 378,
+      "phtest": 2073,
+      "no_robots": 496
+    },
+    "rule3_dropped": {},
+    "after_rule4_phtest_sample": {
+      "sst": 99,
+      "catqa": 543,
+      "dna_core": 573,
+      "dna_other": 364,
+      "coconot": 378,
+      "phtest": 1000,
+      "no_robots": 496
+    },
+    "long_prompts": {
+      "limit": 512,
+      "over_by_source": {
+        "no_robots": 16
+      }
+    }
+  },
+  "rules": {
+    "normalisation": "NFKC, lower-case, whitespace collapse (build_datasets.normalise)",
+    "near_dup": {
+      "shingle": 5,
+      "jaccard_threshold": 0.8,
+      "num_perm": 64,
+      "bands": 16,
+      "seed": 42
+    },
+    "phtest_sample": {
+      "n": 1000,
+      "seed": 20260926
+    },
+    "source_precedence": [
+      "sst",
+      "catqa",
+      "dna_core",
+      "dna_other",
+      "coconot",
+      "phtest",
+      "no_robots"
+    ],
+    "dna_core_risk_areas": [
+      "discrimination, exclusion, toxicity, hateful, offensive",
+      "malicious uses",
+      "misinformation harms"
+    ],
+    "dna_other_risk_areas": [
+      "human-chatbot interaction harms",
+      "information hazards"
+    ]
+  },
+  "source_revisions": {
+    "sst": {
+      "repo": "Bertievidgen/SimpleSafetyTests",
+      "revision": "98223c5d8c4059c8f4d8fe2fec8720ee8a20d3c5",
+      "files": [
+        {
+          "path": "sst_test_cases.csv",
+          "digest": "1a81f0d4c0eb5874cff00de49eb519693c848697"
+        }
+      ]
+    },
+    "catqa": {
+      "repo": "declare-lab/CategoricalHarmfulQA",
+      "revision": "321e068b391b7d1aeeb882ac468356a9513c9167",
+      "files": [
+        {
+          "path": "data/catqa_english.json",
+          "digest": "17733209f5ca346070c4b0db31f89d9aca6ff7f0"
+        }
+      ]
+    },
+    "dna": {
+      "repo": "LibrAI/do-not-answer",
+      "revision": "74e74f2e4507ef256fe536f78a776f4a1ff67955",
+      "files": [
+        {
+          "path": "data_en.csv",
+          "digest": "6c7ad83cf665b418229955e0abb602ab0cac6384"
+        }
+      ]
+    },
+    "coconot": {
+      "repo": "allenai/coconot",
+      "revision": "2cbe16aabf9069f17e48c8daad8aeabc29469eb7",
+      "files": [
+        {
+          "path": "contrast/test-00000-of-00001.parquet",
+          "digest": "d2d4f9ea33eac017cfdd2b56669e417e979933418276083d3acb28be170a588f"
+        }
+      ]
+    },
+    "phtest": {
+      "repo": "furonghuang-lab/PHTest",
+      "revision": "edb80210812ecc7dab2219aa2e70921710c01888",
+      "files": [
+        {
+          "path": "PHTest.csv",
+          "digest": "cb3b3e64e06637a5b6dfeae7c7bc041865e90df8"
+        }
+      ]
+    },
+    "no_robots": {
+      "repo": "HuggingFaceH4/no_robots",
+      "revision": "e6f9a4ac5c37faeb744ba9ecf0473184d7f8105b",
+      "files": [
+        {
+          "path": "data/test-00000-of-00001.parquet",
+          "digest": "60707b2636a46e37bb0c1e9ca263a18553f430317b7a53c691676d6a492fc0f2"
+        }
+      ]
+    }
+  },
+  "reference_files": {
+    "pool_train": "1cbd738c531105218588d5ec77b493c16c2752886c9675757d3382e9c71f4c05",
+    "pool_val": "16ce7eeab18f2e908256dc8b579c3a5060d54fcb06318c04d992ca04b91015e2",
+    "pool_test": "7c451ef4407aad7e5abf9b1dcbba4754657d6fdbf73a37f36fcaef7602168e70",
+    "bench_jailbreakbench": "48f48ef492b950e0ed234b5431cf3fcf326da9dbea86936fb2f44f23b67010e2",
+    "bench_xstest": "dbfae3fabba2bf5d2fc039ad6fd1f8477460968d251949c92cf3c6ed9ecf9719",
+    "bench_harmbench": "a9db0c790bed0d0814244cc169c28644686338cb2b524df8074bae4c1d7a78ce",
+    "bench_toxicchat": "0874a036e0628f07157ed06a0f03781a56894f3e270bfdadc68cf2d89fe90905",
+    "bench_orbench": "fab7f52ace89d055eef84b3ec4c4a69206f6438cf7bf88628eed7906fbdbb463"
+  },
+  "run_info": {
+    "started_at": "2026-09-26T06:35:45+00:00",
+    "command": [
+      "/home/OmarLaptop/venvs/guard/bin/python",
+      "scripts/final_eval/build_final_test.py"
+    ],
+    "cwd": "/home/OmarLaptop/Omar/GaurdLLm-vibe-main",
+    "seed": 42,
+    "git_commit": "dc90a9e2124dac1ee81588059bde5239855c9fdf",
+    "git_dirty": false,
+    "python": "3.10.12",
+    "packages": {
+      "torch": "2.14.0",
+      "transformers": "4.57.6",
+      "bitsandbytes": "0.50.2",
+      "peft": "0.20.0",
+      "accelerate": "1.15.0",
+      "scikit-learn": "1.7.2",
+      "numpy": "2.2.6"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+      "cuda": "13.0",
+      "total_memory_gib": 5.64
+    },
+    "config": {
+      "project": {
+        "name": "LLM-Guard",
+        "version": "0.1.0",
+        "seed": 42,
+        "device": "auto",
+        "fp16": true,
+        "log_dir": "logs/",
+        "artifact_dir": "artifacts/"
+      },
+      "data": {
+        "raw_dir": "data/raw/",
+        "processed_dir": "data/processed/",
+        "distillation_pool_dir": "data/distillation_pool/",
+        "benchmarks_dir": "data/benchmarks/",
+        "distillation_pool": {
+          "train_size": 50000,
+          "val_size": 5000,
+          "test_size": 10000
+        },
+        "labels": {
+          "allow": 1,
+          "mitigate": 0
+        },
+        "violation_categories": [
+          "toxicity",
+          "phishing",
+          "disinformation",
+          "jailbreak",
+          "hate_speech",
+          "self_harm"
+        ]
+      },
+      "layer1": {
+        "classifier_only": true,
+        "normalise_input": true,
+        "payload_views": true,
+        "artifact_subdir": "layer1",
+        "curvature": {
+          "num_perturbations": 10,
+          "temperature_range": [
+            0.5,
+            1.5
+          ],
+          "top_p_range": [
+            0.8,
+            1.0
+          ]
+        },
+        "log_rank": {
+          "vocab_size": null
+        },
+        "classifier": {
+          "backbone": "roberta-base",
+          "lora_r": 8,
+          "lora_alpha": 16,
+          "lora_dropout": 0.1,
+          "max_length": 512,
+          "batch_size": 8,
+          "num_workers": 4,
+          "pin_memory": true,
+          "learning_rate": 0.0002,
+          "epochs": 5,
+          "early_stopping_patience": 2
+        },
+        "fusion": {
+          "method": "logistic"
+        },
+        "calibration": {
+          "temperature": 1.0
+        },
+        "thresholds": {
+          "low": 0.3,
+          "high": 0.7
+        }
+      },
+      "layer2": {
+        "judge": {
+          "backend": "huggingface",
+          "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+          "ollama_base_url": "http://localhost:11434",
+          "max_tokens": 512,
+          "temperature": 0.0,
+          "load_in_4bit": true,
+          "prompt_version": "v2"
+        },
+        "consistency": {
+          "K": 5,
+          "sample_temperature": 0.7,
+          "c_min": 0.8,
+          "mode": "logprob",
+          "allow_below": 0.4,
+          "mitigate_above": 0.6
+        },
+        "distillation": {
+          "retrain_every_n": 1000,
+          "pool_path": "data/distillation_pool/"
+        },
+        "rbv": {
+          "enabled": false,
+          "retriever": "bm25",
+          "top_k": 5,
+          "nli_model": "cross-encoder/nli-deberta-v3-small",
+          "evidence_corpus": "data/raw/fever_corpus/"
+        }
+      },
+      "layer3": {
+        "guard_llm": {
+          "backend": "huggingface",
+          "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+          "ollama_base_url": "http://localhost:11434",
+          "max_tokens": 512,
+          "load_in_4bit": true
+        },
+        "constraints": {
+          "use_token_bans": true,
+          "use_regex": true,
+          "templates_path": "config/safety_templates.yaml"
+        },
+        "candidates": {
+          "K_prime": 3,
+          "refuse_on_decline": true
+        },
+        "refusal_check": {
+          "mode": "keywords",
+          "threshold": 0.5
+        },
+        "rewrite_check": {
+          "mode": "off",
+          "threshold": 0.5
+        },
+        "mitigation": {
+          "modes": [
+            "refuse",
+            "redact",
+            "safe_rewrite"
+          ],
+          "default_mode": "refuse",
+          "severity_refuse_threshold": 0.99,
+          "refuse_when_uncategorised": false
+        }
+      },
+      "evaluation": {
+        "benchmarks": [
+          {
+            "name": "jailbreakbench",
+            "path": "data/benchmarks/jailbreakbench/",
+            "enabled": true
+          },
+          {
+            "name": "xstest",
+            "path": "data/benchmarks/xstest/",
+            "enabled": true
+          },
+          {
+            "name": "harmbench",
+            "path": "data/benchmarks/harmbench/",
+            "enabled": true
+          },
+          {
+            "name": "toxicchat",
+            "path": "data/benchmarks/toxicchat/",
+            "enabled": true
+          },
+          {
+            "name": "orbench",
+            "path": "data/benchmarks/orbench/",
+            "enabled": true
+          },
+          {
+            "name": "wi_a",
+            "path": "data/benchmarks_learner/original/wi_a/",
+            "enabled": false
+          },
+          {
+            "name": "wi_b",
+            "path": "data/benchmarks_learner/original/wi_b/",
+            "enabled": false
+          },
+          {
+            "name": "wi_c",
+            "path": "data/benchmarks_learner/original/wi_c/",
+            "enabled": false
+          },
+          {
+            "name": "locness_n",
+            "path": "data/benchmarks_learner/original/locness_n/",
+            "enabled": false
+          }
+        ],
+        "metrics": [
+          "auroc",
+          "auprc",
+          "fpr_at_95tpr",
+          "jailbreak_success_rate",
+          "refusal_appropriateness",
+          "safe_rewrite_quality",
+          "ece",
+          "delta_fpr",
+          "delta_fnr"
+        ],
+        "fairness": {
+          "nnes_paraphrase": true,
+          "bootstrap_samples": 1000,
+          "alpha": 0.05
+        }
+      },
+      "red_team": {
+        "enabled": true,
+        "attacks_per_round": 50,
+        "rounds": 5,
+        "attack_types": [
+          "jailbreak_template",
+          "role_play",
+          "prefix_rewrite",
+          "language_prefix",
+          "decoding_manipulation",
+          "technical_prefix",
+          "model_paraphrase",
+          "model_translation"
+        ],
+        "log_failures": true,
+        "failure_log_path": "logs/red_team_failures.jsonl"
+      },
+      "logging": {
+        "level": "INFO",
+        "audit_log_path": "logs/audit.jsonl",
+        "log_rationales": true,
+        "log_constraints": true,
+        "nist_mapping": true,
+        "nist_mapping_path": "config/nist_ai_rmf_mapping.yaml"
+      }
+    },
+    "finished_at": "2026-09-26T06:35:51+00:00",
+    "wall_clock_s": 5.71
+  }
+}

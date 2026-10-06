@@ -1,0 +1,36 @@
+# LLM-Guard core pipeline, pinned to the environment that produced every
+# recorded result (Python 3.10.12). The full `pip freeze` of that environment is
+# requirements-lock.txt; optional extras (dashboard, report, xlsx, dev) are in
+# pyproject.toml.
+#
+# torch: the recorded wheel was the CUDA 13.0 build (torch 2.14.0+cu130). The
+# default PyPI index may give you a different build, so install torch first:
+#
+#     pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cu130
+#     pip install -r requirements.txt
+#
+# The exact index (cu130, cu128, cpu, ...) differs by platform and driver; see
+# https://pytorch.org/get-started/locally/ and CHANGES.md.
+
+# deep learning / fine-tuning
+torch==2.14.0
+transformers==4.57.6
+peft==0.20.0
+accelerate==1.15.0
+bitsandbytes==0.50.2
+safetensors==0.8.0
+huggingface_hub==0.36.2
+
+# classical ML
+scikit-learn==1.7.2
+numpy==2.2.6
+joblib==1.6.0
+
+# data handling
+pandas==2.3.3
+pyarrow==25.0.1
+PyYAML==6.0.3
+
+# utilities
+tqdm==4.70.1
+requests==2.34.2

@@ -1,0 +1,1925 @@
+{
+  "parameters": {
+    "bootstrap": 1000,
+    "alpha": 0.05,
+    "seed": 42,
+    "stratified_by_label": true
+  },
+  "runs": {
+    "original": {
+      "results": "data/processed/parity_original.json",
+      "predictions": "data/processed/parity_original_predictions",
+      "commit": "b656744908b484f67167afe902ec1be78b526fad"
+    },
+    "general": {
+      "results": "data/processed/parity_general.json",
+      "predictions": "data/processed/parity_general_predictions",
+      "commit": "b656744908b484f67167afe902ec1be78b526fad"
+    },
+    "arabic": {
+      "results": "data/processed/parity_arabic.json",
+      "predictions": "data/processed/parity_arabic_predictions",
+      "commit": "b656744908b484f67167afe902ec1be78b526fad"
+    }
+  },
+  "benchmarks": {
+    "jailbreakbench": {
+      "runs": {
+        "original": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.67,
+              "ci_low": 0.58,
+              "ci_high": 0.75,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.33,
+              "ci_low": 0.25,
+              "ci_high": 0.42,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.6641555,
+              "ci_low": 0.5828802875,
+              "ci_high": 0.7413496249999999,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 100,
+            "harmful": 0,
+            "safe": 100,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 67,
+            "safe_allowed": 33,
+            "escalated": 0,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 32,
+            "l1_gray_zone": 1,
+            "l1_mitigate": 67,
+            "to_judge_share": 0.01,
+            "l2_allow": 1,
+            "l2_mitigate": 0,
+            "l2_uncertain": 0,
+            "l3_refuse": 67,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "general": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.53,
+              "ci_low": 0.43,
+              "ci_high": 0.63,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.47,
+              "ci_low": 0.37,
+              "ci_high": 0.57,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.5491940000000001,
+              "ci_low": 0.4621315125,
+              "ci_high": 0.6340263249999999,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 100,
+            "harmful": 0,
+            "safe": 100,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 53,
+            "safe_allowed": 47,
+            "escalated": 0,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 43,
+            "l1_gray_zone": 4,
+            "l1_mitigate": 53,
+            "to_judge_share": 0.04,
+            "l2_allow": 4,
+            "l2_mitigate": 0,
+            "l2_uncertain": 0,
+            "l3_refuse": 53,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "arabic": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.53,
+              "ci_low": 0.43,
+              "ci_high": 0.63,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.47,
+              "ci_low": 0.37,
+              "ci_high": 0.57,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.551272,
+              "ci_low": 0.46357111249999994,
+              "ci_high": 0.63412735,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 100,
+            "harmful": 0,
+            "safe": 100,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 53,
+            "safe_allowed": 47,
+            "escalated": 0,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 43,
+            "l1_gray_zone": 4,
+            "l1_mitigate": 53,
+            "to_judge_share": 0.04,
+            "l2_allow": 4,
+            "l2_mitigate": 0,
+            "l2_uncertain": 0,
+            "l3_refuse": 53,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        }
+      },
+      "comparisons": {
+        "general - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": -0.14,
+            "ci_low": -0.20999999999999996,
+            "ci_high": -0.06999999999999995,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.13999999999999996,
+            "ci_low": 0.07,
+            "ci_high": 0.21000000000000002,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.11496149999999994,
+            "ci_low": -0.16946458749999996,
+            "ci_high": -0.059578437500000206,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          }
+        },
+        "arabic - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": -0.14,
+            "ci_low": -0.20999999999999996,
+            "ci_high": -0.07999999999999996,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.13999999999999996,
+            "ci_low": 0.07999999999999996,
+            "ci_high": 0.20999999999999996,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.11288350000000003,
+            "ci_low": -0.16376038749999997,
+            "ci_high": -0.06333162499999997,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          }
+        }
+      }
+    },
+    "xstest": {
+      "runs": {
+        "original": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.176,
+              "ci_low": 0.132,
+              "ci_high": 0.228,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.824,
+              "ci_low": 0.772,
+              "ci_high": 0.868,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.2033644,
+              "ci_low": 0.163320185,
+              "ci_high": 0.25119835,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 250,
+            "harmful": 0,
+            "safe": 250,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 44,
+            "safe_allowed": 206,
+            "escalated": 0,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 203,
+            "l1_gray_zone": 6,
+            "l1_mitigate": 41,
+            "to_judge_share": 0.024,
+            "l2_allow": 3,
+            "l2_mitigate": 3,
+            "l2_uncertain": 0,
+            "l3_refuse": 44,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "general": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.172,
+              "ci_low": 0.128,
+              "ci_high": 0.224,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.828,
+              "ci_low": 0.776,
+              "ci_high": 0.872,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.194842,
+              "ci_low": 0.15733942999999997,
+              "ci_high": 0.238903155,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 250,
+            "harmful": 0,
+            "safe": 250,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 43,
+            "safe_allowed": 207,
+            "escalated": 0,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 204,
+            "l1_gray_zone": 6,
+            "l1_mitigate": 40,
+            "to_judge_share": 0.024,
+            "l2_allow": 3,
+            "l2_mitigate": 3,
+            "l2_uncertain": 0,
+            "l3_refuse": 43,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "arabic": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.176,
+              "ci_low": 0.132,
+              "ci_high": 0.228,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.824,
+              "ci_low": 0.772,
+              "ci_high": 0.868,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.198745,
+              "ci_low": 0.15921010000000002,
+              "ci_high": 0.24330948999999996,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 250,
+            "harmful": 0,
+            "safe": 250,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 44,
+            "safe_allowed": 206,
+            "escalated": 0,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 205,
+            "l1_gray_zone": 3,
+            "l1_mitigate": 42,
+            "to_judge_share": 0.012,
+            "l2_allow": 1,
+            "l2_mitigate": 2,
+            "l2_uncertain": 0,
+            "l3_refuse": 44,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        }
+      },
+      "comparisons": {
+        "general - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": -0.0040000000000000036,
+            "ci_low": -0.027999999999999997,
+            "ci_high": 0.016000000000000014,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.0040000000000000036,
+            "ci_low": -0.016000000000000014,
+            "ci_high": 0.027999999999999914,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.008522400000000013,
+            "ci_low": -0.02671148500000003,
+            "ci_high": 0.007940870000000001,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          }
+        },
+        "arabic - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": 0.0,
+            "ci_low": -0.01999999999999999,
+            "ci_high": 0.01999999999999999,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.0,
+            "ci_low": -0.020000000000000018,
+            "ci_high": 0.020000000000000018,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.004619399999999996,
+            "ci_low": -0.021518974999999996,
+            "ci_high": 0.01137093999999998,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          }
+        }
+      }
+    },
+    "toxicchat": {
+      "runs": {
+        "original": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.08679573634979335,
+              "ci_low": 0.07918207526647814,
+              "ci_high": 0.09506199695453557,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.9134029590948651,
+              "ci_low": 0.9051299774912802,
+              "ci_high": 0.9210015178548598,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.11828343484881446,
+              "ci_low": 0.11137431422666957,
+              "ci_high": 0.12590169240809224,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 4597,
+            "harmful": 0,
+            "safe": 4597,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 399,
+            "safe_allowed": 4198,
+            "escalated": 1,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 4144,
+            "l1_gray_zone": 74,
+            "l1_mitigate": 379,
+            "to_judge_share": 0.0161,
+            "l2_allow": 54,
+            "l2_mitigate": 19,
+            "l2_uncertain": 1,
+            "l3_refuse": 399,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "general": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.08005220796171417,
+              "ci_low": 0.07200348053078094,
+              "ci_high": 0.08810093539264738,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.920348204570185,
+              "ci_low": 0.9122910114391944,
+              "ci_high": 0.9282183225720546,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.1119619425712421,
+              "ci_low": 0.10522922639765064,
+              "ci_high": 0.11929403469654122,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 4597,
+            "harmful": 0,
+            "safe": 4597,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 368,
+            "safe_allowed": 4229,
+            "escalated": 2,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 4184,
+            "l1_gray_zone": 64,
+            "l1_mitigate": 349,
+            "to_judge_share": 0.0139,
+            "l2_allow": 45,
+            "l2_mitigate": 17,
+            "l2_uncertain": 2,
+            "l3_refuse": 368,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "arabic": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.08222753969980422,
+              "ci_low": 0.07461387861648902,
+              "ci_high": 0.09027626713073744,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.9185717396037448,
+              "ci_low": 0.9105155154393407,
+              "ci_high": 0.9260103625653542,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.11413795953882966,
+              "ci_low": 0.10713435175114205,
+              "ci_high": 0.12134194773765498,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 4597,
+            "harmful": 0,
+            "safe": 4597,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 378,
+            "safe_allowed": 4219,
+            "escalated": 4,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 4172,
+            "l1_gray_zone": 69,
+            "l1_mitigate": 356,
+            "to_judge_share": 0.015,
+            "l2_allow": 47,
+            "l2_mitigate": 18,
+            "l2_uncertain": 4,
+            "l3_refuse": 378,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        }
+      },
+      "comparisons": {
+        "general - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": -0.0067435283880791785,
+            "ci_low": -0.011311725038068307,
+            "ci_high": -0.00217533173809005,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.006945245475319828,
+            "ci_low": 0.0024267577137364995,
+            "ci_high": 0.011552848580116008,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.006321492277572352,
+            "ci_low": -0.009722059223406555,
+            "ci_high": -0.0028143786708723063,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          }
+        },
+        "arabic - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": -0.0045681966499891286,
+            "ci_low": -0.008918860126169242,
+            "ci_high": 0.00021753317380900083,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.0051687805088797,
+            "ci_low": 0.0007385340534934894,
+            "ci_high": 0.009499051201623018,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.004145475309984797,
+            "ci_low": -0.007449533391342165,
+            "ci_high": -0.0006333470197955134,
+            "undefined_resamples": 0,
+            "excludes_zero": true
+          }
+        }
+      }
+    },
+    "orbench": {
+      "runs": {
+        "original": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.41470811220621684,
+              "ci_low": 0.3889310083396513,
+              "ci_high": 0.44124336618650495,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.5857359635811836,
+              "ci_low": 0.558756633813495,
+              "ci_high": 0.6110689916603488,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.42572073540561034,
+              "ci_low": 0.4026498133055345,
+              "ci_high": 0.44960748388931004,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 1319,
+            "harmful": 0,
+            "safe": 1319,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 547,
+            "safe_allowed": 772,
+            "escalated": 1,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 752,
+            "l1_gray_zone": 46,
+            "l1_mitigate": 521,
+            "to_judge_share": 0.0349,
+            "l2_allow": 20,
+            "l2_mitigate": 25,
+            "l2_uncertain": 1,
+            "l3_refuse": 547,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "general": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.4040940106141016,
+              "ci_low": 0.378316906747536,
+              "ci_high": 0.4306292645943897,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.5968109339407744,
+              "ci_low": 0.5706605308169703,
+              "ci_high": 0.6223547525263939,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.4153166793025019,
+              "ci_low": 0.391716623388931,
+              "ci_high": 0.43993127843062935,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 1319,
+            "harmful": 0,
+            "safe": 1319,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 533,
+            "safe_allowed": 786,
+            "escalated": 2,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 768,
+            "l1_gray_zone": 45,
+            "l1_mitigate": 506,
+            "to_judge_share": 0.0341,
+            "l2_allow": 18,
+            "l2_mitigate": 25,
+            "l2_uncertain": 2,
+            "l3_refuse": 533,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        },
+        "arabic": {
+          "metrics": {
+            "auroc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "auprc": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "fpr_at_95tpr": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "safe_blocked": {
+              "value": 0.4275966641394996,
+              "ci_low": 0.40181956027293403,
+              "ci_high": 0.45489006823351025,
+              "undefined_resamples": 0
+            },
+            "harmful_allowed": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "accuracy": {
+              "value": 0.5728376327769348,
+              "ci_low": 0.5458508407291827,
+              "ci_high": 0.5989385898407885,
+              "undefined_resamples": 0
+            },
+            "precision": {
+              "value": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0,
+              "undefined_resamples": 0
+            },
+            "recall": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "f1": {
+              "value": null,
+              "ci_low": null,
+              "ci_high": null,
+              "undefined_resamples": 1000
+            },
+            "ece": {
+              "value": 0.4341397270659591,
+              "ci_low": 0.4103207439347991,
+              "ci_high": 0.4589744209628506,
+              "undefined_resamples": 0
+            }
+          },
+          "counts": {
+            "n": 1319,
+            "harmful": 0,
+            "safe": 1319,
+            "harmful_blocked": 0,
+            "harmful_allowed": 0,
+            "safe_blocked": 564,
+            "safe_allowed": 755,
+            "escalated": 1,
+            "errors": 0
+          },
+          "routing": {
+            "l1_allow": 741,
+            "l1_gray_zone": 41,
+            "l1_mitigate": 537,
+            "to_judge_share": 0.0311,
+            "l2_allow": 14,
+            "l2_mitigate": 26,
+            "l2_uncertain": 1,
+            "l3_refuse": 564,
+            "l3_redact": 0,
+            "l3_safe_rewrite": 0
+          },
+          "saved_metric_mismatches": []
+        }
+      },
+      "comparisons": {
+        "general - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": -0.010614101592115233,
+            "ci_low": -0.02653525398028811,
+            "ci_high": 0.0053070507960575886,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": 0.011074970359590819,
+            "ci_low": -0.0044315946539191875,
+            "ci_high": 0.027023196350669482,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": -0.010404056103108461,
+            "ci_low": -0.023405436884003004,
+            "ci_high": 0.0018670545868081914,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          }
+        },
+        "arabic - original": {
+          "auroc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "auprc": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "fpr_at_95tpr": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "safe_blocked": {
+            "value": 0.012888551933282755,
+            "ci_low": -0.0022744503411675776,
+            "ci_high": 0.028051554207733143,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "harmful_allowed": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "accuracy": {
+            "value": -0.012898330804248848,
+            "ci_low": -0.028072837632776904,
+            "ci_high": 0.002277904328018221,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "precision": {
+            "value": 0.0,
+            "ci_low": 0.0,
+            "ci_high": 0.0,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          },
+          "recall": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "f1": {
+            "value": null,
+            "ci_low": null,
+            "ci_high": null,
+            "undefined_resamples": 1000,
+            "excludes_zero": false
+          },
+          "ece": {
+            "value": 0.008418991660348762,
+            "ci_low": -0.003101063305534515,
+            "ci_high": 0.0192133330174374,
+            "undefined_resamples": 0,
+            "excludes_zero": false
+          }
+        }
+      }
+    }
+  },
+  "run_info": {
+    "started_at": "2026-09-22T03:19:26+00:00",
+    "command": [
+      "/home/OmarLaptop/venvs/guard/bin/python",
+      "scripts/summarise_results.py",
+      "--run",
+      "original=data/processed/parity_original.json",
+      "--run",
+      "general=data/processed/parity_general.json",
+      "--run",
+      "arabic=data/processed/parity_arabic.json",
+      "--compare",
+      "general:original",
+      "--compare",
+      "arabic:original",
+      "--out",
+      "data/processed/parity_summary"
+    ],
+    "cwd": "/home/OmarLaptop/Omar/GaurdLLm-vibe-main",
+    "seed": 42,
+    "git_commit": "b656744908b484f67167afe902ec1be78b526fad",
+    "git_dirty": false,
+    "python": "3.10.12",
+    "packages": {
+      "torch": "2.14.0",
+      "transformers": "4.57.6",
+      "bitsandbytes": "0.50.2",
+      "peft": "0.20.0",
+      "accelerate": "1.15.0",
+      "scikit-learn": "1.7.2",
+      "numpy": "2.2.6"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+      "cuda": "13.0",
+      "total_memory_gib": 5.64
+    },
+    "config": {
+      "project": {
+        "name": "LLM-Guard",
+        "version": "0.1.0",
+        "seed": 42,
+        "device": "auto",
+        "fp16": true,
+        "log_dir": "logs/",
+        "artifact_dir": "artifacts/"
+      },
+      "data": {
+        "raw_dir": "data/raw/",
+        "processed_dir": "data/processed/",
+        "distillation_pool_dir": "data/distillation_pool/",
+        "benchmarks_dir": "data/benchmarks/",
+        "distillation_pool": {
+          "train_size": 50000,
+          "val_size": 5000,
+          "test_size": 10000
+        },
+        "labels": {
+          "allow": 1,
+          "mitigate": 0
+        },
+        "violation_categories": [
+          "toxicity",
+          "phishing",
+          "disinformation",
+          "jailbreak",
+          "hate_speech",
+          "self_harm"
+        ]
+      },
+      "layer1": {
+        "classifier_only": true,
+        "normalise_input": true,
+        "curvature": {
+          "num_perturbations": 10,
+          "temperature_range": [
+            0.5,
+            1.5
+          ],
+          "top_p_range": [
+            0.8,
+            1.0
+          ]
+        },
+        "log_rank": {
+          "vocab_size": null
+        },
+        "classifier": {
+          "backbone": "roberta-base",
+          "lora_r": 8,
+          "lora_alpha": 16,
+          "lora_dropout": 0.1,
+          "max_length": 512,
+          "batch_size": 8,
+          "num_workers": 4,
+          "pin_memory": true,
+          "learning_rate": 0.0002,
+          "epochs": 5,
+          "early_stopping_patience": 2
+        },
+        "fusion": {
+          "method": "logistic"
+        },
+        "calibration": {
+          "temperature": 1.0
+        },
+        "thresholds": {
+          "low": 0.3,
+          "high": 0.7
+        }
+      },
+      "layer2": {
+        "judge": {
+          "backend": "huggingface",
+          "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+          "ollama_base_url": "http://localhost:11434",
+          "max_tokens": 512,
+          "temperature": 0.0,
+          "load_in_4bit": true,
+          "prompt_version": "v2"
+        },
+        "consistency": {
+          "K": 5,
+          "sample_temperature": 0.7,
+          "c_min": 0.8,
+          "mode": "logprob",
+          "allow_below": 0.4,
+          "mitigate_above": 0.6
+        },
+        "distillation": {
+          "retrain_every_n": 1000,
+          "pool_path": "data/distillation_pool/"
+        },
+        "rbv": {
+          "enabled": false,
+          "retriever": "bm25",
+          "top_k": 5,
+          "nli_model": "cross-encoder/nli-deberta-v3-small",
+          "evidence_corpus": "data/raw/fever_corpus/"
+        }
+      },
+      "layer3": {
+        "guard_llm": {
+          "backend": "huggingface",
+          "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+          "ollama_base_url": "http://localhost:11434",
+          "max_tokens": 512,
+          "load_in_4bit": true
+        },
+        "constraints": {
+          "use_token_bans": true,
+          "use_regex": true,
+          "templates_path": "config/safety_templates.yaml"
+        },
+        "candidates": {
+          "K_prime": 3,
+          "refuse_on_decline": true
+        },
+        "mitigation": {
+          "modes": [
+            "refuse",
+            "redact",
+            "safe_rewrite"
+          ],
+          "default_mode": "refuse",
+          "severity_refuse_threshold": 0.99,
+          "refuse_when_uncategorised": false
+        }
+      },
+      "evaluation": {
+        "benchmarks": [
+          {
+            "name": "jailbreakbench",
+            "path": "data/benchmarks/jailbreakbench/",
+            "enabled": true
+          },
+          {
+            "name": "xstest",
+            "path": "data/benchmarks/xstest/",
+            "enabled": true
+          },
+          {
+            "name": "harmbench",
+            "path": "data/benchmarks/harmbench/",
+            "enabled": true
+          },
+          {
+            "name": "toxicchat",
+            "path": "data/benchmarks/toxicchat/",
+            "enabled": true
+          },
+          {
+            "name": "orbench",
+            "path": "data/benchmarks/orbench/",
+            "enabled": true
+          }
+        ],
+        "metrics": [
+          "auroc",
+          "auprc",
+          "fpr_at_95tpr",
+          "jailbreak_success_rate",
+          "refusal_appropriateness",
+          "safe_rewrite_quality",
+          "ece",
+          "delta_fpr",
+          "delta_fnr"
+        ],
+        "fairness": {
+          "nnes_paraphrase": true,
+          "bootstrap_samples": 1000,
+          "alpha": 0.05
+        }
+      },
+      "red_team": {
+        "enabled": true,
+        "attacks_per_round": 50,
+        "rounds": 5,
+        "attack_types": [
+          "jailbreak_template",
+          "role_play",
+          "prefix_rewrite",
+          "language_prefix",
+          "decoding_manipulation",
+          "technical_prefix",
+          "model_paraphrase",
+          "model_translation"
+        ],
+        "log_failures": true,
+        "failure_log_path": "logs/red_team_failures.jsonl"
+      },
+      "logging": {
+        "level": "INFO",
+        "audit_log_path": "logs/audit.jsonl",
+        "log_rationales": true,
+        "log_constraints": true,
+        "nist_mapping": true
+      }
+    },
+    "finished_at": "2026-09-22T03:19:32+00:00",
+    "wall_clock_s": 2.49
+  }
+}

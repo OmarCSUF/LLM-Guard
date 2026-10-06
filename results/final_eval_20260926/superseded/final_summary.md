@@ -1,0 +1,72 @@
+# Results with 95% bootstrap confidence intervals
+
+## Run `cascade`
+
+Results: `data/processed/final_eval_20260926/final_cascade.json` (commit `dc90a9e2124dac1ee81588059bde5239855c9fdf`)
+
+| Benchmark | Harmful / safe | AUROC | AUPRC | FPR@95%TPR | Safe blocked | Harmful allowed | F1 | ECE |
+|---|---|---|---|---|---|---|---|---|
+| test | 1579 / 1874 | 0.777 [0.761, 0.792] | 0.694 [0.674, 0.714] | 0.961 [0.634, 0.970] | 0.275 [0.254, 0.294] | 0.269 [0.247, 0.291] | 0.711 [0.693, 0.726] | 0.227 [0.213, 0.243] |
+
+| Benchmark | L1 allow | L1 gray | L1 mitigate | To judge | Judge allow | Judge mitigate | Uncertain |
+|---|---|---|---|---|---|---|---|
+| test | 1733 | 97 | 1623 | 2.8% | 50 | 46 | 1 |
+
+## Run `layer1`
+
+Results: `data/processed/final_eval_20260926/final_layer1.json` (commit `dc90a9e2124dac1ee81588059bde5239855c9fdf`)
+
+| Benchmark | Harmful / safe | AUROC | AUPRC | FPR@95%TPR | Safe blocked | Harmful allowed | F1 | ECE |
+|---|---|---|---|---|---|---|---|---|
+| test | 1579 / 1874 | 0.777 [0.761, 0.792] | 0.694 [0.674, 0.714] | 0.961 [0.634, 0.970] | 0.271 [0.249, 0.289] | 0.293 [0.271, 0.317] | 0.697 [0.680, 0.713] | 0.228 [0.215, 0.244] |
+
+| Benchmark | L1 allow | L1 gray | L1 mitigate | To judge | Judge allow | Judge mitigate | Uncertain |
+|---|---|---|---|---|---|---|---|
+| test | 1733 | 97 | 1623 | 2.8% | 0 | 0 | 0 |
+
+## Run `judge`
+
+Results: `data/processed/final_eval_20260926/final_judge.json` (commit `dc90a9e2124dac1ee81588059bde5239855c9fdf`)
+
+| Benchmark | Harmful / safe | AUROC | AUPRC | FPR@95%TPR | Safe blocked | Harmful allowed | F1 | ECE |
+|---|---|---|---|---|---|---|---|---|
+| test | 1579 / 1874 | 0.813 [0.798, 0.828] | 0.796 [0.778, 0.813] | 1.000 [1.000, 1.000] | 0.218 [0.200, 0.237] | 0.275 [0.253, 0.298] | 0.736 [0.719, 0.753] | 0.217 [0.203, 0.231] |
+
+| Benchmark | L1 allow | L1 gray | L1 mitigate | To judge | Judge allow | Judge mitigate | Uncertain |
+|---|---|---|---|---|---|---|---|
+| test | 0 | 0 | 0 | 0.0% | 1901 | 1502 | 50 |
+
+## Run `granite`
+
+Results: `data/processed/final_eval_20260926/final_granite.json` (commit `dc90a9e2124dac1ee81588059bde5239855c9fdf`)
+
+| Benchmark | Harmful / safe | AUROC | AUPRC | FPR@95%TPR | Safe blocked | Harmful allowed | F1 | ECE |
+|---|---|---|---|---|---|---|---|---|
+| test | 1579 / 1874 | 0.881 [0.869, 0.893] | 0.893 [0.883, 0.904] | 0.637 [0.588, 0.672] | 0.393 [0.371, 0.416] | 0.123 [0.107, 0.140] | 0.749 [0.736, 0.761] | 0.175 [0.163, 0.187] |
+
+| Benchmark | L1 allow | L1 gray | L1 mitigate | To judge | Judge allow | Judge mitigate | Uncertain |
+|---|---|---|---|---|---|---|---|
+| test | 0 | 0 | 0 | 0.0% | 0 | 0 | 0 |
+
+## Paired difference `cascade - granite`
+
+| Benchmark | AUROC diff | Safe blocked diff | Harmful allowed diff | F1 diff |
+|---|---|---|---|---|
+| test | -0.105 [-0.121, -0.089] * | -0.118 [-0.142, -0.095] * | 0.146 [0.124, 0.167] * | -0.037 [-0.054, -0.021] * |
+
+## Paired difference `cascade - judge`
+
+| Benchmark | AUROC diff | Safe blocked diff | Harmful allowed diff | F1 diff |
+|---|---|---|---|---|
+| test | -0.036 [-0.055, -0.018] * | 0.057 [0.031, 0.081] * | -0.007 [-0.032, 0.020] | -0.024 [-0.044, -0.006] * |
+
+## Paired difference `cascade - layer1`
+
+| Benchmark | AUROC diff | Safe blocked diff | Harmful allowed diff | F1 diff |
+|---|---|---|---|---|
+| test | 0.000 [0.000, 0.000] * | 0.004 [0.002, 0.007] * | -0.025 [-0.033, -0.017] * | 0.014 [0.009, 0.019] * |
+
+Notes:
+- Intervals: 95% percentile bootstrap, 1000 resamples drawn with replacement within each class (seed 42). `*` marks a paired difference whose interval excludes 0.
+- Safe blocked: share of safe prompts not allowed (escalated prompts count as blocked). Harmful allowed: share of harmful prompts allowed (jailbreak success rate).
+- AUROC, AUPRC, FPR@95%TPR and ECE use the harm score; n/a means undefined for the benchmark (e.g. AUROC on a single-class set).

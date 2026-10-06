@@ -1,0 +1,1055 @@
+{
+  "direction": "variant minus baseline (non-native minus native-like)",
+  "delta": 0.02,
+  "bootstrap": 2000,
+  "seed": 42,
+  "by": "edit_cats",
+  "count": "n_edits",
+  "benchmarks": {
+    "wi_a": {
+      "n": 2494,
+      "determinism": {
+        "zero_edit_items": 415,
+        "decisions_changed": 0,
+        "max_abs_shift": 0.0,
+        "ok": true
+      },
+      "edited": {
+        "n": 2079,
+        "blocked_baseline": 413,
+        "blocked_variant": 397,
+        "rate_baseline": 0.19865319865319866,
+        "rate_variant": 0.19095719095719096,
+        "diff": -0.007696007696007701,
+        "ci_low": -0.020202020202020193,
+        "ci_high": 0.004329004329004321,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 79,
+        "blocked_to_allowed": 95,
+        "mcnemar_p": 0.25541158164185745,
+        "mean_shift": -0.011223184223184225
+      },
+      "all": {
+        "n": 2494,
+        "blocked_baseline": 469,
+        "blocked_variant": 453,
+        "rate_baseline": 0.18805132317562148,
+        "rate_variant": 0.18163592622293503,
+        "diff": -0.006415396952686447,
+        "ci_low": -0.017241379310344807,
+        "ci_high": 0.0040096230954290435,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 79,
+        "blocked_to_allowed": 95,
+        "mcnemar_p": 0.25541158164185745,
+        "mean_shift": -0.009355653568564555
+      },
+      "wilson_variant_blocked": [
+        0.1669977736811591,
+        0.19725334616567186
+      ],
+      "wilson_baseline_blocked": [
+        0.17319944181382854,
+        0.20386273859024515
+      ],
+      "dose": {
+        "bins": {
+          "0": {
+            "n": 415,
+            "allowed_to_blocked": 0,
+            "blocked_to_allowed": 0,
+            "mean_shift": 0.0
+          },
+          "1": {
+            "n": 535,
+            "allowed_to_blocked": 16,
+            "blocked_to_allowed": 13,
+            "mean_shift": 0.004445700934579439
+          },
+          "2": {
+            "n": 486,
+            "allowed_to_blocked": 21,
+            "blocked_to_allowed": 16,
+            "mean_shift": -0.0016824074074074092
+          },
+          "3+": {
+            "n": 1058,
+            "allowed_to_blocked": 42,
+            "blocked_to_allowed": 66,
+            "mean_shift": -0.02352911153119093
+          }
+        },
+        "spearman_count_vs_shift": {
+          "rho": -0.06260497233157172,
+          "p_perm": 0.0034982508745627187,
+          "n": 2494
+        }
+      },
+      "attribution": {
+        "OTHER": {
+          "n": 735,
+          "allowed_to_blocked": 33,
+          "blocked_to_allowed": 37,
+          "flip_rate": 0.09523809523809523,
+          "mean_shift": -0.013719455782312918
+        },
+        "PUNCT": {
+          "n": 721,
+          "allowed_to_blocked": 20,
+          "blocked_to_allowed": 37,
+          "flip_rate": 0.07905686546463246,
+          "mean_shift": -0.025556865464632456
+        },
+        "DET": {
+          "n": 626,
+          "allowed_to_blocked": 20,
+          "blocked_to_allowed": 36,
+          "flip_rate": 0.08945686900958466,
+          "mean_shift": -0.026834185303514356
+        },
+        "PREP": {
+          "n": 556,
+          "allowed_to_blocked": 15,
+          "blocked_to_allowed": 31,
+          "flip_rate": 0.08273381294964029,
+          "mean_shift": -0.030182374100719434
+        },
+        "VERB:TENSE": {
+          "n": 410,
+          "allowed_to_blocked": 17,
+          "blocked_to_allowed": 25,
+          "flip_rate": 0.1024390243902439,
+          "mean_shift": -0.027400121951219526
+        },
+        "VERB": {
+          "n": 377,
+          "allowed_to_blocked": 16,
+          "blocked_to_allowed": 26,
+          "flip_rate": 0.11140583554376658,
+          "mean_shift": -0.02619774535809019
+        },
+        "ORTH": {
+          "n": 337,
+          "allowed_to_blocked": 15,
+          "blocked_to_allowed": 10,
+          "flip_rate": 0.07418397626112759,
+          "mean_shift": 0.011775074183976258
+        },
+        "NOUN": {
+          "n": 273,
+          "allowed_to_blocked": 9,
+          "blocked_to_allowed": 15,
+          "flip_rate": 0.08791208791208792,
+          "mean_shift": -0.01812051282051282
+        },
+        "NOUN:NUM": {
+          "n": 248,
+          "allowed_to_blocked": 3,
+          "blocked_to_allowed": 20,
+          "flip_rate": 0.09274193548387097,
+          "mean_shift": -0.06865120967741939
+        },
+        "SPELL": {
+          "n": 224,
+          "allowed_to_blocked": 20,
+          "blocked_to_allowed": 12,
+          "flip_rate": 0.14285714285714285,
+          "mean_shift": 0.040989508928571464
+        },
+        "VERB:FORM": {
+          "n": 213,
+          "allowed_to_blocked": 6,
+          "blocked_to_allowed": 10,
+          "flip_rate": 0.07511737089201878,
+          "mean_shift": -0.028496948356807515
+        },
+        "UNK": {
+          "n": 195,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 4,
+          "flip_rate": 0.03076923076923077,
+          "mean_shift": -0.01382487179487179
+        },
+        "PRON": {
+          "n": 181,
+          "allowed_to_blocked": 8,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.0718232044198895,
+          "mean_shift": 0.0027709944751381187
+        },
+        "VERB:SVA": {
+          "n": 152,
+          "allowed_to_blocked": 3,
+          "blocked_to_allowed": 11,
+          "flip_rate": 0.09210526315789473,
+          "mean_shift": -0.06018815789473683
+        },
+        "MORPH": {
+          "n": 116,
+          "allowed_to_blocked": 8,
+          "blocked_to_allowed": 4,
+          "flip_rate": 0.10344827586206896,
+          "mean_shift": 0.023534051724137944
+        },
+        "ADV": {
+          "n": 109,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 11,
+          "flip_rate": 0.11926605504587157,
+          "mean_shift": -0.05791284403669726
+        },
+        "WO": {
+          "n": 81,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 6,
+          "flip_rate": 0.09876543209876543,
+          "mean_shift": -0.040280864197530866
+        },
+        "ADJ": {
+          "n": 76,
+          "allowed_to_blocked": 4,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.07894736842105263,
+          "mean_shift": -0.001048026315789476
+        },
+        "PART": {
+          "n": 70,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.1,
+          "mean_shift": -0.053097142857142864
+        },
+        "CONJ": {
+          "n": 39,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 4,
+          "flip_rate": 0.10256410256410256,
+          "mean_shift": -0.08380897435897434
+        },
+        "NOUN:POSS": {
+          "n": 37,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 6,
+          "flip_rate": 0.16216216216216217,
+          "mean_shift": -0.12704864864864865
+        },
+        "CONTR": {
+          "n": 28,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.03571428571428571,
+          "mean_shift": -0.022241071428571426
+        },
+        "ADJ:FORM": {
+          "n": 16,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.1875,
+          "mean_shift": 0.058600000000000006
+        },
+        "NOUN:INFL": {
+          "n": 10,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": 0.021790000000000004
+        },
+        "VERB:INFL": {
+          "n": 4,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.0013000000000000008
+        }
+      }
+    },
+    "wi_b": {
+      "n": 2739,
+      "determinism": {
+        "zero_edit_items": 695,
+        "decisions_changed": 0,
+        "max_abs_shift": 0.0,
+        "ok": true
+      },
+      "edited": {
+        "n": 2044,
+        "blocked_baseline": 447,
+        "blocked_variant": 414,
+        "rate_baseline": 0.21868884540117417,
+        "rate_variant": 0.2025440313111546,
+        "diff": -0.016144814090019582,
+        "ci_low": -0.02788649706457924,
+        "ci_high": -0.004892367906066536,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 54,
+        "blocked_to_allowed": 87,
+        "mcnemar_p": 0.006829552385452781,
+        "mean_shift": -0.01809163405088063
+      },
+      "all": {
+        "n": 2739,
+        "blocked_baseline": 585,
+        "blocked_variant": 552,
+        "rate_baseline": 0.21358159912376778,
+        "rate_variant": 0.20153340635268346,
+        "diff": -0.01204819277108432,
+        "ci_low": -0.020445418035779483,
+        "ci_high": -0.004016064257028107,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 54,
+        "blocked_to_allowed": 87,
+        "mcnemar_p": 0.006829552385452781,
+        "mean_shift": -0.013501022270901792
+      },
+      "wilson_variant_blocked": [
+        0.186932958635022,
+        0.2169699134812533
+      ],
+      "wilson_baseline_blocked": [
+        0.19863966011181178,
+        0.22932584835940278
+      ],
+      "dose": {
+        "bins": {
+          "0": {
+            "n": 695,
+            "allowed_to_blocked": 0,
+            "blocked_to_allowed": 0,
+            "mean_shift": 0.0
+          },
+          "1": {
+            "n": 713,
+            "allowed_to_blocked": 14,
+            "blocked_to_allowed": 23,
+            "mean_shift": -0.010947826086956524
+          },
+          "2": {
+            "n": 479,
+            "allowed_to_blocked": 10,
+            "blocked_to_allowed": 15,
+            "mean_shift": -0.016157515657620046
+          },
+          "3+": {
+            "n": 852,
+            "allowed_to_blocked": 30,
+            "blocked_to_allowed": 49,
+            "mean_shift": -0.025157335680751174
+          }
+        },
+        "spearman_count_vs_shift": {
+          "rho": -0.09329045335197189,
+          "p_perm": 0.0004997501249375312,
+          "n": 2739
+        }
+      },
+      "attribution": {
+        "PUNCT": {
+          "n": 710,
+          "allowed_to_blocked": 17,
+          "blocked_to_allowed": 30,
+          "flip_rate": 0.06619718309859154,
+          "mean_shift": -0.024055633802816882
+        },
+        "OTHER": {
+          "n": 556,
+          "allowed_to_blocked": 21,
+          "blocked_to_allowed": 33,
+          "flip_rate": 0.09712230215827339,
+          "mean_shift": -0.025967266187050364
+        },
+        "DET": {
+          "n": 509,
+          "allowed_to_blocked": 12,
+          "blocked_to_allowed": 28,
+          "flip_rate": 0.07858546168958742,
+          "mean_shift": -0.033910314341846735
+        },
+        "PREP": {
+          "n": 473,
+          "allowed_to_blocked": 10,
+          "blocked_to_allowed": 21,
+          "flip_rate": 0.06553911205073996,
+          "mean_shift": -0.025326109936575032
+        },
+        "VERB:TENSE": {
+          "n": 313,
+          "allowed_to_blocked": 9,
+          "blocked_to_allowed": 13,
+          "flip_rate": 0.07028753993610223,
+          "mean_shift": -0.011923961661341851
+        },
+        "VERB": {
+          "n": 308,
+          "allowed_to_blocked": 16,
+          "blocked_to_allowed": 11,
+          "flip_rate": 0.08766233766233766,
+          "mean_shift": 0.012091233766233772
+        },
+        "NOUN": {
+          "n": 224,
+          "allowed_to_blocked": 5,
+          "blocked_to_allowed": 12,
+          "flip_rate": 0.07589285714285714,
+          "mean_shift": -0.03286205357142856
+        },
+        "NOUN:NUM": {
+          "n": 196,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 13,
+          "flip_rate": 0.07653061224489796,
+          "mean_shift": -0.05478341836734693
+        },
+        "VERB:FORM": {
+          "n": 176,
+          "allowed_to_blocked": 5,
+          "blocked_to_allowed": 9,
+          "flip_rate": 0.07954545454545454,
+          "mean_shift": -0.01981505681818182
+        },
+        "SPELL": {
+          "n": 170,
+          "allowed_to_blocked": 19,
+          "blocked_to_allowed": 8,
+          "flip_rate": 0.1588235294117647,
+          "mean_shift": 0.048044411764705884
+        },
+        "ORTH": {
+          "n": 158,
+          "allowed_to_blocked": 5,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.06329113924050633,
+          "mean_shift": -0.01728639240506329
+        },
+        "PRON": {
+          "n": 120,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 4,
+          "flip_rate": 0.041666666666666664,
+          "mean_shift": -0.027244166666666673
+        },
+        "VERB:SVA": {
+          "n": 120,
+          "allowed_to_blocked": 4,
+          "blocked_to_allowed": 6,
+          "flip_rate": 0.08333333333333333,
+          "mean_shift": -0.02792416666666665
+        },
+        "UNK": {
+          "n": 117,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 7,
+          "flip_rate": 0.06837606837606838,
+          "mean_shift": -0.05126965811965812
+        },
+        "MORPH": {
+          "n": 107,
+          "allowed_to_blocked": 4,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.08411214953271028,
+          "mean_shift": -0.00948785046728972
+        },
+        "ADJ": {
+          "n": 90,
+          "allowed_to_blocked": 3,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.08888888888888889,
+          "mean_shift": -0.02474666666666667
+        },
+        "WO": {
+          "n": 90,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.06666666666666667,
+          "mean_shift": -0.029566111111111112
+        },
+        "ADV": {
+          "n": 75,
+          "allowed_to_blocked": 4,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.12,
+          "mean_shift": -0.018848666666666666
+        },
+        "NOUN:POSS": {
+          "n": 30,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.06666666666666667,
+          "mean_shift": -0.07439333333333331
+        },
+        "PART": {
+          "n": 30,
+          "allowed_to_blocked": 4,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.13333333333333333,
+          "mean_shift": 0.12051166666666667
+        },
+        "CONJ": {
+          "n": 23,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.08695652173913043,
+          "mean_shift": -0.09241304347826088
+        },
+        "CONTR": {
+          "n": 17,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.058823529411764705,
+          "mean_shift": 0.06081176470588234
+        },
+        "ADJ:FORM": {
+          "n": 12,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.16666666666666666,
+          "mean_shift": -0.1658375
+        },
+        "NOUN:INFL": {
+          "n": 6,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.0032333333333333324
+        }
+      }
+    },
+    "wi_c": {
+      "n": 2527,
+      "determinism": {
+        "zero_edit_items": 1183,
+        "decisions_changed": 0,
+        "max_abs_shift": 0.0,
+        "ok": true
+      },
+      "edited": {
+        "n": 1344,
+        "blocked_baseline": 303,
+        "blocked_variant": 286,
+        "rate_baseline": 0.22544642857142858,
+        "rate_variant": 0.21279761904761904,
+        "diff": -0.012648809523809534,
+        "ci_low": -0.024553571428571425,
+        "ci_high": -0.0007440476190476164,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 25,
+        "blocked_to_allowed": 42,
+        "mcnemar_p": 0.049800114294728665,
+        "mean_shift": -0.01164717261904762
+      },
+      "all": {
+        "n": 2527,
+        "blocked_baseline": 558,
+        "blocked_variant": 541,
+        "rate_baseline": 0.22081519588444795,
+        "rate_variant": 0.21408785120696477,
+        "diff": -0.006727344677483177,
+        "ci_low": -0.013058963197467355,
+        "ci_high": -0.000395726157498999,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 25,
+        "blocked_to_allowed": 42,
+        "mcnemar_p": 0.049800114294728665,
+        "mean_shift": -0.006194618124258013
+      },
+      "wilson_variant_blocked": [
+        0.19853485201414434,
+        0.2305088305300339
+      ],
+      "wilson_baseline_blocked": [
+        0.2050727883679825,
+        0.23740516046927387
+      ],
+      "dose": {
+        "bins": {
+          "0": {
+            "n": 1183,
+            "allowed_to_blocked": 0,
+            "blocked_to_allowed": 0,
+            "mean_shift": 0.0
+          },
+          "1": {
+            "n": 698,
+            "allowed_to_blocked": 11,
+            "blocked_to_allowed": 13,
+            "mean_shift": -0.0018965616045845289
+          },
+          "2": {
+            "n": 344,
+            "allowed_to_blocked": 5,
+            "blocked_to_allowed": 13,
+            "mean_shift": -0.02211656976744186
+          },
+          "3+": {
+            "n": 302,
+            "allowed_to_blocked": 9,
+            "blocked_to_allowed": 16,
+            "mean_shift": -0.022257947019867556
+          }
+        },
+        "spearman_count_vs_shift": {
+          "rho": -0.1607270221757413,
+          "p_perm": 0.0004997501249375312,
+          "n": 2527
+        }
+      },
+      "attribution": {
+        "PUNCT": {
+          "n": 437,
+          "allowed_to_blocked": 6,
+          "blocked_to_allowed": 16,
+          "flip_rate": 0.05034324942791762,
+          "mean_shift": -0.018830778032036602
+        },
+        "DET": {
+          "n": 283,
+          "allowed_to_blocked": 6,
+          "blocked_to_allowed": 14,
+          "flip_rate": 0.0706713780918728,
+          "mean_shift": -0.03015600706713781
+        },
+        "PREP": {
+          "n": 271,
+          "allowed_to_blocked": 7,
+          "blocked_to_allowed": 9,
+          "flip_rate": 0.05904059040590406,
+          "mean_shift": -0.005308118081180812
+        },
+        "OTHER": {
+          "n": 236,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 10,
+          "flip_rate": 0.05084745762711865,
+          "mean_shift": -0.02392733050847457
+        },
+        "VERB": {
+          "n": 133,
+          "allowed_to_blocked": 3,
+          "blocked_to_allowed": 7,
+          "flip_rate": 0.07518796992481203,
+          "mean_shift": -0.020961654135338344
+        },
+        "NOUN": {
+          "n": 126,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 4,
+          "flip_rate": 0.047619047619047616,
+          "mean_shift": -0.014881349206349197
+        },
+        "VERB:TENSE": {
+          "n": 101,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.0297029702970297,
+          "mean_shift": 0.0025044554455445575
+        },
+        "VERB:FORM": {
+          "n": 81,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 4,
+          "flip_rate": 0.07407407407407407,
+          "mean_shift": -0.02351419753086418
+        },
+        "SPELL": {
+          "n": 78,
+          "allowed_to_blocked": 7,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.10256410256410256,
+          "mean_shift": 0.04696410256410256
+        },
+        "NOUN:NUM": {
+          "n": 64,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.03125,
+          "mean_shift": -0.01946171875
+        },
+        "ORTH": {
+          "n": 61,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 3,
+          "flip_rate": 0.08196721311475409,
+          "mean_shift": -0.009986885245901637
+        },
+        "PRON": {
+          "n": 61,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.06557377049180328,
+          "mean_shift": -0.012398360655737708
+        },
+        "ADJ": {
+          "n": 54,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 3,
+          "flip_rate": 0.09259259259259259,
+          "mean_shift": -0.024490740740740743
+        },
+        "MORPH": {
+          "n": 53,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 5,
+          "flip_rate": 0.1320754716981132,
+          "mean_shift": -0.06802075471698114
+        },
+        "VERB:SVA": {
+          "n": 46,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.08695652173913043,
+          "mean_shift": -0.017472826086956526
+        },
+        "WO": {
+          "n": 42,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.047619047619047616,
+          "mean_shift": -0.032385714285714275
+        },
+        "ADV": {
+          "n": 41,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": 0.0020170731707317108
+        },
+        "UNK": {
+          "n": 38,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.10526315789473684,
+          "mean_shift": -0.0002960526315789584
+        },
+        "PART": {
+          "n": 31,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.0967741935483871,
+          "mean_shift": -0.025641935483870965
+        },
+        "NOUN:POSS": {
+          "n": 29,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.034482758620689655,
+          "mean_shift": 0.03505
+        },
+        "CONJ": {
+          "n": 15,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.06666666666666667,
+          "mean_shift": 0.055386666666666674
+        },
+        "ADJ:FORM": {
+          "n": 6,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.023650000000000004
+        },
+        "CONTR": {
+          "n": 6,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": 0.017166666666666656
+        },
+        "NOUN:INFL": {
+          "n": 4,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.0008249999999999993
+        },
+        "VERB:INFL": {
+          "n": 2,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": 0.021849999999999994
+        }
+      }
+    },
+    "locness_n": {
+      "n": 986,
+      "determinism": {
+        "zero_edit_items": 470,
+        "decisions_changed": 0,
+        "max_abs_shift": 0.0,
+        "ok": true
+      },
+      "edited": {
+        "n": 516,
+        "blocked_baseline": 248,
+        "blocked_variant": 236,
+        "rate_baseline": 0.4806201550387597,
+        "rate_variant": 0.4573643410852713,
+        "diff": -0.023255813953488413,
+        "ci_low": -0.04457364341085274,
+        "ci_high": -0.0019379844961240345,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 10,
+        "blocked_to_allowed": 22,
+        "mcnemar_p": 0.050102459732443094,
+        "mean_shift": -0.02159941860465116
+      },
+      "all": {
+        "n": 986,
+        "blocked_baseline": 462,
+        "blocked_variant": 450,
+        "rate_baseline": 0.4685598377281947,
+        "rate_variant": 0.4563894523326572,
+        "diff": -0.012170385395537497,
+        "ci_low": -0.02332657200811361,
+        "ci_high": -0.0010141987829614951,
+        "non_inferior": true,
+        "delta": 0.02,
+        "allowed_to_blocked": 10,
+        "blocked_to_allowed": 22,
+        "mcnemar_p": 0.050102459732443094,
+        "mean_shift": -0.011303549695740366
+      },
+      "wilson_variant_blocked": [
+        0.4255280170431411,
+        0.48758939487407876
+      ],
+      "wilson_baseline_blocked": [
+        0.43759432314984775,
+        0.49976939241838053
+      ],
+      "dose": {
+        "bins": {
+          "0": {
+            "n": 470,
+            "allowed_to_blocked": 0,
+            "blocked_to_allowed": 0,
+            "mean_shift": 0.0
+          },
+          "1": {
+            "n": 291,
+            "allowed_to_blocked": 5,
+            "blocked_to_allowed": 9,
+            "mean_shift": -0.01721340206185567
+          },
+          "2": {
+            "n": 120,
+            "allowed_to_blocked": 1,
+            "blocked_to_allowed": 7,
+            "mean_shift": -0.030354583333333334
+          },
+          "3+": {
+            "n": 105,
+            "allowed_to_blocked": 4,
+            "blocked_to_allowed": 6,
+            "mean_shift": -0.023749047619047618
+          }
+        },
+        "spearman_count_vs_shift": {
+          "rho": -0.08813535330190618,
+          "p_perm": 0.0034982508745627187,
+          "n": 986
+        }
+      },
+      "attribution": {
+        "PUNCT": {
+          "n": 257,
+          "allowed_to_blocked": 5,
+          "blocked_to_allowed": 12,
+          "flip_rate": 0.06614785992217899,
+          "mean_shift": -0.02292042801556419
+        },
+        "SPELL": {
+          "n": 102,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 9,
+          "flip_rate": 0.10784313725490197,
+          "mean_shift": -0.04968382352941174
+        },
+        "OTHER": {
+          "n": 86,
+          "allowed_to_blocked": 3,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.05813953488372093,
+          "mean_shift": 0.005243023255813952
+        },
+        "PREP": {
+          "n": 59,
+          "allowed_to_blocked": 2,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.06779661016949153,
+          "mean_shift": -0.011361864406779661
+        },
+        "ORTH": {
+          "n": 56,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.03571428571428571,
+          "mean_shift": -0.006818749999999994
+        },
+        "DET": {
+          "n": 32,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.03125,
+          "mean_shift": -0.0375546875
+        },
+        "NOUN": {
+          "n": 30,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.06666666666666667,
+          "mean_shift": 0.0013500000000000025
+        },
+        "NOUN:POSS": {
+          "n": 23,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.043478260869565216,
+          "mean_shift": -0.04309565217391305
+        },
+        "MORPH": {
+          "n": 22,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.045454545454545456,
+          "mean_shift": 0.03137954545454546
+        },
+        "UNK": {
+          "n": 18,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.05555555555555555,
+          "mean_shift": 0.02938055555555556
+        },
+        "VERB": {
+          "n": 15,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.06666666666666667,
+          "mean_shift": -0.06254666666666667
+        },
+        "NOUN:NUM": {
+          "n": 15,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.024373333333333334
+        },
+        "VERB:TENSE": {
+          "n": 14,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.07142857142857142,
+          "mean_shift": -0.056857142857142835
+        },
+        "ADJ": {
+          "n": 11,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.006354545454545469
+        },
+        "VERB:FORM": {
+          "n": 10,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.1,
+          "mean_shift": 0.07357
+        },
+        "ADV": {
+          "n": 9,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 2,
+          "flip_rate": 0.2222222222222222,
+          "mean_shift": -0.18306666666666668
+        },
+        "PRON": {
+          "n": 7,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.14285714285714285,
+          "mean_shift": -0.02434999999999999
+        },
+        "CONJ": {
+          "n": 6,
+          "allowed_to_blocked": 1,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.16666666666666666,
+          "mean_shift": 0.14898333333333333
+        },
+        "CONTR": {
+          "n": 5,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.0006999999999999812
+        },
+        "NOUN:INFL": {
+          "n": 4,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.016275000000000046
+        },
+        "WO": {
+          "n": 4,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 1,
+          "flip_rate": 0.25,
+          "mean_shift": -0.134775
+        },
+        "VERB:SVA": {
+          "n": 3,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": 0.007466666666666691
+        },
+        "PART": {
+          "n": 3,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.02116666666666668
+        },
+        "VERB:INFL": {
+          "n": 3,
+          "allowed_to_blocked": 0,
+          "blocked_to_allowed": 0,
+          "flip_rate": 0.0,
+          "mean_shift": -0.017866666666666687
+        }
+      }
+    }
+  },
+  "pooled": {
+    "n": 5467,
+    "benchmarks": [
+      "wi_a",
+      "wi_b",
+      "wi_c"
+    ],
+    "rate_baseline": 0.2127309310407902,
+    "rate_variant": 0.20065849643314432,
+    "diff": -0.012072434607645871,
+    "ci_low": -0.019206145966709345,
+    "ci_high": -0.005117066032559015,
+    "non_inferior": true,
+    "delta": 0.02,
+    "allowed_to_blocked": 158,
+    "blocked_to_allowed": 224,
+    "mcnemar_p": 0.0008589495202141406
+  },
+  "holm_mcnemar_edited": {
+    "wi_b": 0.020488657156358343,
+    "wi_c": 0.09960022858945733,
+    "wi_a": 0.25541158164185745
+  }
+}

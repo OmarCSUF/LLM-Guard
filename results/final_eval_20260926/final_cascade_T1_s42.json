@@ -1,0 +1,303 @@
+{
+  "test": {
+    "benchmark": "test",
+    "n_samples": 3453,
+    "elapsed_s": 116.28,
+    "metrics": {
+      "n_total": 3453,
+      "n_harmful": 1579,
+      "n_safe": 1874,
+      "n_escalated": 1,
+      "escalation_rate": 0.0003,
+      "accuracy": 0.6837,
+      "precision": 0.6534,
+      "recall": 0.6567,
+      "f1": 0.6551,
+      "auroc": 0.724,
+      "auprc": 0.6273,
+      "fpr_at_95tpr": 1.0,
+      "ece": 0.2932,
+      "jailbreak_success_rate": 0.3433
+    },
+    "layer_stats": {
+      "l1_allow": 1834,
+      "l1_gray_zone": 60,
+      "l1_mitigate": 1559,
+      "l2_allow": 31,
+      "l2_mitigate": 28,
+      "l2_uncertain": 1,
+      "l3_refuse": 1588,
+      "l3_redact": 0,
+      "l3_safe_rewrite": 0,
+      "errors": 0
+    },
+    "errors": [],
+    "run_info": {
+      "started_at": "2026-09-30T06:11:29+00:00",
+      "command": [
+        "/home/OmarLaptop/venvs/guard/bin/python",
+        "scripts/run_evaluation.py",
+        "--layer1-artifacts",
+        "layer1_repeat_study_nciJu1oQ_s42_T1",
+        "--input",
+        "data/benchmarks_final/final_test/test.jsonl",
+        "--output",
+        "data/processed/final_eval_20260926/final_cascade_T1_s42.json"
+      ],
+      "cwd": "/home/OmarLaptop/Omar/GaurdLLm-vibe-main",
+      "seed": 42,
+      "git_commit": "dc90a9e2124dac1ee81588059bde5239855c9fdf",
+      "git_dirty": true,
+      "python": "3.10.12",
+      "packages": {
+        "torch": "2.14.0",
+        "transformers": "4.57.6",
+        "bitsandbytes": "0.50.2",
+        "peft": "0.20.0",
+        "accelerate": "1.15.0",
+        "scikit-learn": "1.7.2",
+        "numpy": "2.2.6"
+      },
+      "gpu": {
+        "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+        "cuda": "13.0",
+        "total_memory_gib": 5.64
+      },
+      "config": {
+        "project": {
+          "name": "LLM-Guard",
+          "version": "0.1.0",
+          "seed": 42,
+          "device": "auto",
+          "fp16": true,
+          "log_dir": "logs/",
+          "artifact_dir": "artifacts/"
+        },
+        "data": {
+          "raw_dir": "data/raw/",
+          "processed_dir": "data/processed/",
+          "distillation_pool_dir": "data/distillation_pool/",
+          "benchmarks_dir": "data/benchmarks/",
+          "distillation_pool": {
+            "train_size": 50000,
+            "val_size": 5000,
+            "test_size": 10000
+          },
+          "labels": {
+            "allow": 1,
+            "mitigate": 0
+          },
+          "violation_categories": [
+            "toxicity",
+            "phishing",
+            "disinformation",
+            "jailbreak",
+            "hate_speech",
+            "self_harm"
+          ]
+        },
+        "layer1": {
+          "classifier_only": true,
+          "normalise_input": true,
+          "payload_views": true,
+          "artifact_subdir": "layer1_repeat_study_nciJu1oQ_s42_T1",
+          "curvature": {
+            "num_perturbations": 10,
+            "temperature_range": [
+              0.5,
+              1.5
+            ],
+            "top_p_range": [
+              0.8,
+              1.0
+            ]
+          },
+          "log_rank": {
+            "vocab_size": null
+          },
+          "classifier": {
+            "backbone": "roberta-base",
+            "lora_r": 8,
+            "lora_alpha": 16,
+            "lora_dropout": 0.1,
+            "max_length": 512,
+            "batch_size": 8,
+            "num_workers": 4,
+            "pin_memory": true,
+            "learning_rate": 0.0002,
+            "epochs": 5,
+            "early_stopping_patience": 2
+          },
+          "fusion": {
+            "method": "logistic"
+          },
+          "calibration": {
+            "temperature": 1.0
+          },
+          "thresholds": {
+            "low": 0.3,
+            "high": 0.7
+          }
+        },
+        "layer2": {
+          "judge": {
+            "backend": "huggingface",
+            "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+            "ollama_base_url": "http://localhost:11434",
+            "max_tokens": 512,
+            "temperature": 0.0,
+            "load_in_4bit": true,
+            "prompt_version": "v2"
+          },
+          "consistency": {
+            "K": 5,
+            "sample_temperature": 0.7,
+            "c_min": 0.8,
+            "mode": "logprob",
+            "allow_below": 0.4,
+            "mitigate_above": 0.6
+          },
+          "distillation": {
+            "retrain_every_n": 1000,
+            "pool_path": "data/distillation_pool/"
+          },
+          "rbv": {
+            "enabled": false,
+            "retriever": "bm25",
+            "top_k": 5,
+            "nli_model": "cross-encoder/nli-deberta-v3-small",
+            "evidence_corpus": "data/raw/fever_corpus/"
+          }
+        },
+        "layer3": {
+          "guard_llm": {
+            "backend": "huggingface",
+            "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+            "ollama_base_url": "http://localhost:11434",
+            "max_tokens": 512,
+            "load_in_4bit": true
+          },
+          "constraints": {
+            "use_token_bans": true,
+            "use_regex": true,
+            "templates_path": "config/safety_templates.yaml"
+          },
+          "candidates": {
+            "K_prime": 3,
+            "refuse_on_decline": true
+          },
+          "refusal_check": {
+            "mode": "keywords",
+            "threshold": 0.5
+          },
+          "rewrite_check": {
+            "mode": "off",
+            "threshold": 0.5
+          },
+          "mitigation": {
+            "modes": [
+              "refuse",
+              "redact",
+              "safe_rewrite"
+            ],
+            "default_mode": "refuse",
+            "severity_refuse_threshold": 0.99,
+            "refuse_when_uncategorised": false
+          }
+        },
+        "evaluation": {
+          "benchmarks": [
+            {
+              "name": "jailbreakbench",
+              "path": "data/benchmarks/jailbreakbench/",
+              "enabled": true
+            },
+            {
+              "name": "xstest",
+              "path": "data/benchmarks/xstest/",
+              "enabled": true
+            },
+            {
+              "name": "harmbench",
+              "path": "data/benchmarks/harmbench/",
+              "enabled": true
+            },
+            {
+              "name": "toxicchat",
+              "path": "data/benchmarks/toxicchat/",
+              "enabled": true
+            },
+            {
+              "name": "orbench",
+              "path": "data/benchmarks/orbench/",
+              "enabled": true
+            },
+            {
+              "name": "wi_a",
+              "path": "data/benchmarks_learner/original/wi_a/",
+              "enabled": false
+            },
+            {
+              "name": "wi_b",
+              "path": "data/benchmarks_learner/original/wi_b/",
+              "enabled": false
+            },
+            {
+              "name": "wi_c",
+              "path": "data/benchmarks_learner/original/wi_c/",
+              "enabled": false
+            },
+            {
+              "name": "locness_n",
+              "path": "data/benchmarks_learner/original/locness_n/",
+              "enabled": false
+            }
+          ],
+          "metrics": [
+            "auroc",
+            "auprc",
+            "fpr_at_95tpr",
+            "jailbreak_success_rate",
+            "refusal_appropriateness",
+            "safe_rewrite_quality",
+            "ece",
+            "delta_fpr",
+            "delta_fnr"
+          ],
+          "fairness": {
+            "nnes_paraphrase": true,
+            "bootstrap_samples": 1000,
+            "alpha": 0.05
+          }
+        },
+        "red_team": {
+          "enabled": true,
+          "attacks_per_round": 50,
+          "rounds": 5,
+          "attack_types": [
+            "jailbreak_template",
+            "role_play",
+            "prefix_rewrite",
+            "language_prefix",
+            "decoding_manipulation",
+            "technical_prefix",
+            "model_paraphrase",
+            "model_translation"
+          ],
+          "log_failures": true,
+          "failure_log_path": "logs/red_team_failures.jsonl"
+        },
+        "logging": {
+          "level": "INFO",
+          "audit_log_path": "logs/audit.jsonl",
+          "log_rationales": true,
+          "log_constraints": true,
+          "nist_mapping": true,
+          "nist_mapping_path": "config/nist_ai_rmf_mapping.yaml"
+        }
+      },
+      "finished_at": "2026-09-30T06:13:37+00:00",
+      "wall_clock_s": 127.67
+    }
+  }
+}

@@ -1,0 +1,48 @@
+[2026-09-28 17:31:54] INFO run_judge_only — judge model overridden: meta-llama/Llama-3.2-3B-Instruct
+[2026-09-28 17:31:54] INFO run_judge_only — judge prompt version overridden: v1
+[2026-09-28 17:31:55] INFO run_judge_only — 3453 prompts from data/benchmarks_final/final_test/test.jsonl as benchmark 'test'
+[2026-09-28 17:31:57] INFO run_judge_only — Loading Layer 2 (no Layer 1)...
+[2026-09-28 17:31:57] INFO layer2.layer2_judge — Initialising Layer2Judge...
+[2026-09-28 17:31:57] INFO layer2.judge — Loading HuggingFace judge model: meta-llama/Llama-3.2-3B-Instruct (4bit=True)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:03<00:03,  3.39s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.03s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.24s/it]
+[2026-09-28 17:32:05] INFO layer2.judge — Model loaded in 4-bit NF4 quantisation.
+[2026-09-28 17:32:05] INFO layer2.judge — Judge model ready on device: cuda:0
+[2026-09-28 17:32:05] INFO layer2.distillation — DistillationBuffer: retrain_every_n=1000, pool=data/distillation_pool/, cumulative_so_far=0
+[2026-09-28 17:32:05] INFO layer2.layer2_judge — Layer2Judge ready.
+[2026-09-28 17:32:30] INFO run_judge_only —   100/3453 | 0.25s/prompt
+[2026-09-28 17:32:55] INFO run_judge_only —   200/3453 | 0.25s/prompt
+[2026-09-28 17:33:20] INFO run_judge_only —   300/3453 | 0.25s/prompt
+[2026-09-28 17:33:45] INFO run_judge_only —   400/3453 | 0.25s/prompt
+[2026-09-28 17:34:11] INFO run_judge_only —   500/3453 | 0.25s/prompt
+[2026-09-28 17:34:36] INFO run_judge_only —   600/3453 | 0.25s/prompt
+[2026-09-28 17:35:01] INFO run_judge_only —   700/3453 | 0.25s/prompt
+[2026-09-28 17:35:26] INFO run_judge_only —   800/3453 | 0.25s/prompt
+[2026-09-28 17:35:51] INFO run_judge_only —   900/3453 | 0.25s/prompt
+[2026-09-28 17:36:16] INFO run_judge_only —   1000/3453 | 0.25s/prompt
+[2026-09-28 17:36:41] INFO run_judge_only —   1100/3453 | 0.25s/prompt
+[2026-09-28 17:37:07] INFO run_judge_only —   1200/3453 | 0.25s/prompt
+[2026-09-28 17:37:32] INFO run_judge_only —   1300/3453 | 0.25s/prompt
+[2026-09-28 17:37:57] INFO run_judge_only —   1400/3453 | 0.25s/prompt
+[2026-09-28 17:38:22] INFO run_judge_only —   1500/3453 | 0.25s/prompt
+[2026-09-28 17:38:47] INFO run_judge_only —   1600/3453 | 0.25s/prompt
+[2026-09-28 17:39:12] INFO run_judge_only —   1700/3453 | 0.25s/prompt
+[2026-09-28 17:39:38] INFO run_judge_only —   1800/3453 | 0.25s/prompt
+[2026-09-28 17:40:03] INFO run_judge_only —   1900/3453 | 0.25s/prompt
+[2026-09-28 17:40:28] INFO run_judge_only —   2000/3453 | 0.25s/prompt
+[2026-09-28 17:40:54] INFO run_judge_only —   2100/3453 | 0.25s/prompt
+[2026-09-28 17:41:19] INFO run_judge_only —   2200/3453 | 0.25s/prompt
+[2026-09-28 17:41:45] INFO run_judge_only —   2300/3453 | 0.25s/prompt
+[2026-09-28 17:42:10] INFO run_judge_only —   2400/3453 | 0.25s/prompt
+[2026-09-28 17:42:36] INFO run_judge_only —   2500/3453 | 0.25s/prompt
+[2026-09-28 17:43:01] INFO run_judge_only —   2600/3453 | 0.25s/prompt
+[2026-09-28 17:43:27] INFO run_judge_only —   2700/3453 | 0.25s/prompt
+[2026-09-28 17:43:52] INFO run_judge_only —   2800/3453 | 0.25s/prompt
+[2026-09-28 17:44:18] INFO run_judge_only —   2900/3453 | 0.25s/prompt
+[2026-09-28 17:44:44] INFO run_judge_only —   3000/3453 | 0.25s/prompt
+[2026-09-28 17:45:12] INFO run_judge_only —   3100/3453 | 0.25s/prompt
+[2026-09-28 17:45:39] INFO run_judge_only —   3200/3453 | 0.25s/prompt
+[2026-09-28 17:46:06] INFO run_judge_only —   3300/3453 | 0.26s/prompt
+[2026-09-28 17:46:34] INFO run_judge_only —   3400/3453 | 0.26s/prompt
+[2026-09-28 17:46:48] INFO run_judge_only —   3453/3453 | 0.26s/prompt
+[2026-09-28 17:46:48] INFO run_judge_only — Results -> data/processed/final_eval_20260926/final_judge_llama_v1.json | predictions -> data/processed/final_eval_20260926/final_judge_llama_v1_predictions/test.jsonl
+[2026-09-28 17:46:48] INFO run_judge_only —   {"auroc": 0.8505, "safe_blocked": null, "harmful_allowed": null, "accuracy": 0.7902, "escalation_rate": 0.0226}

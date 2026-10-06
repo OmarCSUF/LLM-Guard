@@ -1,0 +1,472 @@
+{
+  "parameters": {
+    "seed": 42,
+    "near_dup_threshold": 0.8,
+    "shingle_chars": 5,
+    "max_per_class": 10000,
+    "paired_per_class": 5000,
+    "wildjailbreak_candidates_per_class": 15000,
+    "val_frac": 0.1,
+    "test_frac": 0.1,
+    "num_perm": 64,
+    "bands": 16
+  },
+  "source_revisions": {
+    "jailbreakbench": {
+      "repo": "JailbreakBench/JBB-Behaviors",
+      "revision": "886acc352a31533ffbcf4ef22c744658688086fc"
+    },
+    "toxicchat": {
+      "repo": "lmsys/toxic-chat",
+      "revision": "29df8e4dba60e1f4af4b4075c0705c5b313548a8"
+    },
+    "dolly": {
+      "repo": "databricks/databricks-dolly-15k",
+      "revision": "bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a"
+    },
+    "beavertails": {
+      "repo": "PKU-Alignment/BeaverTails",
+      "revision": "8401fe609d288129cc684a9b3be6a93e41cfe678"
+    },
+    "xstest": {
+      "repo": "walledai/XSTest",
+      "revision": "f1d713187c61b6ae64e602d74f0b3d812cc2e8e8"
+    },
+    "harmbench": {
+      "repo": "walledai/HarmBench",
+      "revision": "fb6c2afd5a2a943d701d6db3efab87d077e81be5"
+    },
+    "wildjailbreak": {
+      "repo": "allenai/wildjailbreak",
+      "revision": "5ddc12a7894f842b0619b8e1c7ee496b198af009"
+    },
+    "orbench": {
+      "repo": "bench-llm/or-bench",
+      "revision": "e36d8b80e81837c8a8f264bbb2a49f1b32c7e272"
+    }
+  },
+  "benchmarks": {
+    "jailbreakbench": {
+      "loaded": 200,
+      "empty_dropped": 0,
+      "duplicates_dropped": 0,
+      "final": 200,
+      "labels": {
+        "allow": 100,
+        "mitigate": 100
+      }
+    },
+    "xstest": {
+      "loaded": 450,
+      "empty_dropped": 0,
+      "duplicates_dropped": 0,
+      "final": 450,
+      "labels": {
+        "allow": 250,
+        "mitigate": 200
+      }
+    },
+    "harmbench": {
+      "loaded": 200,
+      "empty_dropped": 0,
+      "duplicates_dropped": 0,
+      "final": 200,
+      "labels": {
+        "allow": 0,
+        "mitigate": 200
+      }
+    },
+    "toxicchat": {
+      "loaded": 5083,
+      "empty_dropped": 0,
+      "duplicates_dropped": 132,
+      "final": 4951,
+      "labels": {
+        "allow": 4597,
+        "mitigate": 354
+      },
+      "human_annotated": 2853
+    },
+    "orbench": {
+      "loaded": 1974,
+      "empty_dropped": 0,
+      "duplicates_dropped": 0,
+      "final": 1974,
+      "labels": {
+        "allow": 1319,
+        "mitigate": 655
+      }
+    }
+  },
+  "benchmark_cross_overlap_exact": {
+    "jailbreakbench_vs_xstest": 0,
+    "jailbreakbench_vs_harmbench": 9,
+    "jailbreakbench_vs_toxicchat": 0,
+    "jailbreakbench_vs_orbench": 0,
+    "xstest_vs_harmbench": 0,
+    "xstest_vs_toxicchat": 0,
+    "xstest_vs_orbench": 0,
+    "harmbench_vs_toxicchat": 0,
+    "harmbench_vs_orbench": 0,
+    "toxicchat_vs_orbench": 0
+  },
+  "pool_sources": {
+    "dolly": {
+      "loaded": 10544,
+      "skipped_with_context": 4467
+    },
+    "toxicchat_train": {
+      "loaded": 5082,
+      "human_annotated": 2801,
+      "labels": {
+        "allow": 4698,
+        "mitigate": 384
+      }
+    },
+    "beavertails": {
+      "qa_pairs": 27186,
+      "unique_prompts": 7766,
+      "harmful_kept": 4278,
+      "mostly_safe_excluded": 3085,
+      "ties_dropped": 403
+    },
+    "wildjailbreak": {
+      "rows_by_data_type": {
+        "vanilla_harmful": 50050,
+        "adversarial_harmful": 82728,
+        "vanilla_benign": 50050,
+        "adversarial_benign": 78731
+      },
+      "vanilla_loaded": {
+        "allow": 50050,
+        "mitigate": 50050
+      },
+      "sampled_candidates": {
+        "allow": 15000,
+        "mitigate": 15000
+      }
+    }
+  },
+  "near_duplicate_collapse": {
+    "empty_dropped_by_source": {},
+    "duplicates_collapsed_by_source": {
+      "dolly": 289,
+      "toxicchat_train": 226,
+      "beavertails": 20,
+      "wildjailbreak": 69
+    },
+    "label_conflict_groups": 4,
+    "label_conflict_dropped_by_source": {
+      "toxicchat_train": 8
+    },
+    "remaining": 49292
+  },
+  "evaluation_overlap_removed": {
+    "dropped_by_source": {
+      "dolly": 16,
+      "toxicchat_train": 276,
+      "beavertails": 3,
+      "wildjailbreak": 2
+    },
+    "matched_benchmarks": {
+      "toxicchat": 294,
+      "xstest": 2,
+      "orbench": 1
+    },
+    "remaining": 48995
+  },
+  "balance": {
+    "available": {
+      "allow": 19506,
+      "mitigate": 9560
+    },
+    "per_class": 9560,
+    "paired_per_class": 5000,
+    "paired_available": {
+      "allow": 14929,
+      "mitigate": 15000
+    },
+    "limited_by": "mitigate"
+  },
+  "splits": {
+    "train": {
+      "n": 15296,
+      "labels": {
+        "allow": 7648,
+        "mitigate": 7648
+      },
+      "sources": {
+        "wildjailbreak": 7994,
+        "beavertails": 3421,
+        "dolly": 2566,
+        "toxicchat_train": 1315
+      }
+    },
+    "val": {
+      "n": 1912,
+      "labels": {
+        "allow": 956,
+        "mitigate": 956
+      },
+      "sources": {
+        "beavertails": 412,
+        "wildjailbreak": 1008,
+        "toxicchat_train": 169,
+        "dolly": 323
+      }
+    },
+    "test": {
+      "n": 1912,
+      "labels": {
+        "allow": 956,
+        "mitigate": 956
+      },
+      "sources": {
+        "toxicchat_train": 167,
+        "wildjailbreak": 998,
+        "beavertails": 422,
+        "dolly": 325
+      }
+    }
+  },
+  "overlap_checks": {
+    "train_vs_val": 0,
+    "train_vs_test": 0,
+    "val_vs_test": 0,
+    "train_vs_jailbreakbench": 0,
+    "train_vs_xstest": 0,
+    "train_vs_harmbench": 0,
+    "train_vs_toxicchat": 0,
+    "train_vs_orbench": 0,
+    "val_vs_jailbreakbench": 0,
+    "val_vs_xstest": 0,
+    "val_vs_harmbench": 0,
+    "val_vs_toxicchat": 0,
+    "val_vs_orbench": 0,
+    "test_vs_jailbreakbench": 0,
+    "test_vs_xstest": 0,
+    "test_vs_harmbench": 0,
+    "test_vs_toxicchat": 0,
+    "test_vs_orbench": 0
+  },
+  "run_info": {
+    "started_at": "2026-09-15T06:26:52+00:00",
+    "command": [
+      "/home/OmarLaptop/venvs/guard/bin/python",
+      "scripts/build_datasets.py"
+    ],
+    "cwd": "/home/OmarLaptop/Omar/GaurdLLm-vibe-main",
+    "seed": 42,
+    "git_commit": "c8f6c0da8fbda40664cf2f0b3c4ad0df956bf3fb",
+    "git_dirty": false,
+    "python": "3.10.12",
+    "packages": {
+      "torch": "2.14.0",
+      "transformers": "4.57.6",
+      "bitsandbytes": "0.50.2",
+      "peft": "0.20.0",
+      "accelerate": "1.15.0",
+      "scikit-learn": "1.7.2",
+      "numpy": "2.2.6"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+      "cuda": "13.0",
+      "total_memory_gib": 5.64
+    },
+    "config": {
+      "project": {
+        "name": "LLM-Guard",
+        "version": "0.1.0",
+        "seed": 42,
+        "device": "auto",
+        "fp16": true,
+        "log_dir": "logs/",
+        "artifact_dir": "artifacts/"
+      },
+      "data": {
+        "raw_dir": "data/raw/",
+        "processed_dir": "data/processed/",
+        "distillation_pool_dir": "data/distillation_pool/",
+        "benchmarks_dir": "data/benchmarks/",
+        "distillation_pool": {
+          "train_size": 50000,
+          "val_size": 5000,
+          "test_size": 10000
+        },
+        "labels": {
+          "allow": 1,
+          "mitigate": 0
+        },
+        "violation_categories": [
+          "toxicity",
+          "phishing",
+          "disinformation",
+          "jailbreak",
+          "hate_speech",
+          "self_harm"
+        ]
+      },
+      "layer1": {
+        "curvature": {
+          "num_perturbations": 10,
+          "temperature_range": [
+            0.5,
+            1.5
+          ],
+          "top_p_range": [
+            0.8,
+            1.0
+          ]
+        },
+        "log_rank": {
+          "vocab_size": null
+        },
+        "classifier": {
+          "backbone": "roberta-base",
+          "lora_r": 8,
+          "lora_alpha": 16,
+          "lora_dropout": 0.1,
+          "max_length": 512,
+          "batch_size": 8,
+          "num_workers": 4,
+          "pin_memory": true,
+          "learning_rate": 0.0002,
+          "epochs": 5,
+          "early_stopping_patience": 2
+        },
+        "fusion": {
+          "method": "logistic"
+        },
+        "calibration": {
+          "temperature": 1.0
+        },
+        "thresholds": {
+          "low": 0.3,
+          "high": 0.7
+        }
+      },
+      "layer2": {
+        "judge": {
+          "backend": "huggingface",
+          "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+          "ollama_base_url": "http://localhost:11434",
+          "max_tokens": 512,
+          "temperature": 0.0,
+          "load_in_4bit": true
+        },
+        "consistency": {
+          "K": 5,
+          "sample_temperature": 0.7,
+          "c_min": 0.8
+        },
+        "distillation": {
+          "retrain_every_n": 1000,
+          "pool_path": "data/distillation_pool/"
+        },
+        "rbv": {
+          "enabled": false,
+          "retriever": "bm25",
+          "top_k": 5,
+          "nli_model": "cross-encoder/nli-deberta-v3-small",
+          "evidence_corpus": "data/raw/fever_corpus/"
+        }
+      },
+      "layer3": {
+        "guard_llm": {
+          "backend": "huggingface",
+          "model_name": "/home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct",
+          "ollama_base_url": "http://localhost:11434",
+          "max_tokens": 512,
+          "load_in_4bit": true
+        },
+        "constraints": {
+          "use_token_bans": true,
+          "use_regex": true,
+          "templates_path": "config/safety_templates.yaml"
+        },
+        "candidates": {
+          "K_prime": 3
+        },
+        "mitigation": {
+          "modes": [
+            "refuse",
+            "redact",
+            "safe_rewrite"
+          ],
+          "default_mode": "safe_rewrite"
+        }
+      },
+      "evaluation": {
+        "benchmarks": [
+          {
+            "name": "jailbreakbench",
+            "path": "data/benchmarks/jailbreakbench/",
+            "enabled": true
+          },
+          {
+            "name": "xstest",
+            "path": "data/benchmarks/xstest/",
+            "enabled": true
+          },
+          {
+            "name": "harmbench",
+            "path": "data/benchmarks/harmbench/",
+            "enabled": true
+          },
+          {
+            "name": "toxicchat",
+            "path": "data/benchmarks/toxicchat/",
+            "enabled": true
+          },
+          {
+            "name": "orbench",
+            "path": "data/benchmarks/orbench/",
+            "enabled": true
+          }
+        ],
+        "metrics": [
+          "auroc",
+          "auprc",
+          "fpr_at_95tpr",
+          "jailbreak_success_rate",
+          "refusal_appropriateness",
+          "safe_rewrite_quality",
+          "ece",
+          "delta_fpr",
+          "delta_fnr"
+        ],
+        "fairness": {
+          "nnes_paraphrase": true,
+          "bootstrap_samples": 1000,
+          "alpha": 0.05
+        }
+      },
+      "red_team": {
+        "enabled": true,
+        "attacker_model": "qwen2.5:3b",
+        "attacker_backend": "ollama",
+        "attacks_per_round": 50,
+        "rounds": 5,
+        "attack_types": [
+          "jailbreak_template",
+          "paraphrase",
+          "translation",
+          "role_play",
+          "decoding_manipulation"
+        ],
+        "log_failures": true,
+        "failure_log_path": "logs/red_team_failures.jsonl"
+      },
+      "logging": {
+        "level": "INFO",
+        "audit_log_path": "logs/audit.jsonl",
+        "log_rationales": true,
+        "log_constraints": true,
+        "nist_mapping": true
+      }
+    },
+    "finished_at": "2026-09-15T06:27:19+00:00",
+    "wall_clock_s": 25.01
+  }
+}

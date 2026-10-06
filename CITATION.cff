@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: >-
+  If you use this repository, please cite the article below.
+type: software
+title: "LLM-Guard: a calibrated three-layer cascade for prompt-level harm detection"
+version: 1.0.0
+date-released: 2026-10-05
+license: Apache-2.0
+repository-code: "https://github.com/OmarCSUF/LLM-Guard"
+abstract: >-
+  Code, configuration, pinned Layer-1 checkpoints, the pre-registered 3,453-prompt
+  final test set and every stored result of the LLM-Guard study: a RoBERTa+LoRA
+  detector with temperature calibration and threshold routing, a selective
+  log-probability judge (Qwen2.5-3B-Instruct, 4-bit), refusal-by-default
+  mitigation, a template red-team suite, and the analysis scripts that regenerate
+  every table of the article from stored per-prompt predictions.
+authors:
+  - family-names: "Albulayhi"
+    given-names: "Omar"
+keywords:
+  - content moderation
+  - prompt screening
+  - safety classifiers
+  - cascaded classification
+  - calibration
+  - over-refusal
+  - pre-registration
+preferred-citation:
+  type: article
+  title: >-
+    LLM-Guard: A Calibrated Three-Layer Cascade for Prompt-Level Harm Detection,
+    and What a Preregistered Test Set Says About It
+  authors:
+    - family-names: "Albulayhi"
+      given-names: "Omar"
+  year: 2026
+  journal: "<Venue, to be completed>"
+  notes: >-
+    Preprint / manuscript, 2026. Replace the venue, DOI and author list when
+    the article is published.

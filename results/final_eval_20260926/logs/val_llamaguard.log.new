@@ -1,0 +1,27 @@
+[2026-09-28 12:19:40] INFO run_external_guard — 1912 prompts from data/distillation_pool/val.jsonl as benchmark 'val' | model meta-llama/Llama-Guard-3-1B
+[2026-09-28 12:19:46] INFO run_external_guard — answer token ids: unsafe=[20451, 39257, 74167, 79870] safe=[6220, 19193, 23088, 26747]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[2026-09-28 12:19:56] INFO run_external_guard —   100/1912 | 0.10s/prompt
+[2026-09-28 12:20:06] INFO run_external_guard —   200/1912 | 0.10s/prompt
+[2026-09-28 12:20:16] INFO run_external_guard —   300/1912 | 0.10s/prompt
+[2026-09-28 12:20:26] INFO run_external_guard —   400/1912 | 0.10s/prompt
+[2026-09-28 12:20:36] INFO run_external_guard —   500/1912 | 0.10s/prompt
+[2026-09-28 12:20:46] INFO run_external_guard —   600/1912 | 0.10s/prompt
+[2026-09-28 12:20:56] INFO run_external_guard —   700/1912 | 0.10s/prompt
+[2026-09-28 12:21:06] INFO run_external_guard —   800/1912 | 0.10s/prompt
+[2026-09-28 12:21:16] INFO run_external_guard —   900/1912 | 0.10s/prompt
+[2026-09-28 12:21:26] INFO run_external_guard —   1000/1912 | 0.10s/prompt
+[2026-09-28 12:21:36] INFO run_external_guard —   1100/1912 | 0.10s/prompt
+[2026-09-28 12:21:45] INFO run_external_guard —   1200/1912 | 0.10s/prompt
+[2026-09-28 12:21:55] INFO run_external_guard —   1300/1912 | 0.10s/prompt
+[2026-09-28 12:22:05] INFO run_external_guard —   1400/1912 | 0.10s/prompt
+[2026-09-28 12:22:18] INFO run_external_guard —   1500/1912 | 0.10s/prompt
+[2026-09-28 12:22:28] INFO run_external_guard —   1600/1912 | 0.10s/prompt
+[2026-09-28 12:22:38] INFO run_external_guard —   1700/1912 | 0.10s/prompt
+[2026-09-28 12:22:48] INFO run_external_guard —   1800/1912 | 0.10s/prompt
+[2026-09-28 12:22:58] INFO run_external_guard —   1900/1912 | 0.10s/prompt
+[2026-09-28 12:22:59] INFO run_external_guard —   1912/1912 | 0.10s/prompt
+[2026-09-28 12:22:59] INFO run_external_guard — answer-step mass: median 1.0000 | steps used {'1': 1912}
+[2026-09-28 12:22:59] INFO run_external_guard — Results -> data/processed/final_eval_20260926/val_llamaguard.json | predictions -> data/processed/final_eval_20260926/val_llamaguard_predictions/val.jsonl
+[2026-09-28 12:22:59] INFO run_external_guard —   {"auroc": 0.9061, "accuracy": 0.8415, "recall": 0.772, "precision": 0.8967}

@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmguard"
+version = "1.0.0"
+description = "LLM-Guard: a three-layer prompt-safety cascade (Layer-1 detector, Layer-2 judge, Layer-3 mitigator) and its pre-registered evaluation"
+readme = "README.md"
+authors = [{ name = "Omar Albulayhi", email = "obulayhi@gmail.com" }]
+requires-python = ">=3.10"
+# Pinned to the environment that produced every recorded result
+# (Python 3.10.12, CUDA 13.0 wheels). The complete freeze is requirements-lock.txt;
+# CHANGES.md explains how the old loose pins were reconciled.
+dependencies = [
+    # deep learning / fine-tuning
+    "torch==2.14.0",
+    "transformers==4.57.6",
+    "peft==0.20.0",
+    "accelerate==1.15.0",        # device_map="auto" for the 4-bit judge / Guard-LLM
+    "bitsandbytes==0.50.2",      # 4-bit NF4 quantisation (Layer 2 / Layer 3)
+    "safetensors==0.8.0",        # the pinned LoRA adapters are *.safetensors
+    "huggingface_hub==0.36.2",   # fetch_datasets.py token lookup; transformers backend
+    # classical ML
+    "scikit-learn==1.7.2",
+    "numpy==2.2.6",
+    "joblib==1.6.0",             # fusion stacker *.joblib
+    # data handling
+    "pandas==2.3.3",
+    "pyarrow==25.0.1",           # pandas.read_parquet in build_datasets.py / build_final_test.py
+    "PyYAML==6.0.3",
+    # utilities
+    "tqdm==4.70.1",
+    "requests==2.34.2",          # Ollama HTTP backend (Layer 2)
+]
+
+[project.optional-dependencies]
+# Gradio dashboard (app.py)
+dashboard = ["gradio==6.17.3"]
+# Figures and the Word report (scripts/plot_*.py, scripts/generate_report.py).
+# python-docx was not in the recorded freeze, so it carries a lower bound only.
+report = ["matplotlib==3.10.9", "python-docx>=1.1"]
+# Reading a reviewer's .xlsx directly (scripts/leak_reliability.py); CSV needs nothing.
+xlsx = ["openpyxl>=3.1"]
+# Test suite: PYTHONPATH=src python -m pytest -q tests
+dev = ["pytest>=8"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+markers = [
+    "slow: takes about a minute (the analysis regeneration); still part of the default run",
+]

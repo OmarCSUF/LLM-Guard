@@ -1,0 +1,177 @@
+# Final-test analysis — final_eval_20260926
+
+Bootstrap B = 2000, seed 20260926, 95% percentile intervals; Wilson intervals on single rates.
+
+## Final test set
+
+| Source | n |
+|---|---:|
+| sst | 99 |
+| catqa | 543 |
+| dna_core | 573 |
+| dna_other | 364 |
+| coconot | 378 |
+| phtest | 1000 |
+| no_robots | 496 |
+| **total** | 3453 |
+
+## A. Operational rates by source (harmful sources: harmful allowed; safe sources: safe blocked), %
+
+| Source | cascade | layer1 | judge | judge_llama_v1 [post hoc] | judge_llama_v2 [post hoc] | granite | llamaguard | shieldgemma [post hoc] | cascade_s42 | cascade_s43 | cascade_s44 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| sst | 5.1 [2.2, 11.3] (n=99) | 6.1 [2.8, 12.6] (n=99) | 2.0 [0.6, 7.1] (n=99) | 0.0 [0.0, 3.7] (n=99) | 0.0 [0.0, 3.7] (n=99) | 0.0 [0.0, 3.7] (n=99) | 2.0 [0.6, 7.1] (n=99) | 24.2 [16.9, 33.5] (n=99) | 7.1 [3.5, 13.9] (n=99) | 7.1 [3.5, 13.9] (n=99) | 5.1 [2.2, 11.3] (n=99) |
+| catqa | 19.2 [16.1, 22.7] (n=543) | 23.6 [20.2, 27.3] (n=543) | 2.4 [1.4, 4.1] (n=543) | 0.9 [0.4, 2.1] (n=543) | 1.8 [1.0, 3.4] (n=543) | 0.2 [0.0, 1.0] (n=543) | 6.1 [4.4, 8.4] (n=543) | 51.2 [47.0, 55.4] (n=543) | 34.8 [30.9, 38.9] (n=543) | 22.3 [19.0, 26.0] (n=543) | 35.7 [31.8, 39.8] (n=543) |
+| dna_core | 23.9 [20.6, 27.6] (n=573) | 25.1 [21.8, 28.8] (n=573) | 32.6 [28.9, 36.6] (n=573) | 23.9 [20.6, 27.6] (n=573) | 32.5 [28.8, 36.4] (n=573) | 16.9 [14.1, 20.2] (n=573) | 45.4 [41.3, 49.5] (n=573) | 49.2 [45.1, 53.3] (n=573) | 25.8 [22.4, 29.6] (n=573) | 23.4 [20.1, 27.0] (n=573) | 23.6 [20.3, 27.2] (n=573) |
+| dna_other | 48.9 [43.8, 54.0] (n=364) | 50.8 [45.7, 55.9] (n=364) | 64.0 [59.0, 68.8] (n=364) | 69.0 [64.0, 73.5] (n=364) | 75.0 [70.3, 79.2] (n=364) | 26.4 [22.1, 31.1] (n=364) | 65.1 [60.1, 69.8] (n=364) | 92.9 [89.7, 95.1] (n=364) | 53.3 [48.2, 58.4] (n=364) | 51.6 [46.5, 56.7] (n=364) | 57.1 [52.0, 62.1] (n=364) |
+| coconot | 6.3 [4.3, 9.3] (n=378) | 6.3 [4.3, 9.3] (n=378) | 20.4 [16.6, 24.7] (n=378) | 21.7 [17.8, 26.1] (n=378) | 13.5 [10.4, 17.3] (n=378) | 21.7 [17.8, 26.1] (n=378) | 6.1 [4.1, 9.0] (n=378) | 11.6 [8.8, 15.3] (n=378) | 4.8 [3.0, 7.4] (n=378) | 6.1 [4.1, 9.0] (n=378) | 4.8 [3.0, 7.4] (n=378) |
+| phtest | 42.8 [39.8, 45.9] (n=1000) | 42.1 [39.1, 45.2] (n=1000) | 29.6 [26.9, 32.5] (n=1000) | 25.7 [23.1, 28.5] (n=1000) | 17.2 [15.0, 19.7] (n=1000) | 55.9 [52.8, 58.9] (n=1000) | 27.7 [25.0, 30.6] (n=1000) | 15.0 [12.9, 17.3] (n=1000) | 45.9 [42.8, 49.0] (n=1000) | 46.3 [43.2, 49.4] (n=1000) | 42.2 [39.2, 45.3] (n=1000) |
+| no_robots | 12.7 [10.1, 15.9] (n=496) | 12.5 [9.9, 15.7] (n=496) | 7.1 [5.1, 9.7] (n=496) | 5.4 [3.8, 7.8] (n=496) | 2.4 [1.4, 4.2] (n=496) | 19.2 [15.9, 22.8] (n=496) | 11.3 [8.8, 14.4] (n=496) | 2.0 [1.1, 3.7] (n=496) | 14.1 [11.3, 17.5] (n=496) | 15.3 [12.4, 18.8] (n=496) | 10.5 [8.1, 13.5] (n=496) |
+
+Pooled AUROC (every source is single-class, so this partly measures source separability; secondary):
+
+| Arm | n | AUROC |
+|---|---:|---:|
+| cascade | 3089 | 0.811 |
+| layer1 | 3089 | 0.811 |
+| judge | 3089 | 0.878 |
+| judge_llama_v1 [post hoc] | 3089 | 0.928 |
+| judge_llama_v2 [post hoc] | 3089 | 0.924 |
+| granite | 3089 | 0.923 |
+| llamaguard | 3089 | 0.834 |
+| shieldgemma [post hoc] | 3089 | 0.826 |
+| cascade_s42 | 3089 | 0.751 |
+| cascade_s43 | 3089 | 0.773 |
+| cascade_s44 | 3089 | 0.777 |
+
+`[post hoc]` marks an arm the pre-registration did not name. It was analysed exactly as the others were, but it was chosen after the pre-registered results were known, so it does not carry their guarantee:
+- **judge_llama_v1**: added 2026-09-28; judge model swapped for Llama-3.2-3B-Instruct, prompt version selected on validation; not pre-registered
+- **judge_llama_v2**: added 2026-09-28; as above, on the prompt version Qwen ships; not pre-registered
+- **shieldgemma**: added 2026-09-27 after the results were known; not pre-registered
+
+## Paired differences against the cascade (arm minus cascade), percentage points
+
+| Source | Arm | diff | 95% CI | McNemar p | n |
+|---|---|---:|---|---:|---:|
+| sst | layer1 | +1.0 | [+0.0, +3.0] | 1 | 99 |
+| catqa | layer1 | +4.4 | [+2.8, +6.3] | 1.19e-07 | 543 |
+| dna_core | layer1 | +1.2 | [+0.3, +2.1] | 0.0156 | 573 |
+| dna_other | layer1 | +1.9 | [+0.8, +3.3] | 0.0156 | 364 |
+| coconot | layer1 | +0.0 | [+0.0, +0.0] | 1 | 378 |
+| phtest | layer1 | -0.7 | [-1.3, -0.2] | 0.0156 | 1000 |
+| no_robots | layer1 | -0.2 | [-0.6, +0.0] | 1 | 496 |
+| sst | judge | -3.0 | [-8.1, +2.0] | 0.453 | 99 |
+| catqa | judge | -16.8 | [-20.3, -13.6] | 4.36e-21 | 543 |
+| dna_core | judge | +8.7 | [+4.5, +12.6] | 4.27e-05 | 573 |
+| dna_other | judge | +15.1 | [+8.8, +21.2] | 7.74e-06 | 364 |
+| coconot | judge | +14.0 | [+9.5, +18.3] | 1.89e-09 | 378 |
+| phtest | judge | -13.2 | [-17.1, -9.3] | 7.56e-11 | 1000 |
+| no_robots | judge | -5.6 | [-8.9, -2.4] | 0.00176 | 496 |
+| sst | judge_llama_v1 [post hoc] | -5.1 | [-9.1, -1.0] | 0.0625 | 99 |
+| catqa | judge_llama_v1 [post hoc] | -18.2 | [-21.7, -15.1] | 1.06e-27 | 543 |
+| dna_core | judge_llama_v1 [post hoc] | +0.0 | [-3.5, +3.5] | 1 | 573 |
+| dna_other | judge_llama_v1 [post hoc] | +20.1 | [+14.3, +26.4] | 3.98e-10 | 364 |
+| coconot | judge_llama_v1 [post hoc] | +15.3 | [+10.6, +20.4] | 4.39e-10 | 378 |
+| phtest | judge_llama_v1 [post hoc] | -17.1 | [-20.9, -13.5] | 1.18e-19 | 1000 |
+| no_robots | judge_llama_v1 [post hoc] | -7.3 | [-10.1, -4.2] | 3.18e-06 | 496 |
+| sst | judge_llama_v2 [post hoc] | -5.1 | [-9.1, -1.0] | 0.0625 | 99 |
+| catqa | judge_llama_v2 [post hoc] | -17.3 | [-20.6, -14.0] | 1.75e-24 | 543 |
+| dna_core | judge_llama_v2 [post hoc] | +8.6 | [+4.5, +12.2] | 3.44e-05 | 573 |
+| dna_other | judge_llama_v2 [post hoc] | +26.1 | [+20.3, +31.6] | 1.39e-16 | 364 |
+| coconot | judge_llama_v2 [post hoc] | +7.1 | [+3.2, +11.4] | 0.00073 | 378 |
+| phtest | judge_llama_v2 [post hoc] | -25.6 | [-29.0, -22.0] | 4.77e-42 | 1000 |
+| no_robots | judge_llama_v2 [post hoc] | -10.3 | [-13.1, -7.3] | 1.7e-12 | 496 |
+| sst | granite | -5.1 | [-9.1, -1.0] | 0.0625 | 99 |
+| catqa | granite | -19.0 | [-22.5, -15.7] | 5.23e-30 | 543 |
+| dna_core | granite | -7.0 | [-10.6, -3.5] | 0.000227 | 573 |
+| dna_other | granite | -22.5 | [-28.6, -16.8] | 5.42e-12 | 364 |
+| coconot | granite | +15.3 | [+11.1, +19.6] | 4.33e-12 | 378 |
+| phtest | granite | +13.1 | [+9.5, +16.8] | 6.06e-12 | 1000 |
+| no_robots | granite | +6.5 | [+2.6, +10.3] | 0.00126 | 496 |
+| sst | llamaguard | -3.0 | [-7.1, +1.0] | 0.375 | 99 |
+| catqa | llamaguard | -13.1 | [-16.6, -9.6] | 1.78e-12 | 543 |
+| dna_core | llamaguard | +21.5 | [+16.8, +26.2] | 4.58e-18 | 573 |
+| dna_other | llamaguard | +16.2 | [+9.9, +22.3] | 1.49e-06 | 364 |
+| coconot | llamaguard | -0.3 | [-3.4, +2.9] | 1 | 378 |
+| phtest | llamaguard | -15.1 | [-19.0, -11.4] | 9.63e-14 | 1000 |
+| no_robots | llamaguard | -1.4 | [-4.8, +1.8] | 0.483 | 496 |
+| sst | shieldgemma [post hoc] | +19.2 | [+10.1, +28.3] | 6.6e-05 | 99 |
+| catqa | shieldgemma [post hoc] | +32.0 | [+27.3, +36.8] | 2.57e-32 | 543 |
+| dna_core | shieldgemma [post hoc] | +25.3 | [+20.8, +29.8] | 5.72e-25 | 573 |
+| dna_other | shieldgemma [post hoc] | +44.0 | [+38.5, +49.2] | 1.63e-44 | 364 |
+| coconot | shieldgemma [post hoc] | +5.3 | [+1.6, +9.3] | 0.0105 | 378 |
+| phtest | shieldgemma [post hoc] | -27.8 | [-31.5, -24.1] | 1.5e-41 | 1000 |
+| no_robots | shieldgemma [post hoc] | -10.7 | [-13.7, -7.7] | 1.66e-12 | 496 |
+| sst | cascade_s42 | +2.0 | [+0.0, +5.1] | 0.5 | 99 |
+| catqa | cascade_s42 | +15.7 | [+12.7, +18.8] | 1.14e-24 | 543 |
+| dna_core | cascade_s42 | +1.9 | [-0.2, +4.0] | 0.0989 | 573 |
+| dna_other | cascade_s42 | +4.4 | [+1.1, +7.7] | 0.0113 | 364 |
+| coconot | cascade_s42 | -1.6 | [-2.9, -0.5] | 0.0312 | 378 |
+| phtest | cascade_s42 | +3.1 | [+1.4, +4.7] | 0.000371 | 1000 |
+| no_robots | cascade_s42 | +1.4 | [-0.6, +3.6] | 0.265 | 496 |
+| sst | cascade_s43 | +2.0 | [+0.0, +5.1] | 0.5 | 99 |
+| catqa | cascade_s43 | +3.1 | [+0.0, +6.1] | 0.0568 | 543 |
+| dna_core | cascade_s43 | -0.5 | [-2.6, +1.6] | 0.749 | 573 |
+| dna_other | cascade_s43 | +2.7 | [-1.1, +6.9] | 0.229 | 364 |
+| coconot | cascade_s43 | -0.3 | [-1.9, +1.3] | 1 | 378 |
+| phtest | cascade_s43 | +3.5 | [+1.4, +5.6] | 0.00223 | 1000 |
+| no_robots | cascade_s43 | +2.6 | [+0.4, +4.8] | 0.041 | 496 |
+| sst | cascade_s44 | +0.0 | [-3.0, +3.0] | 1 | 99 |
+| catqa | cascade_s44 | +16.6 | [+12.9, +20.3] | 3.84e-17 | 543 |
+| dna_core | cascade_s44 | -0.3 | [-3.0, +2.1] | 0.89 | 573 |
+| dna_other | cascade_s44 | +8.2 | [+4.1, +12.6] | 0.000287 | 364 |
+| coconot | cascade_s44 | -1.6 | [-3.4, +0.3] | 0.18 | 378 |
+| phtest | cascade_s44 | -0.6 | [-2.6, +1.4] | 0.624 | 1000 |
+| no_robots | cascade_s44 | -2.2 | [-4.6, +0.2] | 0.0989 | 496 |
+
+## Cascade on the final set across training seeds, % (historical checkpoint in the first table)
+
+| Source | cascade_s42 | cascade_s43 | cascade_s44 | min–max |
+|---|---:|---:|---:|---:|
+| sst | 7.1 | 7.1 | 5.1 | 5.1–7.1 |
+| catqa | 34.8 | 22.3 | 35.7 | 22.3–35.7 |
+| dna_core | 25.8 | 23.4 | 23.6 | 23.4–25.8 |
+| dna_other | 53.3 | 51.6 | 57.1 | 51.6–57.1 |
+| coconot | 4.8 | 6.1 | 4.8 | 4.8–6.1 |
+| phtest | 45.9 | 46.3 | 42.2 | 42.2–46.3 |
+| no_robots | 14.1 | 15.3 | 10.5 | 10.5–15.3 |
+
+## B. External guards at a threshold matched on the pool validation split (cascade safe-blocked there: 3.8%)
+
+| Guard | threshold on P(unsafe) | sst | catqa | dna_core | dna_other | coconot | phtest | no_robots |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| granite | 0.9669 | 12.1 | 8.3 | 43.6 | 79.7 | 1.9 | 5.2 | 1.8 |
+| llamaguard | 0.8706 | 5.1 | 14.5 | 57.2 | 76.1 | 2.9 | 11.7 | 4.0 |
+| shieldgemma [post hoc] | 0.7520 | 29.3 | 59.1 | 57.1 | 93.4 | 6.3 | 6.9 | 0.6 |
+
+## C. HarmBench attack pass (200 seeds × 6 attacks × 3 variants) by checkpoint
+
+| Checkpoint | bypassed / variants | rate % | 95% CI (seed-clustered) | seeds with ≥1 pass | technical_prefix | jailbreak_template | role_play | prefix_rewrite | language_prefix | decoding_manipulation |
+|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| historical | 165/3600 | 4.6 | [2.6, 6.9] | 53/200 | 3.0 | 3.7 | 2.7 | 11.0 | 2.8 | 4.3 |
+| s42 | 226/3600 | 6.3 | [3.8, 9.0] | 59/200 | 4.5 | 5.3 | 4.0 | 14.3 | 4.2 | 5.3 |
+| s43 | 180/3600 | 5.0 | [2.9, 7.5] | 47/200 | 4.0 | 3.5 | 2.5 | 11.2 | 3.8 | 5.0 |
+| s44 | 282/3600 | 7.8 | [5.1, 10.9] | 76/200 | 5.3 | 6.7 | 5.5 | 19.3 | 4.8 | 5.3 |
+
+## D. Learner English: original minus corrected blocking among edited learner pairs, percentage points (non-inferiority margin +2)
+
+| Checkpoint | Level | pairs | orig % | corr % | diff | sentence CI | essay CI | writer CI | non-inferior (writer) |
+|---|---|---:|---:|---:|---:|---|---|---|---|
+| historical | A | 2079 | 19.1 | 19.9 | -0.77 | [-1.97, +0.43] | [-2.03, +0.49] | [-2.08, +0.46] | yes |
+| historical | B | 2044 | 20.3 | 21.9 | -1.61 | [-2.74, -0.49] | [-2.83, -0.43] | [-2.85, -0.43] | yes |
+| historical | C | 1344 | 21.3 | 22.5 | -1.26 | [-2.46, -0.07] | [-2.49, +0.00] | [-2.51, -0.07] | yes |
+| historical | pooled | 5467 | 20.1 | 21.3 | -1.21 | [-1.88, -0.53] | [-1.90, -0.49] | [-1.92, -0.50] | yes |
+| s42 | A | 2079 | 20.7 | 22.2 | -1.44 | [-2.89, -0.05] | [-2.79, -0.10] | [-2.87, +0.00] | yes |
+| s42 | B | 2044 | 24.2 | 26.8 | -2.54 | [-3.91, -1.32] | [-3.83, -1.23] | [-3.95, -1.26] | yes |
+| s42 | C | 1344 | 25.9 | 28.1 | -2.23 | [-3.50, -0.97] | [-3.70, -0.87] | [-3.62, -0.91] | yes |
+| s42 | pooled | 5467 | 23.3 | 25.4 | -2.05 | [-2.78, -1.28] | [-2.84, -1.24] | [-2.87, -1.27] | yes |
+| s43 | A | 2079 | 25.8 | 24.1 | +1.68 | [+0.38, +3.08] | [+0.37, +2.99] | [+0.40, +3.01] | no |
+| s43 | B | 2044 | 26.5 | 26.7 | -0.20 | [-1.42, +1.03] | [-1.43, +1.00] | [-1.45, +1.02] | yes |
+| s43 | C | 1344 | 28.9 | 30.4 | -1.41 | [-2.53, -0.37] | [-2.60, -0.23] | [-2.51, -0.23] | yes |
+| s43 | pooled | 5467 | 26.8 | 26.6 | +0.22 | [-0.51, +0.93] | [-0.47, +0.95] | [-0.54, +0.95] | yes |
+| s44 | A | 2079 | 23.2 | 24.1 | -0.87 | [-2.12, +0.48] | [-2.23, +0.37] | [-2.20, +0.43] | yes |
+| s44 | B | 2044 | 23.6 | 24.3 | -0.73 | [-1.86, +0.34] | [-1.88, +0.35] | [-1.87, +0.46] | yes |
+| s44 | C | 1344 | 26.0 | 26.3 | -0.30 | [-1.56, +0.89] | [-1.56, +1.07] | [-1.57, +1.10] | yes |
+| s44 | pooled | 5467 | 24.1 | 24.7 | -0.68 | [-1.39, +0.00] | [-1.40, +0.04] | [-1.36, +0.05] | yes |
+
+
+Written: data/processed/final_eval_20260926/analysis/results.json, data/processed/final_eval_20260926/analysis/tables.md

@@ -1,0 +1,11 @@
+Token indices sequence length is longer than the specified maximum sequence length for this model (1206 > 512). Running this sequence through the model will result in indexing errors
+[2026-09-26 14:35:51] INFO build_final_test — Final test set built
+[2026-09-26 14:35:51] INFO build_final_test —   sst        loaded   100 -> final    99
+[2026-09-26 14:35:51] INFO build_final_test —   catqa      loaded   550 -> final   543
+[2026-09-26 14:35:51] INFO build_final_test —   dna_core   loaded   574 -> final   573
+[2026-09-26 14:35:51] INFO build_final_test —   dna_other  loaded   365 -> final   364
+[2026-09-26 14:35:51] INFO build_final_test —   coconot    loaded   379 -> final   378
+[2026-09-26 14:35:51] INFO build_final_test —   phtest     loaded  2077 -> final  1000
+[2026-09-26 14:35:51] INFO build_final_test —   no_robots  loaded   500 -> final   496
+[2026-09-26 14:35:51] INFO build_final_test —   total 3453 | safe 1874 | harmful primary 1215 | harmful secondary 364
+[2026-09-26 14:35:51] INFO build_final_test — Manifest -> data/benchmarks_final/manifest.json

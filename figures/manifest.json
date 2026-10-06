@@ -1,0 +1,149 @@
+{
+  "figures": {
+    "layer1_training_curves.png": {
+      "sources": [
+        {
+          "path": "artifacts/layer1/results.json",
+          "sha256": "adf1711ab3384b38146083764fc71a1ecffa95453e84fe2bc35d12519c50e346"
+        }
+      ],
+      "note": "epoch losses and validation accuracy as recorded by train_layer1.py"
+    },
+    "layer1_test_metrics.png": {
+      "sources": [
+        {
+          "path": "artifacts/layer1/results.json",
+          "sha256": "adf1711ab3384b38146083764fc71a1ecffa95453e84fe2bc35d12519c50e346"
+        }
+      ],
+      "note": "test_metrics and temperature_T; describes the classifier-only stacker"
+    },
+    "layer1_score_distribution.png": {
+      "sources": [
+        {
+          "path": "data/processed/final_eval_20260926/final_cascade_predictions/test.jsonl",
+          "sha256": "7a4a97d0a76a65d88ba57c96ac87d1fdcaf7c30d263d3d14a62a7b266f5de037"
+        }
+      ],
+      "note": "observed l1_score by true label; bands from layer1.thresholds in config"
+    },
+    "layer2_confidence.png": {
+      "sources": [
+        {
+          "path": "data/processed/final_eval_20260926/final_cascade_predictions/test.jsonl",
+          "sha256": "7a4a97d0a76a65d88ba57c96ac87d1fdcaf7c30d263d3d14a62a7b266f5de037"
+        }
+      ],
+      "note": "l2_confidence histogram; the judge ran one call per prompt, so there is no K-vote unanimity to show"
+    },
+    "redteam_bypass_rates.png": {
+      "sources": [
+        {
+          "path": "data/processed/redteam_all200_views.json",
+          "sha256": "1f2ef9cb9bfd8f2d3bdfeae56a578b716d5f41eb2abec7f16d9bb5c450c4d247"
+        }
+      ],
+      "note": "per-attack-type rates and the report's own sampling-design fields"
+    },
+    "redteam_attack_volume.png": {
+      "sources": [
+        {
+          "path": "data/processed/redteam_all200_views.json",
+          "sha256": "1f2ef9cb9bfd8f2d3bdfeae56a578b716d5f41eb2abec7f16d9bb5c450c4d247"
+        }
+      ],
+      "note": "row and distinct-text counts per attack type as recorded"
+    },
+    "pipeline_flow.png": {
+      "sources": [
+        {
+          "path": "data/processed/final_eval_20260926/final_cascade.json",
+          "sha256": "aa5039831726e6efe5541ff4bfa61c8d66f9001aef4fd8dbe02c809b627dfcf4"
+        }
+      ],
+      "note": "every count read from layer_stats and the red-team report; no literals"
+    },
+    "pipeline_flow_with_redteam.png": {
+      "sources": [
+        {
+          "path": "data/processed/final_eval_20260926/final_cascade.json",
+          "sha256": "aa5039831726e6efe5541ff4bfa61c8d66f9001aef4fd8dbe02c809b627dfcf4"
+        },
+        {
+          "path": "data/processed/redteam_all200_views.json",
+          "sha256": "1f2ef9cb9bfd8f2d3bdfeae56a578b716d5f41eb2abec7f16d9bb5c450c4d247"
+        }
+      ],
+      "note": "every count read from layer_stats and the red-team report; no literals"
+    },
+    "layer1_routing_distribution.png": {
+      "sources": [
+        {
+          "path": "data/processed/final_eval_20260926/final_cascade.json",
+          "sha256": "aa5039831726e6efe5541ff4bfa61c8d66f9001aef4fd8dbe02c809b627dfcf4"
+        }
+      ],
+      "note": "l1_allow / l1_gray_zone / l1_mitigate exactly as recorded"
+    },
+    "layer2_decisions.png": {
+      "sources": [
+        {
+          "path": "artifacts/layer2/results.json",
+          "sha256": "ccc122f154553e49325cade52f676b444da29659f1e0b01da309517cc5812f67"
+        }
+      ],
+      "note": "decision counts and means as recorded; title from the run's own config_snapshot"
+    },
+    "layer2_categories.png": {
+      "sources": [
+        {
+          "path": "artifacts/layer2/results.json",
+          "sha256": "ccc122f154553e49325cade52f676b444da29659f1e0b01da309517cc5812f67"
+        }
+      ],
+      "note": "top_categories as recorded"
+    },
+    "layer3_overview.png": {
+      "sources": [
+        {
+          "path": "artifacts/layer3/results.json",
+          "sha256": "438011c27d88870ae71c513ced4c27a68f2f58a232bf3d08cf10cdbed22c407a"
+        }
+      ],
+      "note": "mode_breakdown and summary rates as recorded; default_mode from config"
+    },
+    "layer3_categories.png": {
+      "sources": [
+        {
+          "path": "artifacts/layer3/results.json",
+          "sha256": "438011c27d88870ae71c513ced4c27a68f2f58a232bf3d08cf10cdbed22c407a"
+        }
+      ],
+      "note": "top_categories as recorded"
+    }
+  },
+  "skipped": [
+    {
+      "figure": "layer3_severity_histogram.png",
+      "reason": "per-sample file not found: None. Produce one with run_layer3.py --output PATH"
+    }
+  ],
+  "settings_used": {
+    "config_path": "config/config.yaml",
+    "layer1.classifier_only": true,
+    "layer1.normalise_input": true,
+    "layer1.payload_views": true,
+    "layer1.artifact_subdir": "layer1",
+    "layer1.thresholds.low": 0.3,
+    "layer1.thresholds.high": 0.7,
+    "layer2.consistency.mode": "logprob",
+    "layer2.consistency.K": 5,
+    "layer2.consistency.c_min": 0.8,
+    "layer2.consistency.allow_below": 0.4,
+    "layer2.consistency.mitigate_above": 0.6,
+    "layer2.judge.prompt_version": "v2",
+    "layer3.mitigation.default_mode": "refuse",
+    "layer3.mitigation.severity_refuse_threshold": 0.99
+  },
+  "rule": "Every plotted value is read from the listed sources or from config at run time. No figure is drawn from simulated, approximated or hard-coded values."
+}

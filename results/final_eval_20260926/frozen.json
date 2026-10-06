@@ -1,0 +1,184 @@
+{
+  "checkpoints": {
+    "historical": {
+      "dir": "artifacts/layer1",
+      "sha256": {
+        "artifacts/layer1/fusion_clf_only.joblib": "31889cdc07743f7281be135b7dbc5df152c09ff71a4a07c7823f5f5196d777bf",
+        "artifacts/layer1/scaler_clf_only.json": "be6bcfa1bf65626004727831e3335cee56f62d766a5311533b51fe973949a85a",
+        "artifacts/layer1/classifier/checkpoint_best/adapter_model.safetensors": "2f1fe055f3d9382d6d3439bdea71c3a347af949c17dcc5653f1e7e6e29984c73",
+        "artifacts/layer1/classifier/checkpoint_best/adapter_config.json": "f499b366a2fe33981201f03272c109cac8b16540ef4ec4ad3fd2784170f623bf"
+      }
+    },
+    "s42": {
+      "dir": "artifacts/layer1_repeat_study_nciJu1oQ_s42",
+      "sha256": {
+        "artifacts/layer1_repeat_study_nciJu1oQ_s42/fusion_clf_only.joblib": "096a87b8503c9a98e4ab0ab952f238a0e2c2064881fbd13bdbb01636740ec4c8",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s42/scaler_clf_only.json": "44facf00b6f32b4ca9a70d0249942f2348f298e0814bbf6627dbbd8ed66c6e90",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s42/classifier/checkpoint_best/adapter_model.safetensors": "18880fa56becb6fb00bd22af05d521f0a9853c39edf004ceaddf184108a7038d",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s42/classifier/checkpoint_best/adapter_config.json": "f499b366a2fe33981201f03272c109cac8b16540ef4ec4ad3fd2784170f623bf"
+      }
+    },
+    "s43": {
+      "dir": "artifacts/layer1_repeat_study_nciJu1oQ_s43",
+      "sha256": {
+        "artifacts/layer1_repeat_study_nciJu1oQ_s43/fusion_clf_only.joblib": "89f5230ad427ec75a971199d453615b54b06e1d88f1c81990bbd45f385c7da3e",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s43/scaler_clf_only.json": "629c3a2cddf0289b379b5d086a7969c6d6655a7ef18ad1d124fe4169b9385cdd",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s43/classifier/checkpoint_best/adapter_model.safetensors": "573e5a1a1439a2705d7690d08dbd3b32aaed6be04eb43b60d81dab46e49b7ac9",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s43/classifier/checkpoint_best/adapter_config.json": "f499b366a2fe33981201f03272c109cac8b16540ef4ec4ad3fd2784170f623bf"
+      }
+    },
+    "s44": {
+      "dir": "artifacts/layer1_repeat_study_nciJu1oQ_s44",
+      "sha256": {
+        "artifacts/layer1_repeat_study_nciJu1oQ_s44/fusion_clf_only.joblib": "7d8d7ee4d5e28f76af7247d2c92db70d1967711690eb7d321644d0ad7c88554b",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s44/scaler_clf_only.json": "ee0f7a2bcaead6c0b4a79cfec79783b400d79b491e03b372c5e46711810a6013",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s44/classifier/checkpoint_best/adapter_model.safetensors": "4dce5972d028464f0e1826c6e851ceb999451a9a6dc342b285c4ebdcc4171851",
+        "artifacts/layer1_repeat_study_nciJu1oQ_s44/classifier/checkpoint_best/adapter_config.json": "f499b366a2fe33981201f03272c109cac8b16540ef4ec4ad3fd2784170f623bf"
+      }
+    }
+  },
+  "files": {
+    "config/config.yaml": "bb735baa5a9536520ba90d0654e63695bc72fb579db31cee515d6de7168cbc26",
+    "layer1/__init__.py": "2bb960531593bf96c8ae75aa1e4672d4c0de9175019ea69204c9f5988eaa8ba9",
+    "layer1/augment.py": "8c03487fbb04cc4207965cc0ed6489203d12b85b3816db373c0a1ff1d8c5444b",
+    "layer1/classifier.py": "e9f14cfc93fda9683ce6d874cdfd2452faa9445729cde446d3046c9b9345ebdd",
+    "layer1/detector.py": "b2229b72407a547a86aa15424fa5e32d264b663ac626254c668252de8c89b2ce",
+    "layer1/features.py": "86d1d1f1398cd23403cf3166ea4efca3dfcde3ce46a9b78ff90914702f0fd0fe",
+    "layer1/fusion.py": "b58c18a259023257acd11c91d351ed0e8855d93439bc5c3953e6292bd596749d",
+    "layer1/normalise.py": "b113e0b58332fc20faf7c4230287978682c3c78fbe7c87328eeaab21b6f4b311",
+    "layer2/__init__.py": "d81f64bc8dff3933918ee822a307e154fc430659ac6f04ce6beb3282e05fa5fa",
+    "layer2/consistency.py": "8e68edd3c2b6f354559ecd406ce9eb64238683510d55ae91d346b0ae419f1b79",
+    "layer2/distillation.py": "6a17b655bd42100a412fc159caafbe0e536d78756ae413865814ca38404eb3a0",
+    "layer2/judge.py": "df055a194d48056503dda4c49f7b5f4afd63512beb8eb931832d37bdf22b7ed3",
+    "layer2/layer2_judge.py": "387e0b9be110e9f0335a59c212bde6f554d37313a89f46076e02fcc95f813f2e",
+    "layer3/__init__.py": "69bf6d14f55b69a8a4d8d1897cd1276ee574394aa9497274eb69e029b8e9a42d",
+    "layer3/constraints.py": "9753804276c3ef9c4ea93c7a34728680cf55ca571ab478352276675a39b4b0a8",
+    "layer3/fulfilment.py": "c7829929e698ec833d20ee66e64b84c3c7cc86fe0e14019ec3aaa79db06f0140",
+    "layer3/guard_llm.py": "b2d6007775d54f05d2dc7dc2c7747ff583b06319d647efdaef0c6f241a3f92df",
+    "layer3/layer3_mitigator.py": "2a4f8c26ce5549acebc478b4e6c26e0ff1eb97876ce515608612c72a324dd186",
+    "layer3/mitigator.py": "96a7b9e01bba1cc75d3a26f16549d659caf2b10af6e50ccc5b31507ced99ca43",
+    "evaluation/__init__.py": "d10ccc0560fb50f4230776c899771704ecc375a336f4100d52f1805f1d708a5d",
+    "evaluation/l2_variants.py": "7f69ac30f658941cd5a85bf7ebea7a421a1da0895b0940ff30bd451691326ded",
+    "evaluation/metrics.py": "c79eca83b9331af9c67380c5eaec6d6787f0f18783c0211054212e2f21fa464a",
+    "evaluation/pipeline_evaluator.py": "fb79a7930156230c22602f5b681abe5f8595558da40b5e6b18917f197c13e5dd",
+    "redteam/__init__.py": "9b693b90843e52431d444dd435e7cfa82e86c72d4e3c952502b0b422320e05c2",
+    "redteam/attacks.py": "7439005458ba90d4bdee6d3408de749eb5aac50dcd6b80a600e4f7373978a122",
+    "redteam/red_teamer.py": "c5ad58d75f161b307ab741eebfb72e503c790b0e06548610bd240312c0604d70",
+    "utils/__init__.py": "3d967ae1747b2091147214db2b2125eecb3e08a587fdefdff0797d3abd5316dd",
+    "utils/config_loader.py": "6045fe0fe8616bc86829b3eb263adef5e927282771ff92e3ce735e9270913ab7",
+    "utils/data_utils.py": "bbc05782b4f9f3bc7976bb230918dd5055a26c26bcffc5eac4743df3990505d0",
+    "utils/logger.py": "bef828565aca29a34d04c1ff796c06b5d1f65037115afde04b8eb825fd93a80e",
+    "utils/refusal.py": "45eb12dd00619b73fe2bedbcd06cbadd9c32916e72b1f2c0f3b3aa60093b912d",
+    "utils/run_info.py": "fbd18ac74d662b88b3e765e51ca52e6b248fddaf2c5a415259c773f29a056f25",
+    "scripts/build_datasets.py": "8a42c9113d4603351e50cf1eb2cb9976ff72c445dd74196be1a5a9e7790dc915",
+    "scripts/check_calibration.py": "3fab61272a6e03df458b34437aaad04e5162f6870649b143c6bf9ef1d69c8202",
+    "scripts/check_shared_model.py": "3824140931adfa6e2df725f7524c9eb55f63ff422897f639602053b5472b3916",
+    "scripts/compare_flips.py": "b4eb4e913d7f7830693842c531dbef2350113bd55354b6973c6a6244f2ebaa19",
+    "scripts/demo.py": "74ef031e6910e1f66a67153b5d3e0211a6052e76224af690ea17f4215d01791d",
+    "scripts/demo_layer1.py": "cfade86efc4886d9ca50b3f880971334b2073e32cacddb8985b2f30f78d54996",
+    "scripts/extract_gray_zone.py": "791f23aa2c577781518c78cd0fd2baa2352957b5b1c96ad1012985408f2b66bf",
+    "scripts/fetch_datasets.py": "7832bad23bb9abf0aef0de465def0149897d72de477205f61ca7506f1dc498ba",
+    "scripts/framing_diagnostic.py": "fd6a4d83f742222f5f0ed4a374922a07b4d04d28373f896a6df4a118eeb8a518",
+    "scripts/generate_prompt_pool.py": "4142834d2d4b4e9043196abd9812aafbfa3c2474f811f358e522a7d5c805da81",
+    "scripts/generate_report.py": "0effbdfdbf9894aca305cbd070c02e583a04cbd1d1059ba291c7426d948a801d",
+    "scripts/leak_reliability.py": "99ffb8378e92cab6ffbe41d5f65ba6643ae5b5ec9bf4a0aef287d0ae3cb28b33",
+    "scripts/make_l2_benchmarks.py": "8d4be46314f169b801970b80da51e098291ec43549d73d04ef2c0705e0a50b79",
+    "scripts/make_learner_arms.py": "d9998290d3a2b10b943229235fb6f79fc1f4d3ce720e152da9cfa544fc1d32ab",
+    "scripts/nist_mapping_report.py": "f2cb1aa8bd0756c21928405f85a91413fe8deae73d74818ef74bec7f4cdbf3c1",
+    "scripts/parity_attribution.py": "503c292c362c5c49ed9e6c8728ebc907ea254dcc6de709dcf1473c8dd9a39db3",
+    "scripts/plot_evaluation.py": "350777303c545831bd178b7fdd9788b89212942c89308aad918c1accfc4abb25",
+    "scripts/plot_layer1.py": "535728e7f14928aec60c3584b2f33af0d4f66d6ea03f807de8256e3d8b11ddd1",
+    "scripts/prepare_data.py": "429098f8c5e0e43b37a42bb9ef94e758b2060f583900c3715037af9ba4491a6d",
+    "scripts/refusal_eval.py": "e97b08db41ab752f68be1b58e41938870bf20b579b2c8b6546f7ce86b296ef30",
+    "scripts/repeat_study_nciJu1oQ_train.py": "eefa5f8ef8bfcbca250a1704352c75d5b48e9f5c3826e28735c7e27ff9b3eecb",
+    "scripts/rewrite_check_eval.py": "a6c3f96ae40ca8791d4d1f76a79db098557aa93a0194a66538dc4e8e35dd7022",
+    "scripts/run_ablation.py": "8b0b6b4f79404b98173e8e55ffb8d1c9218e9b994e57252f49788ea3dce4ffc9",
+    "scripts/run_evaluation.py": "08327a9fbca7f2fe08022ab3a62c2676adb681df662b6de06b0bdd6132d90407",
+    "scripts/run_layer2.py": "1e178d75afa62c4712ab584deb119dbda1a5f98fec1e40fcf1ca8374ce8dac83",
+    "scripts/run_layer3.py": "8361e8d76d87c89ef9981b02ad95ed107b89019d1e8b7c3f720202f2369daf26",
+    "scripts/run_red_team.py": "96e69336817bda94cfc85f9edd5d4e4fc9f6f9b77f7bf3773fdda11ec9845653",
+    "scripts/summarise_results.py": "0078e36f09bddbc9e0622e2892f4ac6facfcb5786a283a62a012bb5b3e552397",
+    "scripts/sweep_routing.py": "c3521a5d52d1a7eb8a7f334f195983b1fe2270989c2e15cf1f9d6dcc9203e4a8",
+    "scripts/train_layer1.py": "e9b92f83636fb870e48f8aaf5ef0634a3da2cbd09440d3f0197be3108b5ddafd",
+    "scripts/tune_judge.py": "5230f8616ddd89f248ef5f3cf18239eed49b8caa1d6b2b7ee9b0f879c0741594"
+  },
+  "pool": {
+    "train": {
+      "n": 15296,
+      "ids_sha1": "6632b6156735c238f7ce7fec84ec0a99844e0296",
+      "sha256": "1cbd738c531105218588d5ec77b493c16c2752886c9675757d3382e9c71f4c05"
+    },
+    "val": {
+      "n": 1912,
+      "ids_sha1": "7c7a35bc6deebf5079299239775cda0c7603e8c5",
+      "sha256": "16ce7eeab18f2e908256dc8b579c3a5060d54fcb06318c04d992ca04b91015e2"
+    },
+    "test": {
+      "n": 1912,
+      "ids_sha1": "c6f9a125b5dbf0f5cbe301dfbf1490f43ce5fae9",
+      "sha256": "7c451ef4407aad7e5abf9b1dcbba4754657d6fdbf73a37f36fcaef7602168e70"
+    }
+  },
+  "inputs": {
+    "jailbreakbench": {
+      "path": "data/benchmarks/jailbreakbench/test.jsonl",
+      "sha256": "48f48ef492b950e0ed234b5431cf3fcf326da9dbea86936fb2f44f23b67010e2"
+    },
+    "xstest": {
+      "path": "data/benchmarks/xstest/test.jsonl",
+      "sha256": "dbfae3fabba2bf5d2fc039ad6fd1f8477460968d251949c92cf3c6ed9ecf9719"
+    },
+    "harmbench": {
+      "path": "data/benchmarks/harmbench/test.jsonl",
+      "sha256": "a9db0c790bed0d0814244cc169c28644686338cb2b524df8074bae4c1d7a78ce"
+    },
+    "toxicchat": {
+      "path": "data/benchmarks/toxicchat/test.jsonl",
+      "sha256": "0874a036e0628f07157ed06a0f03781a56894f3e270bfdadc68cf2d89fe90905"
+    },
+    "orbench": {
+      "path": "data/benchmarks/orbench/test.jsonl",
+      "sha256": "fab7f52ace89d055eef84b3ec4c4a69206f6438cf7bf88628eed7906fbdbb463"
+    },
+    "learner_original_wi_a": {
+      "path": "data/benchmarks_learner/original/wi_a/test.jsonl",
+      "sha256": "2b3af012645deb66cb7b3d7c48b4b2d5f687c84f775054f25b76d2b69c74e49a"
+    },
+    "learner_original_wi_b": {
+      "path": "data/benchmarks_learner/original/wi_b/test.jsonl",
+      "sha256": "6b274fcc2b8b53b089781a8a90bf4293c7a5927fdeeaee109f12a89750746848"
+    },
+    "learner_original_wi_c": {
+      "path": "data/benchmarks_learner/original/wi_c/test.jsonl",
+      "sha256": "3d2d1877e1a46a613a9cb8ea84e3155bbf2fd4e8d4098a6d7282a35cb0bf8c30"
+    },
+    "learner_original_locness_n": {
+      "path": "data/benchmarks_learner/original/locness_n/test.jsonl",
+      "sha256": "1015fd04f99742918ffc6db3f7fcf6871c361fb22f3c350563b1257cfe8ba8a2"
+    },
+    "learner_corrected_wi_a": {
+      "path": "data/benchmarks_learner/corrected/wi_a/test.jsonl",
+      "sha256": "fb234e03bd586bc7605e4ab8352b04760c97b612b813963fbce4803ad2fa506b"
+    },
+    "learner_corrected_wi_b": {
+      "path": "data/benchmarks_learner/corrected/wi_b/test.jsonl",
+      "sha256": "f7a34c2129d930dff05549950154edc9c260f2125b8a79c8b30ab187e325ec17"
+    },
+    "learner_corrected_wi_c": {
+      "path": "data/benchmarks_learner/corrected/wi_c/test.jsonl",
+      "sha256": "016954b09f64ba9fbc991905a20635d7a3c78d79f7620503a902301c03c2cf42"
+    },
+    "learner_corrected_locness_n": {
+      "path": "data/benchmarks_learner/corrected/locness_n/test.jsonl",
+      "sha256": "6f9fe251f868e096268a68a622b16513a6b86779ac6a33d7b052a3f5c8753f32"
+    }
+  },
+  "git": {
+    "commit": "dc90a9e2124dac1ee81588059bde5239855c9fdf",
+    "dirty": false
+  },
+  "gpu": {
+    "cuda": true,
+    "name": "NVIDIA GeForce RTX 4050 Laptop GPU"
+  }
+}

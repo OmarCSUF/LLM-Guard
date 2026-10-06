@@ -1,0 +1,16 @@
+[2026-09-15 14:26:54] INFO build_datasets — Benchmarks: jailbreakbench 200, xstest 450, harmbench 200, toxicchat 4951, orbench 1974
+[2026-09-15 14:26:56] INFO build_datasets — Pool candidates: dolly 10544, toxicchat_train 5082, beavertails 4278, wildjailbreak 30000 (sampled from 100100 vanilla prompts)
+[2026-09-15 14:27:04] INFO build_datasets — After near-duplicate collapse: 49292
+[2026-09-15 14:27:08] INFO build_datasets — After removing evaluation overlap: 48995
+[2026-09-15 14:27:08] INFO build_datasets — Balanced: 9560 per class, 5000 of them from WildJailbreak in each class (limited by mitigate)
+[2026-09-15 14:27:08] INFO build_datasets — Checking overlaps with independent hash permutations...
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/benchmarks/jailbreakbench/test.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/benchmarks/xstest/test.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/benchmarks/harmbench/test.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/benchmarks/toxicchat/test.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/distillation_pool/train.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/distillation_pool/val.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/distillation_pool/test.jsonl
+[2026-09-15 14:27:19] WARNING utils.run_info — Overwriting existing results file: /home/OmarLaptop/Omar/GaurdLLm-vibe-main/data/distillation_pool/metadata.json
+[2026-09-15 14:27:19] INFO build_datasets — Metadata → data/distillation_pool/metadata.json
+[2026-09-15 14:27:19] INFO build_datasets — Splits: train 15296, val 1912, test 1912 | all overlap checks 0

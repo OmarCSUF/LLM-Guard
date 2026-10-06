@@ -1,0 +1,76 @@
+{
+  "purpose": "Training variability of the existing recipe, not selection of the best test seed",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "batch_size": 8,
+  "pool": {
+    "train": {
+      "n": 15296,
+      "ids_sha1": "6632b6156735c238f7ce7fec84ec0a99844e0296",
+      "sha256": "1cbd738c531105218588d5ec77b493c16c2752886c9675757d3382e9c71f4c05"
+    },
+    "val": {
+      "n": 1912,
+      "ids_sha1": "7c7a35bc6deebf5079299239775cda0c7603e8c5",
+      "sha256": "16ce7eeab18f2e908256dc8b579c3a5060d54fcb06318c04d992ca04b91015e2"
+    },
+    "test": {
+      "n": 1912,
+      "ids_sha1": "c6f9a125b5dbf0f5cbe301dfbf1490f43ce5fae9",
+      "sha256": "7c451ef4407aad7e5abf9b1dcbba4754657d6fdbf73a37f36fcaef7602168e70"
+    }
+  },
+  "training_entrypoint": "scripts/repeat_study_nciJu1oQ_train.py",
+  "change_from_historical_runs": "Explicit seed and reset directly before classifier initialisation",
+  "possible_learner_metadata_files": [
+    {
+      "path": "data/raw/wi_locness/wi+locness/licence.wi.txt",
+      "bytes": 1712
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/readme.txt",
+      "bytes": 7581
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/license.locness.txt",
+      "bytes": 741
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/B.dev.json",
+      "bytes": 183607
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/A.dev.json",
+      "bytes": 168371
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/C.dev.json",
+      "bytes": 138011
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/C.train.json",
+      "bytes": 1330396
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/N.dev.json",
+      "bytes": 144833
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/A.train.json",
+      "bytes": 1655485
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/json/B.train.json",
+      "bytes": 1807058
+    },
+    {
+      "path": "data/raw/wi_locness/wi+locness/test/readme.txt",
+      "bytes": 588
+    }
+  ],
+  "evaluation": "Existing five benchmarks, current classifier-only stacker, normalisation, payload views, v2 logprob judge, refuse default",
+  "interpretation": "Development benchmarks; not a fresh final test and not evidence of end-to-end harmful-completion prevention"
+}

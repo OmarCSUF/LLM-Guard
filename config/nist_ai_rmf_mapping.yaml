@@ -1,0 +1,215 @@
+# NIST AI RMF 1.0 mapping for LLM-Guard
+# ======================================
+# Framework: NIST AI 100-1, "Artificial Intelligence Risk Management Framework
+# (AI RMF 1.0)", National Institute of Standards and Technology, January 2023.
+# The Core has four functions (GOVERN, MAP, MEASURE, MANAGE) and 72 subcategories.
+#
+# What this file is. Each entry names one subcategory, quotes its statement verbatim
+# from the AI RMF Core tables, points at the files in this repository that bear on
+# it, and says how far the work meets it:
+#   implemented      the statement holds for this system as built
+#   partial          something in the repository bears on it, and the gap is named
+#   not_implemented  nothing in the repository bears on it
+# Subcategories that are not listed are not claimed at all.
+#
+# What this file is not. It is not a conformance claim. The AI RMF is voluntary and
+# has no conformance procedure. This is a self-assessment of a research prototype,
+# written so that every line can be checked against a file.
+#
+# How it is used at run time. utils/logger.py reads runtime_events when
+# logging.nist_mapping is on and writes the listed ids into every audit record of
+# that event. Only ids whose status is implemented or partial may appear there, so
+# the audit log never cites a control the system does not have.
+# scripts/nist_mapping_report.py checks all of this and renders
+# docs/nist_ai_rmf_mapping.md.
+
+framework: "NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0), January 2023"
+statement_source: "AI RMF Core tables of NIST AI 100-1, quoted verbatim and checked against the PDF text on 23 September 2026"
+
+# Audit events (utils/logger.py) -> the subcategories a record of that event evidences.
+runtime_events:
+  l1_decision:   [GOVERN 4.3, MANAGE 4.1]
+  l2_judgement:  [GOVERN 4.3, MANAGE 4.1, MEASURE 2.9]
+  l3_mitigation: [GOVERN 4.3, MANAGE 1.3, MANAGE 4.1]
+
+subcategories:
+
+  # ---- GOVERN -----------------------------------------------------------------
+
+  - id: GOVERN 1.5
+    statement: "Ongoing monitoring and periodic review of the risk management process and its outcomes are planned and organizational roles and responsibilities clearly defined, including determining the frequency of periodic review."
+    status: not_implemented
+    evidence: []
+    gap: "A research prototype with no organisation behind it: no roles, no review cadence and no risk management process to review."
+
+  - id: GOVERN 4.3
+    statement: "Organizational practices are in place to enable AI testing, identification of incidents, and information sharing."
+    status: partial
+    evidence:
+      - path: scripts/run_evaluation.py
+        note: repeatable benchmark evaluation with bootstrap intervals
+      - path: scripts/run_red_team.py
+        note: repeatable adversarial testing, resumable, every variant stored
+      - path: scripts/run_ablation.py
+        note: replayed ablation over stored signals
+      - path: utils/logger.py
+        note: one record per decision at every layer, from which an incident can be identified after the fact
+    gap: "Testing is enabled and was done; no practice identifies incidents from the log while the system runs, and nothing is shared outside the thesis. The offline test suites and the numbered patch series live outside this repository."
+
+  - id: GOVERN 6.1
+    statement: "Policies and procedures are in place that address AI risks associated with third-party entities, including risks of infringement of a third-party's intellectual property or other rights."
+    status: partial
+    evidence:
+      - path: artifacts/layer2/Qwen_Model_Justification.md
+        note: choice of the third-party judge model and the alternatives considered
+    gap: "The judge model is released under a research licence, which the thesis records as a bar to release or commercial use; dataset licences are recorded at fetch time. Neither is a policy or a procedure."
+
+  # ---- MAP --------------------------------------------------------------------
+
+  - id: MAP 1.1
+    statement: "Intended purposes, potentially beneficial uses, context-specific laws, norms and expectations, and prospective settings in which the AI system will be deployed are understood and documented."
+    status: partial
+    evidence:
+      - path: README.md
+        note: intended purpose, the three-layer design and the hardware target
+    gap: "Purpose and setting are documented; context-specific laws, norms and expectations are not addressed."
+
+  - id: MAP 5.1
+    statement: "Likelihood and magnitude of each identified impact (both potentially beneficial and harmful) based on expected use, past uses of AI systems in similar contexts, public incident reports, feedback from those external to the team that developed or deployed the AI system, or other data are identified and documented."
+    status: partial
+    evidence:
+      - path: redteam/red_teamer.py
+        note: bypass rate per attack type, with the mitigation served, as the measured likelihood of a harmful request passing
+      - path: docs/leak_codebook.md
+        note: scoring rules that grade what a served rewrite supplies, as a measure of magnitude
+    gap: "Likelihood comes from one seed set and six template attack types (eight are implemented; the two model-written families were not used in the reported runs); magnitude is graded by one reviewer so far. Past uses, public incident reports and external feedback are not used."
+
+  # ---- MEASURE ----------------------------------------------------------------
+
+  - id: MEASURE 1.1
+    statement: "Approaches and metrics for measurement of AI risks enumerated during the map function are selected for implementation starting with the most significant AI risks."
+    status: implemented
+    evidence:
+      - path: evaluation/metrics.py
+        note: harmful-allowed and safe-blocked rates, AUROC, calibration, paired bootstrap intervals
+      - path: docs/validation_policy.md
+        note: which set selected each metric and threshold, and which set reports it
+    gap: ""
+
+  - id: MEASURE 2.5
+    statement: "The AI system to be deployed is demonstrated to be valid and reliable. Limitations of the generalizability beyond the conditions under which the technology was developed are documented."
+    status: implemented
+    evidence:
+      - path: evaluation/pipeline_evaluator.py
+        note: evaluation on four external benchmarks
+      - path: evaluation/metrics.py
+        note: bootstrap intervals on every reported rate
+      - path: docs/validation_policy.md
+        note: selection and reporting sets kept apart; decisions that were made on the reporting set are listed as such
+    gap: "Reliability across training seeds was measured for Layer 1 only, where the same recipe moves AUROC by 0.04 between seeds. The limits of generalisation are in the thesis, not in this repository."
+
+  - id: MEASURE 2.6
+    statement: "The AI system is evaluated regularly for safety risks – as identified in the map function. The AI system to be deployed is demonstrated to be safe, its residual negative risk does not exceed the risk tolerance, and it can fail safely, particularly if made to operate beyond its knowledge limits."
+    status: partial
+    evidence:
+      - path: layer3/mitigator.py
+        note: refuse is the default mode; an uncertain verdict, a refuse-always category or a high severity all refuse
+      - path: layer3/layer3_mitigator.py
+        note: safe_rewrite falls back to refuse when no Guard-LLM is loaded, when every candidate fails or when the rewrite check withholds it
+      - path: redteam/red_teamer.py
+        note: an exception during classification counts as a bypass, so a crash cannot improve a rate
+    gap: "Evaluated once, not regularly. No risk tolerance was stated in advance, so residual risk is reported rather than compared with a bound."
+
+  - id: MEASURE 2.7
+    statement: "AI system security and resilience – as identified in the map function – are evaluated and documented."
+    status: implemented
+    evidence:
+      - path: redteam/red_teamer.py
+        note: adversarial evaluation, rates over distinct variants, every variant stored with the mitigation served
+      - path: redteam/attacks.py
+        note: six template attack types in the reported runs (eight implemented), each labelled by whether it provably keeps the harmful request
+      - path: layer1/normalise.py
+        note: the resilience measure adopted in response, input normalisation and payload views
+    gap: "One seed set and one harm taxonomy; the two model-written attack types share the judge model, so the attacker is no stronger than the defender."
+
+  - id: MEASURE 2.9
+    statement: "The AI model is explained, validated, and documented, and AI system output is interpreted within its context – as identified in the map function – to inform responsible use and governance."
+    status: partial
+    evidence:
+      - path: layer2/layer2_judge.py
+        note: the judge's decision, category, severity and rationale are written to the audit record
+      - path: layer1/detector.py
+        note: each decision exposes its three signals, the fused and calibrated scores and the normalisation applied
+      - path: scripts/run_ablation.py
+        note: which signals carry information, measured by removing them
+    gap: "The rationale is model-written text, not a validated explanation. The Layer-1 classifier is explained only by its inputs."
+
+  - id: MEASURE 2.11
+    statement: "Fairness and bias – as identified in the map function – are evaluated and results are documented."
+    status: partial
+    evidence:
+      - path: evaluation/l2_variants.py
+        note: safe prompts rewritten with grammatical features typical of non-native English, compared prompt by prompt with the originals
+    gap: "A grammatical proxy for non-native writing, not a sample of it; no other attribute was examined."
+
+  - id: MEASURE 3.3
+    statement: "Feedback processes for end users and impacted communities to report problems and appeal system outcomes are established and integrated into AI system evaluation metrics."
+    status: not_implemented
+    evidence: []
+    gap: "No feedback or appeal channel exists. The escalated_to_human flag is set by Layer 3 and consumed by nothing."
+
+  - id: MEASURE 4.2
+    statement: "Measurement results regarding AI system trustworthiness in deployment context(s) and across the AI lifecycle are informed by input from domain experts and relevant AI actors to validate whether the system is performing consistently as intended. Results are documented."
+    status: partial
+    evidence:
+      - path: docs/leak_codebook.md
+        note: manual review protocol for served rewrites, with a second reviewer and pre-committed agreement statistics
+      - path: scripts/leak_reliability.py
+        note: agreement, clustering and sensitivity computations for that review
+    gap: "One reviewer so far, and no domain expert. The second review is planned, not done."
+
+  # ---- MANAGE -----------------------------------------------------------------
+
+  - id: MANAGE 1.3
+    statement: "Responses to the AI risks deemed high priority, as identified by the map function, are developed, planned, and documented. Risk response options can include mitigating, transferring, avoiding, or accepting."
+    status: implemented
+    evidence:
+      - path: layer3/mitigator.py
+        note: mode selection rules, refuse-always categories, severity threshold, escalation refused
+      - path: config/config.yaml
+        note: layer3.mitigation.default_mode is refuse
+      - path: config/safety_templates.yaml
+        note: refusal templates per category and the constraint patterns
+      - path: layer1/normalise.py
+        note: the response to obfuscation attacks found by the red team
+    gap: "The options used are mitigate and avoid. Residual bypasses are documented; no explicit accepted-risk statement exists."
+
+  - id: MANAGE 2.4
+    statement: "Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use."
+    status: partial
+    evidence:
+      - path: layer3/layer3_mitigator.py
+        note: when every rewrite candidate fails, the output is a fixed notice and escalated_to_human is set; without a Guard-LLM the mode falls back to refuse
+      - path: layer3/mitigator.py
+        note: an uncertain judge verdict is refused rather than generated for
+    gap: "The mechanisms disengage generation for one prompt. There is no operator switch, no responsibility assigned, and the escalation flag is received by nothing."
+
+  - id: MANAGE 4.1
+    statement: "Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating input from users and other relevant AI actors, appeal and override, decommissioning, incident response, recovery, and change management."
+    status: partial
+    evidence:
+      - path: utils/logger.py
+        note: every decision at every layer is captured as a JSON line, with a hash that joins one prompt's three records
+      - path: layer2/distillation.py
+        note: confident judge labels are captured to a pool
+    gap: "A log and a pool are capture mechanisms, not a plan. There is no review cadence, appeal, override, decommissioning, incident response or change management, and nothing reads the pool."
+
+  - id: MANAGE 4.3
+    statement: "Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented."
+    status: partial
+    evidence:
+      - path: redteam/red_teamer.py
+        note: every bypass and every leaked rewrite is written to a failure log with the output served
+      - path: scripts/run_red_team.py
+        note: per-variant rows stream to disk and survive an interruption
+    gap: "Failures are recorded, not communicated to anyone, and there is no incident process."

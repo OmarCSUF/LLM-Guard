@@ -1,0 +1,157 @@
+{
+ "granite": {
+  "final_test_set": {
+   "n": 3453,
+   "native_parse_ok": 3453,
+   "agreement": 0.998262380538662,
+   "n_disagree": 6,
+   "disagreements": {
+    "native safe, score >= 0.5": 6
+   },
+   "answer_mass": {
+    "median": 0.999725,
+    "min": 0.927798,
+    "share_below_0.5": 0.0,
+    "share_below_0.9": 0.0
+   },
+   "disagree_scores": {
+    "min": 0.500007,
+    "max": 0.500021,
+    "median": 0.500014
+   }
+  },
+  "pool_validation": {
+   "n": 1912,
+   "native_parse_ok": 1912,
+   "agreement": 0.997907949790795,
+   "n_disagree": 4,
+   "disagreements": {
+    "native safe, score >= 0.5": 4
+   },
+   "answer_mass": {
+    "median": 0.999753,
+    "min": 0.918198,
+    "share_below_0.5": 0.0,
+    "share_below_0.9": 0.0
+   },
+   "disagree_scores": {
+    "min": 0.500007,
+    "max": 0.500029,
+    "median": 0.5000125
+   }
+  }
+ },
+ "llamaguard": {
+  "final_test_set": {
+   "n": 3453,
+   "native_parse_ok": 3453,
+   "agreement": 0.9997103967564437,
+   "n_disagree": 1,
+   "disagreements": {
+    "native safe, score >= 0.5": 1
+   },
+   "answer_mass": {
+    "median": 0.999965,
+    "min": 0.964323,
+    "share_below_0.5": 0.0,
+    "share_below_0.9": 0.0
+   },
+   "answer_step": {
+    "1": 3453
+   },
+   "disagree_scores": {
+    "min": 0.5,
+    "max": 0.5,
+    "median": 0.5
+   }
+  },
+  "pool_validation": {
+   "n": 1912,
+   "native_parse_ok": 1912,
+   "agreement": 0.9994769874476988,
+   "n_disagree": 1,
+   "disagreements": {
+    "native safe, score >= 0.5": 1
+   },
+   "answer_mass": {
+    "median": 0.999975,
+    "min": 0.99567,
+    "share_below_0.5": 0.0,
+    "share_below_0.9": 0.0
+   },
+   "answer_step": {
+    "1": 1912
+   },
+   "disagree_scores": {
+    "min": 0.5,
+    "max": 0.5,
+    "median": 0.5
+   }
+  }
+ },
+ "shieldgemma": {
+  "final_test_set": {
+   "n": 3453,
+   "native_parse_ok": 3453,
+   "agreement": 1.0,
+   "n_disagree": 0,
+   "disagreements": {},
+   "answer_mass": {
+    "median": 0.999985,
+    "min": 0.998525,
+    "share_below_0.5": 0.0,
+    "share_below_0.9": 0.0
+   },
+   "shieldgemma": {
+    "any_yes_vs_max_p": 1.0,
+    "per_policy_agreement": {
+     "dangerous": 1.0,
+     "harassment": 1.0,
+     "hate": 1.0,
+     "sexual": 1.0
+    },
+    "worst_policy": {
+     "dangerous": 1961,
+     "harassment": 366,
+     "sexual": 280,
+     "hate": 846
+    }
+   }
+  },
+  "pool_validation": {
+   "n": 1912,
+   "native_parse_ok": 1912,
+   "agreement": 0.9994769874476988,
+   "n_disagree": 1,
+   "disagreements": {
+    "native safe, score >= 0.5": 1
+   },
+   "answer_mass": {
+    "median": 0.999985,
+    "min": 0.998877,
+    "share_below_0.5": 0.0,
+    "share_below_0.9": 0.0
+   },
+   "disagree_scores": {
+    "min": 0.500019,
+    "max": 0.500019,
+    "median": 0.500019
+   },
+   "shieldgemma": {
+    "any_yes_vs_max_p": 0.9994769874476988,
+    "per_policy_agreement": {
+     "dangerous": 0.9989539748953975,
+     "harassment": 1.0,
+     "hate": 0.9994769874476988,
+     "sexual": 1.0
+    },
+    "worst_policy": {
+     "harassment": 200,
+     "hate": 645,
+     "dangerous": 959,
+     "sexual": 108
+    }
+   }
+  }
+ }
+}

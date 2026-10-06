@@ -1,0 +1,50 @@
+[2026-09-26 14:43:08] INFO run_judge_only — 3453 prompts from data/benchmarks_final/final_test/test.jsonl as benchmark 'test'
+[2026-09-26 14:43:09] INFO run_judge_only — Loading Layer 2 (no Layer 1)...
+[2026-09-26 14:43:09] INFO layer2.layer2_judge — Initialising Layer2Judge...
+[2026-09-26 14:43:09] INFO layer2.judge — Loading HuggingFace judge model: /home/OmarLaptop/hf_models/Qwen2.5-3B-Instruct (4bit=True)
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.19s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.72s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.79s/it]
+[2026-09-26 14:43:14] INFO layer2.judge — Model loaded in 4-bit NF4 quantisation.
+[2026-09-26 14:43:14] INFO layer2.judge — Judge model ready on device: cuda:0
+[2026-09-26 14:43:14] INFO layer2.distillation — DistillationBuffer: retrain_every_n=1000, pool=data/distillation_pool/, cumulative_so_far=0
+[2026-09-26 14:43:14] INFO layer2.layer2_judge — Layer2Judge ready.
+[2026-09-26 14:43:47] INFO run_judge_only —   100/3453 | 0.33s/prompt
+[2026-09-26 14:44:20] INFO run_judge_only —   200/3453 | 0.33s/prompt
+[2026-09-26 14:44:53] INFO run_judge_only —   300/3453 | 0.33s/prompt
+[2026-09-26 14:45:27] INFO run_judge_only —   400/3453 | 0.33s/prompt
+[2026-09-26 14:46:00] INFO run_judge_only —   500/3453 | 0.33s/prompt
+[2026-09-26 14:46:33] INFO run_judge_only —   600/3453 | 0.33s/prompt
+[2026-09-26 14:53:06] INFO run_judge_only —   700/3453 | 0.85s/prompt
+[2026-09-26 14:59:42] INFO run_judge_only —   800/3453 | 1.23s/prompt
+[2026-09-26 15:04:28] INFO run_judge_only —   900/3453 | 1.42s/prompt
+[2026-09-26 15:04:56] INFO run_judge_only —   1000/3453 | 1.30s/prompt
+[2026-09-26 15:05:24] INFO run_judge_only —   1100/3453 | 1.21s/prompt
+[2026-09-26 15:05:52] INFO run_judge_only —   1200/3453 | 1.13s/prompt
+[2026-09-26 15:06:20] INFO run_judge_only —   1300/3453 | 1.07s/prompt
+[2026-09-26 15:06:48] INFO run_judge_only —   1400/3453 | 1.01s/prompt
+[2026-09-26 15:07:17] INFO run_judge_only —   1500/3453 | 0.96s/prompt
+[2026-09-26 15:07:45] INFO run_judge_only —   1600/3453 | 0.92s/prompt
+[2026-09-26 15:08:13] INFO run_judge_only —   1700/3453 | 0.88s/prompt
+[2026-09-26 15:08:41] INFO run_judge_only —   1800/3453 | 0.85s/prompt
+[2026-09-26 15:09:10] INFO run_judge_only —   1900/3453 | 0.82s/prompt
+[2026-09-26 15:09:38] INFO run_judge_only —   2000/3453 | 0.79s/prompt
+[2026-09-26 15:10:07] INFO run_judge_only —   2100/3453 | 0.77s/prompt
+[2026-09-26 15:10:36] INFO run_judge_only —   2200/3453 | 0.75s/prompt
+[2026-09-26 15:11:05] INFO run_judge_only —   2300/3453 | 0.73s/prompt
+[2026-09-26 15:11:34] INFO run_judge_only —   2400/3453 | 0.71s/prompt
+[2026-09-26 15:12:02] INFO run_judge_only —   2500/3453 | 0.69s/prompt
+[2026-09-26 15:12:31] INFO run_judge_only —   2600/3453 | 0.68s/prompt
+[2026-09-26 15:13:00] INFO run_judge_only —   2700/3453 | 0.66s/prompt
+[2026-09-26 15:13:29] INFO run_judge_only —   2800/3453 | 0.65s/prompt
+[2026-09-26 15:13:58] INFO run_judge_only —   2900/3453 | 0.64s/prompt
+[2026-09-26 15:14:28] INFO run_judge_only —   3000/3453 | 0.62s/prompt
+[2026-09-26 15:14:59] INFO run_judge_only —   3100/3453 | 0.61s/prompt
+[2026-09-26 15:15:29] INFO run_judge_only —   3200/3453 | 0.60s/prompt
+[2026-09-26 15:16:00] INFO run_judge_only —   3300/3453 | 0.60s/prompt
+[2026-09-26 15:16:31] INFO run_judge_only —   3400/3453 | 0.59s/prompt
+[2026-09-26 15:16:47] INFO run_judge_only —   3453/3453 | 0.58s/prompt
+[2026-09-26 15:16:47] INFO run_judge_only — Results -> data/processed/final_eval_20260926/final_judge.json | predictions -> data/processed/final_eval_20260926/final_judge_predictions/test.jsonl
+[2026-09-26 15:16:47] INFO run_judge_only —   {"auroc": 0.8132, "safe_blocked": null, "harmful_allowed": null, "accuracy": 0.762, "escalation_rate": 0.0145}

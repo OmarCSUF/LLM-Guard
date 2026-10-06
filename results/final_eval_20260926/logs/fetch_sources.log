@@ -1,0 +1,21 @@
+[2026-09-26 14:35:29] INFO fetch_final_sources — Endpoint: https://huggingface.co | token: yes
+[2026-09-26 14:35:29] INFO fetch_final_sources — Fetching sst...
+[2026-09-26 14:35:30] INFO fetch_datasets —   Bertievidgen/SimpleSafetyTests/sst_test_cases.csv: downloading 12 KB
+[2026-09-26 14:35:32] INFO fetch_datasets —   Bertievidgen/SimpleSafetyTests/sst_test_cases.csv: verified (git-sha1)
+[2026-09-26 14:35:32] INFO fetch_final_sources — Fetching catqa...
+[2026-09-26 14:35:33] INFO fetch_datasets —   declare-lab/CategoricalHarmfulQA/data/catqa_english.json: downloading 104 KB
+[2026-09-26 14:35:34] INFO fetch_datasets —   declare-lab/CategoricalHarmfulQA/data/catqa_english.json: verified (git-sha1)
+[2026-09-26 14:35:34] INFO fetch_final_sources — Fetching dna...
+[2026-09-26 14:35:35] INFO fetch_datasets —   LibrAI/do-not-answer/data_en.csv: downloading 3821 KB
+[2026-09-26 14:35:36] INFO fetch_datasets —   LibrAI/do-not-answer/data_en.csv: verified (git-sha1)
+[2026-09-26 14:35:36] INFO fetch_final_sources — Fetching coconot...
+[2026-09-26 14:35:37] INFO fetch_datasets —   allenai/coconot/contrast/test-00000-of-00001.parquet: downloading 20 KB
+[2026-09-26 14:35:39] INFO fetch_datasets —   allenai/coconot/contrast/test-00000-of-00001.parquet: verified (sha256)
+[2026-09-26 14:35:39] INFO fetch_final_sources — Fetching phtest...
+[2026-09-26 14:35:40] INFO fetch_datasets —   furonghuang-lab/PHTest/PHTest.csv: downloading 651 KB
+[2026-09-26 14:35:41] INFO fetch_datasets —   furonghuang-lab/PHTest/PHTest.csv: verified (git-sha1)
+[2026-09-26 14:35:41] INFO fetch_final_sources — Fetching no_robots...
+[2026-09-26 14:35:42] INFO fetch_datasets —   HuggingFaceH4/no_robots/data/test-00000-of-00001.parquet: downloading 558 KB
+[2026-09-26 14:35:44] INFO fetch_datasets —   HuggingFaceH4/no_robots/data/test-00000-of-00001.parquet: verified (sha256)
+[2026-09-26 14:35:44] INFO fetch_final_sources — Manifest -> data/raw/hf_final/manifest.json
+[2026-09-26 14:35:44] INFO fetch_final_sources — All final-test sources fetched and verified.

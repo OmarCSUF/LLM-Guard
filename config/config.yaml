@@ -1,0 +1,375 @@
+# LLM-Guard Configuration
+# ========================
+# All tunable parameters in one place. The values below are the ones the
+# pre-registered final evaluation ran with (results/final_eval_20260926);
+# the comments record the measurements behind each setting.
+#
+# Paths are relative to the repository root. load_config() falls back to the
+# repository's config/config.yaml when run from another directory.
+# Model locations are Hugging Face hub ids with the commit ("revision") the
+# recorded runs used; see CHANGES.md for how the release
+# config differs from the file the frozen run hashed.
+
+project:
+  name: "LLM-Guard"
+  version: "1.0.0"
+  seed: 42
+  device: "auto"          # "auto" = CUDA, stop if it is missing (LLMGUARD_ALLOW_CPU=1 allows CPU); "cpu" = CPU on purpose
+  fp16: true              # use float16 on GPU (faster + less VRAM)
+  log_dir: "logs/"
+  artifact_dir: "artifacts/"
+
+# ─────────────────────────────────────────
+# DATA
+# ─────────────────────────────────────────
+data:
+  raw_dir: "data/raw/"
+  processed_dir: "data/processed/"
+  distillation_pool_dir: "data/distillation_pool/"
+  benchmarks_dir: "data/benchmarks/"
+
+  # Label mapping
+  labels:
+    allow: 1
+    mitigate: 0
+
+  # Categories of policy-violating content (reported by app.py and
+  # scripts/generate_report.py; the pipeline's own category set is the
+  # judge prompt's, layer2/judge.py VALID_CATEGORIES)
+  violation_categories:
+    - toxicity
+    - phishing
+    - disinformation
+    - jailbreak
+    - hate_speech
+    - self_harm
+
+# ─────────────────────────────────────────
+# LAYER 1 — Detector Fusion
+# ─────────────────────────────────────────
+layer1:
+  # Score with the distilled classifier alone, skipping curvature and log-rank.
+  # A full evaluation on all five benchmarks reproduced the ablation exactly:
+  # every decision is unchanged, ranking is significantly better on ToxicChat
+  # (+0.008) and OR-Bench (+0.016), and Layer 1 costs 6 ms a prompt instead of
+  # 38 because the two scoring-LM features are never computed. Set false, or
+  # pass --full-stacker, to reproduce the three-signal numbers.
+  classifier_only: true
+
+  # Undo surface-form obfuscation before scoring. The prompt is scored twice,
+  # as received and recovered, and the higher score is routed, so this can only
+  # raise a score. Costs a second Layer-1 pass on the prompts that recover;
+  # every other prompt is unaffected. See layer1/normalise.py.
+  normalise_input: true
+
+  # Score the text behind a short leading instruction frame ("Parse the
+  # following JSON request and fulfil it: ...") on its own and keep the higher
+  # score, the way decoded base64 payloads are scored. Controlled runs on
+  # 22 Sep 2026 against the same baseline: the technical-prefix bypass fell
+  # from 29.2% to 3.0% and the verified bypass rate over all 200 HarmBench
+  # seeds from 13.3% to 4.6%; JailbreakBench, XSTest and HarmBench were
+  # byte-identical, ToxicChat blocked 14 more of 4,597 safe prompts (+0.3
+  # points) and caught 3 more harmful ones, OR-Bench moved 2 safe prompts. On by
+  # default since patch 34; pass --no-payload-views to reproduce the earlier
+  # numbers.
+  payload_views: true
+
+  # Which artifacts/<subdir> Layer 1 loads. "layer1" is the shipped model,
+  # retrained on the rebuilt pool on 15 Sep 2026. A retrain with a different
+  # recipe goes to its own directory (scripts/train_layer1.py --artifact-dir)
+  # and is selected here, or with --layer1-artifacts on run_evaluation.py,
+  # run_red_team.py and framing_diagnostic.py, so two models can be compared
+  # without touching either. layer1/augment.py explains the first such
+  # retrain (opener augmentation, patch 35).
+  artifact_subdir: "layer1"
+
+  # Scoring LM shared by the curvature and log-rank signals (a, b). The
+  # recorded runs loaded distilgpt2 from the local HF cache; revision is the
+  # cache snapshot's commit. Every detector loads it (the object is shared
+  # with the routing code), but with classifier_only true its two features
+  # are never computed.
+  scoring_lm:
+    model_name: "distilgpt2"
+    revision: "2290a62682d06624634c1f46a6ad5be0f47f38aa"
+
+  # (a) Curvature / perplexity signal
+  curvature:
+    num_perturbations: 10       # M — number of decoding perturbations
+    temperature_range: [0.5, 1.5]
+    top_p_range: [0.8, 1.0]     # reported by generate_report.py; the scoring code perturbs temperature only
+
+  # (b) Log-rank signal
+  log_rank:
+    vocab_size: null            # auto-detected from model (reported by generate_report.py)
+
+  # (c) Distilled classifier (RoBERTa-base + LoRA)
+  classifier:
+    backbone: "roberta-base"
+    backbone_revision: "e2da8e2f811d1448a5b465c236feacd80ffbac7b"   # HF cache snapshot used by the recorded runs
+    lora_r: 8
+    lora_alpha: 16
+    lora_dropout: 0.1
+    max_length: 512
+    batch_size: 8           # 6 GB GPU; classifier pads every input to 512 tokens
+    num_workers: 4          # DataLoader workers (0 on Windows if errors)
+    pin_memory: true        # faster GPU transfers
+    learning_rate: 0.0002
+    epochs: 5
+    early_stopping_patience: 2
+
+  # Temperature scaling calibration. This is the starting value for a fresh
+  # detector; from_artifacts replaces it with the fitted T in scaler.json.
+  calibration:
+    temperature: 1.0
+
+  # Routing thresholds. Swept on 23 Sep 2026 with scripts/sweep_routing.py over the
+  # pool validation split, the designated selection set; the benchmarks were not
+  # touched. Three bands do beat this one at printed precision: 0.50/0.50 by one
+  # prompt on each side, 0.35/0.50 and 0.40/0.50 by one prompt on harmful allowed.
+  # One prompt per class is 0.1 points against a binomial standard error of 0.62
+  # points, and only 36 of the 1,912 prompts score between 0.05 and 0.50, so every
+  # band in that region lands in the same narrow box. The result is insensitivity
+  # rather than validation: the original arbitrary choice costs at most one or two
+  # prompts per class on this split. The band is kept because nothing is
+  # distinguishable from it, and "chosen" would still overstate it.
+  #
+  # The sweep's larger finding is about the band's width, not its edges: only 11 of
+  # the 1,912 validation prompts (0.6%) score inside it, while 918 score at or below
+  # 0.05 and 955 above 0.70. No prompt scores exactly zero. Layer 2 sees eleven
+  # prompts in distribution. See docs/validation_policy.md.
+  thresholds:
+    low: 0.3                    # below → allow
+    high: 0.7                   # above → mitigate; between → send to Judge
+
+# ─────────────────────────────────────────
+# LAYER 2 — LLM-as-Judge
+# ─────────────────────────────────────────
+layer2:
+  # Judge model. The recorded runs loaded Qwen2.5-3B-Instruct from a local
+  # directory whose safetensors match the hub repo below at this revision.
+  # model_name must stay identical to layer3.guard_llm.model_name for Layer 3
+  # to share the loaded weights (Layer3Mitigator._shared_weights compares the
+  # two strings). To load from another location, set the environment variable
+  #   LLMGUARD_JUDGE_MODEL=/path/to/local/dir   (or another hub id)
+  # which replaces model_name for BOTH layers at from_config time, so the
+  # sharing check still matches; the pinned revision is not applied to an
+  # override. See utils/config_loader.judge_model.
+  judge:
+    backend: "huggingface"      # options: huggingface, ollama
+    model_name: "Qwen/Qwen2.5-3B-Instruct"           # 3B fits in ~6GB VRAM in 4-bit
+    revision: "aa8e72537993ba99e69dfaafa59ed015b17504d1"
+    ollama_base_url: "http://localhost:11434"         # used by the ollama backend only
+    max_tokens: 512
+    temperature: 0.0            # deterministic for primary decision
+    load_in_4bit: true          # bitsandbytes 4-bit quantisation (saves VRAM)
+    prompt_version: "v2"        # v1 = original prompt; v2 = balanced criteria (compare with scripts/tune_judge.py)
+
+  # Decision rule. mode "logprob" is the evaluated path: P(mitigate) from one
+  # forward pass, thresholded by the band below, plus one greedy call for
+  # category, severity and rationale. K, sample_temperature and c_min are the
+  # alternative "vote" mode's settings (K sampled calls, majority, escalate
+  # below c_min), kept for comparison.
+  consistency:
+    K: 5                        # vote mode: number of Judge queries per sample
+    sample_temperature: 0.7     # vote mode: temperature for sampling variants
+    c_min: 0.8                  # vote mode: minimum agreement to avoid escalation (4/5 or 5/5 votes)
+    mode: "logprob"                # vote = K sampled calls, majority; logprob = P(mitigate) from one forward pass
+    allow_below: 0.4            # logprob mode: allow when P(mitigate) < allow_below
+    mitigate_above: 0.6         # logprob mode: mitigate when P(mitigate) > mitigate_above; otherwise escalate
+
+  # Distillation back to Layer-1
+  distillation:
+    retrain_every_n: 1000       # retrain L1 every N new Judge labels
+    pool_path: "data/distillation_pool/"
+
+# ─────────────────────────────────────────
+# LAYER 3 — Guard-LLM
+# ─────────────────────────────────────────
+layer3:
+  # Same model and revision as layer2.judge (see the note there); when the
+  # Layer-2 judge is loaded, Layer 3 reuses its weights instead of loading a
+  # second copy. LLMGUARD_JUDGE_MODEL overrides model_name here too.
+  guard_llm:
+    model_name: "Qwen/Qwen2.5-3B-Instruct"
+    revision: "aa8e72537993ba99e69dfaafa59ed015b17504d1"
+    max_tokens: 512
+    load_in_4bit: true          # bitsandbytes 4-bit quantisation
+
+  # Output constraints: banned_patterns (regexes) and the refusal / redaction /
+  # rewrite templates, all in this file.
+  constraints:
+    templates_path: "config/safety_templates.yaml"
+
+  # Candidate generation and re-ranking
+  candidates:
+    K_prime: 3                  # number of safe candidates to generate
+    # When the model declines on any candidate, refuse rather than serving one
+    # of the candidates that complied. Re-ranking scores candidates only by
+    # constraint violations, so without this the survivors are selected for
+    # compliance and against the model's own refusal.
+    refuse_on_decline: true
+
+  # Which detector decides that a Guard-LLM candidate is a decline rather than a
+  # rewrite. This is load-bearing: with refuse_on_decline set, it decides whether the
+  # user gets a refusal template or the model's own text.
+  #   keywords  a phrase list on the opening (utils/refusal.py). Measured against the
+  #             38 refusals among the 90 outputs served in pilot 4: recall 0.34,
+  #             precision 1.00. The 25 misses are mostly English refusals that decline
+  #             by reframing, not the multilingual gap the limitation assumed.
+  #   model     the Layer-3 model is asked whether the reply declines, one forward
+  #             pass, language-agnostic. Tested on those same 90 held-out outputs
+  #             (scripts/refusal_eval.py): recall 36/38 = 0.95 against the keyword
+  #             list's 0.34, but precision 0.56 against a bar of 0.90, so it is not
+  #             adopted. Most of its false positives are deflections, which its own
+  #             prompt defines as declines; against refusals and deflections together
+  #             it reaches precision 0.92 at threshold 0.95. See utils/refusal.py.
+  refusal_check:
+    mode: "keywords"
+    threshold: 0.5
+
+  # Request-conditioned check of a served rewrite (layer3/fulfilment.py, patch 36).
+  # One forward pass of the shared Guard-LLM weights: shown the blocked request
+  # and the served output together, P(LEAK) is read from the next-token
+  # distribution. The constraint engine's four regexes and the Layer-2 re-check
+  # of the output alone found 3 of the 7 leaks among the 90 reviewed pilot-4
+  # rewrites and raised 3 false alarms. Scored against those same reviewed
+  # outputs on 22 Sep 2026 (scripts/rewrite_check_eval.py, threshold 0.5): this
+  # check finds 6 of the 7 leaks against the old check's 3, including the two
+  # social-engineering artefacts the old one cleared at 0.000, and ranks far
+  # better (AUROC 0.874 against 0.693). It flags no refusal (0 of 31 clear ones)
+  # and no deflection (0 of 29), but 7 outputs that announce or promise content
+  # without supplying it (4 narration-only, 3 hollow compliance), so precision is
+  # 6/13 and no threshold reaches 0.5. The pre-registered bar was recall >= 6/7
+  # AND at most 6 non-leaks; the second half fails, so the check stays off and
+  # does not replace the reported leak measure. "measure" records it beside the
+  # old one for future work; "veto" would withhold 7 harmless rewrites in 13.
+  #   off      not built (the validated default)
+  #   measure  P(LEAK) recorded for every served rewrite; nothing changes
+  #   veto     a rewrite at or above the threshold is withheld; a refusal is served
+  rewrite_check:
+    mode: "off"
+    threshold: 0.5
+
+  # Mitigation modes
+  mitigation:
+    modes: ["refuse", "redact", "safe_rewrite"]
+    # Refuse, not safe_rewrite. Red-team review of 21 of the 90 rewrites served
+    # in one run found roughly one in eight still carried the request, by two
+    # routes: the attack's own framing surviving into the rewrite (a role-play
+    # prompt rewritten in character delivers the content in character), and
+    # cosmetic substitution (drop the flagged noun, keep the procedure). The
+    # automated check for this does not work either, so the rate cannot be
+    # monitored in production. safe_rewrite stays available as an explicit
+    # mode; it is not a safe default.
+    default_mode: "refuse"
+    # Severity at or above which Layer 3 refuses instead of serving default_mode.
+    # On the Layer-1 route severity is the calibrated score, and red-team blocks
+    # score around 0.98, so 0.99 means "never refuse on score alone".
+    severity_refuse_threshold: 0.99
+    # Layer 1 sends a score and no category. With this on, its blocks are
+    # refused rather than rewritten blind. Off keeps the measured behaviour.
+    refuse_when_uncategorised: false
+
+# ─────────────────────────────────────────
+# EVALUATION
+# ─────────────────────────────────────────
+evaluation:
+  # Built by scripts/build_datasets.py; each path holds test.jsonl.
+  # SafetyBench, RAID, TruthfulQA and RealToxicityPrompts were dropped: they do
+  # not test prompt-harm classification.
+  # RQ4 parity probe: scripts/make_l2_benchmarks.py writes the *safe* prompts
+  # of these benchmarks three times over, once unchanged and once per L2
+  # grammatical profile, under data/benchmarks_parity/. Run each arm with
+  # --benchmark-root, then compare with summarise_results.py (paired bootstrap)
+  # and compare_flips.py (decisions that change side). Harmful prompts are never
+  # rewritten; the probe asks whether safe requests are blocked more often when
+  # phrased in non-native English.
+  benchmarks:
+    - name: "jailbreakbench"      # JBB-Behaviors, harmful + benign
+      path: "data/benchmarks/jailbreakbench/"
+      enabled: true
+    - name: "xstest"              # over-refusal: safe prompts that sound unsafe
+      path: "data/benchmarks/xstest/"
+      enabled: true
+    - name: "harmbench"           # harmful only: recall / jailbreak success rate
+      path: "data/benchmarks/harmbench/"
+      enabled: true
+    - name: "toxicchat"           # real user prompts, ToxicChat 0124 test split
+      path: "data/benchmarks/toxicchat/"
+      enabled: true
+    - name: "orbench"             # over-refusal, another generator: OR-Bench hard-1k (safe) + toxic (harmful)
+      path: "data/benchmarks/orbench/"
+      enabled: true
+    # RQ4 second study, real learner English: W&I+LOCNESS v2.1 (BEA-2019)
+    # sentences as written and as corrected, built by scripts/make_learner_arms.py
+    # under data/benchmarks_learner/{original,corrected}/. Disabled so the
+    # default evaluation is unchanged; run by name, for example
+    #   run_evaluation.py --benchmarks wi_a wi_b wi_c locness_n \
+    #       --benchmark-root data/benchmarks_learner/original
+    # Pre-registration: docs/rq4_learner_prereg.md. Every sentence is labelled safe.
+    - name: "wi_a"                # Write & Improve, CEFR A learners
+      path: "data/benchmarks_learner/original/wi_a/"
+      enabled: false
+    - name: "wi_b"                # Write & Improve, CEFR B learners
+      path: "data/benchmarks_learner/original/wi_b/"
+      enabled: false
+    - name: "wi_c"                # Write & Improve, CEFR C learners
+      path: "data/benchmarks_learner/original/wi_c/"
+      enabled: false
+    - name: "locness_n"           # LOCNESS, native English students
+      path: "data/benchmarks_learner/original/locness_n/"
+      enabled: false
+
+  # Metric names listed in the generated report (scripts/generate_report.py).
+  # The metrics actually computed are those in evaluation/metrics.py.
+  metrics:
+    - auroc
+    - auprc
+    - fpr_at_95tpr
+    - jailbreak_success_rate
+    - refusal_appropriateness
+    - safe_rewrite_quality
+    - ece
+    - delta_fpr
+    - delta_fnr
+
+  # Paired-bootstrap defaults for scripts/summarise_results.py
+  fairness:
+    bootstrap_samples: 1000
+    alpha: 0.05
+
+# ─────────────────────────────────────────
+# RED-TEAMING
+# ─────────────────────────────────────────
+red_team:
+  enabled: true
+  # The model_* attacks are written by the Layer-2 judge's own model, so the
+  # attacker is no stronger than the defender: read those rates as a floor.
+  attacks_per_round: 50
+  rounds: 5
+  attack_types:
+    - jailbreak_template
+    - role_play
+    - prefix_rewrite          # was "paraphrase": swaps the opener, prompt otherwise verbatim
+    - language_prefix         # was "translation": prepends "answer in <language>"
+    - decoding_manipulation
+    - technical_prefix        # benign instruction prepended, prompt verbatim
+    - model_paraphrase        # needs Layer 2 loaded
+    - model_translation       # needs Layer 2 loaded
+  log_failures: true
+  failure_log_path: "logs/red_team_failures.jsonl"
+
+# ─────────────────────────────────────────
+# LOGGING & AUDIT
+# ─────────────────────────────────────────
+logging:
+  level: "INFO"
+  audit_log_path: "logs/audit.jsonl"   # every L1/L2/L3 decision on the serving path, one JSON line each
+  log_rationales: true
+  log_constraints: true
+  # Tag each audit record with the NIST AI RMF 1.0 subcategories its event is
+  # evidence for. The tags, the statements they quote and how far each is met
+  # are in the mapping file; scripts/nist_mapping_report.py checks it and
+  # renders docs/nist_ai_rmf_mapping.md. On with the file missing is an error.
+  nist_mapping: true
+  nist_mapping_path: "config/nist_ai_rmf_mapping.yaml"

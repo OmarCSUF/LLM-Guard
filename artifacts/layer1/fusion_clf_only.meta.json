@@ -1,0 +1,59 @@
+{
+  "pools": {
+    "train": {
+      "n": 15296,
+      "ids_sha1": "6632b6156735c238f7ce7fec84ec0a99844e0296"
+    },
+    "val": {
+      "n": 1912,
+      "ids_sha1": "7c7a35bc6deebf5079299239775cda0c7603e8c5"
+    }
+  },
+  "classifier": [
+    [
+      "README.md",
+      5176,
+      1789924619
+    ],
+    [
+      "adapter_config.json",
+      1093,
+      1789924619
+    ],
+    [
+      "adapter_model.safetensors",
+      3555504,
+      1789924619
+    ],
+    [
+      "backbone.txt",
+      12,
+      1789924619
+    ],
+    [
+      "merges.txt",
+      456318,
+      1789924619
+    ],
+    [
+      "special_tokens_map.json",
+      280,
+      1789924619
+    ],
+    [
+      "tokenizer.json",
+      3558643,
+      1789924619
+    ],
+    [
+      "tokenizer_config.json",
+      1246,
+      1789924619
+    ],
+    [
+      "vocab.json",
+      798293,
+      1789924619
+    ]
+  ]
+}

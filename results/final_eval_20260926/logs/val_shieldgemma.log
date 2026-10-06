@@ -1,0 +1,27 @@
+[2026-09-27 20:14:50] INFO run_external_guard — 1912 prompts from data/distillation_pool/val.jsonl as benchmark 'val' | model google/shieldgemma-2b
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:03<00:03,  3.11s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.38s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.64s/it]
+[2026-09-27 20:14:59] INFO run_external_guard — answer token ids: unsafe=[3276, 3553, 6287, 7778] safe=[793, 956, 1294, 1307]
+[2026-09-27 20:14:59] INFO run_external_guard — 4 policies per prompt (dangerous, harassment, hate, sexual); harm score = max P(violation) across them
+[2026-09-27 20:14:59] INFO run_external_guard — NOTE: this arm is not pre-registered; see the module docstring
+[2026-09-27 20:15:44] INFO run_external_guard —   100/1912 | 0.45s/prompt
+[2026-09-27 20:16:29] INFO run_external_guard —   200/1912 | 0.45s/prompt
+[2026-09-27 20:17:15] INFO run_external_guard —   300/1912 | 0.45s/prompt
+[2026-09-27 20:18:00] INFO run_external_guard —   400/1912 | 0.45s/prompt
+[2026-09-27 20:18:45] INFO run_external_guard —   500/1912 | 0.45s/prompt
+[2026-09-27 20:19:30] INFO run_external_guard —   600/1912 | 0.45s/prompt
+[2026-09-27 20:20:15] INFO run_external_guard —   700/1912 | 0.45s/prompt
+[2026-09-27 20:21:00] INFO run_external_guard —   800/1912 | 0.45s/prompt
+[2026-09-27 20:21:45] INFO run_external_guard —   900/1912 | 0.45s/prompt
+[2026-09-27 20:22:30] INFO run_external_guard —   1000/1912 | 0.45s/prompt
+[2026-09-27 20:23:15] INFO run_external_guard —   1100/1912 | 0.45s/prompt
+[2026-09-27 20:24:00] INFO run_external_guard —   1200/1912 | 0.45s/prompt
+[2026-09-27 20:24:46] INFO run_external_guard —   1300/1912 | 0.45s/prompt
+[2026-09-27 20:25:31] INFO run_external_guard —   1400/1912 | 0.45s/prompt
+[2026-09-27 20:26:16] INFO run_external_guard —   1500/1912 | 0.45s/prompt
+[2026-09-27 20:27:01] INFO run_external_guard —   1600/1912 | 0.45s/prompt
+[2026-09-27 20:27:46] INFO run_external_guard —   1700/1912 | 0.45s/prompt
+[2026-09-27 20:28:32] INFO run_external_guard —   1800/1912 | 0.45s/prompt
+[2026-09-27 20:29:17] INFO run_external_guard —   1900/1912 | 0.45s/prompt
+[2026-09-27 20:29:23] INFO run_external_guard —   1912/1912 | 0.45s/prompt
+[2026-09-27 20:29:23] INFO run_external_guard — Results -> data/processed/final_eval_20260926/val_shieldgemma.json | predictions -> data/processed/final_eval_20260926/val_shieldgemma_predictions/val.jsonl
+[2026-09-27 20:29:23] INFO run_external_guard —   {"auroc": 0.8742, "accuracy": 0.7406, "recall": 0.5356, "precision": 0.9078}
