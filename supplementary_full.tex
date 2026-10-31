@@ -1,0 +1,1021 @@
+\documentclass[journal]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{placeins}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,fit,backgrounds}
+\pgfplotsset{compat=1.18}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={LLM-Guard: A Calibrated Three-Layer Cascade for Prompt-Level Harm Detection, and What a Preregistered Test Set Says About It},pdfauthor={Omar Albulayhi and Muhammad Asif Habib}}
+
+\sisetup{detect-weight=true,detect-family=true}
+
+\definecolor{cAccent}{HTML}{2563EB}
+\definecolor{cGood}{HTML}{16A34A}
+\definecolor{cWarn}{HTML}{D97706}
+\definecolor{cBad}{HTML}{DC2626}
+\definecolor{cSlate}{HTML}{475569}
+\definecolor{cPurple}{HTML}{7C3AED}
+\definecolor{cTeal}{HTML}{0D9488}
+\definecolor{cLight}{HTML}{F1F5F9}
+
+\newcommand{\best}[1]{\textbf{#1}}
+\newcommand{\posthoc}{\textsuperscript{\dag}}
+
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.75}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.80}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\dblfloatpagefraction}{0.80}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\setcounter{dbltopnumber}{3}
+
+\usepackage{xr}
+\externaldocument{main}
+\setcounter{table}{5}
+\setcounter{figure}{2}
+\setcounter{equation}{4}
+\begin{document}
+\title{Supplementary Material for ``LLM-Guard: A Calibrated Three-Layer Cascade for Prompt-Level Harm Detection, and What a Preregistered Test Set Says About It''}
+\author{Omar~Albulayhi, Muhammad~Asif~Habib\\[2pt]
+\parbox{\textwidth}{\centering\footnotesize \itshape Department of Computer Science\\
+\itshape Imam Mohammad bin Saud Islamic University College of Computer and Information Sciences\\
+\upshape Riyadh, Saudi Arabia\\
+\upshape 446012900@sm.imamu.edu.sa, maabid@imamu.edu.sa}}
+\maketitle
+
+This is the full version of the supplementary material. The version submitted with the article is abridged to six pages and keeps the numbers used here. This document holds the algorithms, the in-distribution Layer-1 comparison, the per-category rates and the post hoc sweeps that the paper cites. Its figures, tables, algorithms and equations continue the paper's numbering, so Figs.~1--2, Tables~I--V and equations (1)--(4) are the paper's; its sections are numbered S1 to S26, and section numbers without an S prefix refer to the paper. Every value here is regenerated from the stored per-prompt predictions in the reproducibility package.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  font=\tiny,
+  box/.style={rounded corners=2pt,draw,semithick,align=center,inner sep=2pt,
+              minimum height=6.5mm,text width=19mm},
+  src/.style={box,fill=white,draw=cSlate},
+  prc/.style={box,fill=cLight,draw=cSlate},
+  frz/.style={box,fill=white,draw=cAccent,text=cAccent},
+  inf/.style={box,fill=cLight,draw=cSlate,text width=63mm,minimum height=6mm},
+  res/.style={box,fill=white,draw=cGood,text=cGood},
+  ar/.style={-{Stealth[length=3pt]},draw=cSlate,semithick},
+  bl/.style={font=\tiny,text=cSlate,inner sep=1pt}
+]
+\node[src] (corp) at (0,0)    {Dolly, ToxicChat,\\BeaverTails,\\WildJailbreak};
+\node[prc] (scr)  at (2.35,0) {normalise,\\MinHash $J{=}0.8$,\\class balance};
+\node[src] (spl)  at (4.70,0) {15{,}296 / 1{,}912\\/ 1{,}912\\train / val / test};
+\draw[ar] (corp) -- (scr);
+\draw[ar] (scr)  -- (spl);
+
+\node[prc] (fit) at (2.35,-1.45) {RoBERTa+LoRA $g(x)$,\\logistic stacker};
+\node[prc] (cal) at (4.70,-1.45) {temperature $T^\star$\\on validation};
+\node[frz] (frz) at (0,-1.45)    {\textbf{freeze}\\SHA-256 of config,\\code, artifacts};
+\draw[ar] (spl.south) -- ++(0,-0.30) -| (fit.north);
+\draw[ar] (fit) -- (cal);
+\draw[ar] (cal.south) -- ++(0,-0.26) -| (frz.east);
+
+\node[inf] (casc) at (2.35,-2.72)
+  {\textbf{configured cascade}\quad Layer 1, selective Layer 2, Layer 3;\\
+   most blocks bypass Layer 2 \quad(Fig.~\ref{fig:arch})};
+\draw[ar] (frz.south) -- (casc.north -| frz.south);
+
+\node[src] (test) at (0,-4.05)    {\textbf{held-out set}\\7 screened sources,\\3{,}453 prompts};
+\node[prc] (arms) at (2.35,-4.05) {arms: cascade, L1,\\judge ($\times$2 models),\\3 seeds, 3 guards};
+\node[res] (met)  at (4.70,-4.05) {rates, pooled\\AUROC, paired\\bootstrap};
+\draw[ar] (casc.south) -- ++(0,-0.40) -| (arms.north);
+\draw[ar] (test) -- (arms);
+\draw[ar] (arms) -- (met);
+\node[bl,below=0.6mm of test,anchor=north,text width=22mm,align=center]
+  {pre-registered; no prompt informed any decision};
+\end{tikzpicture}
+\caption{End-to-end workflow. The training pool is deduplicated and split; the
+detector and its calibration are fitted on it; the configuration is then frozen
+by hash \emph{before} the held-out set is scored. Every arm scores identical
+prompts. The freeze covers the cascade's own configuration, code and artifacts;
+the external-guard arms are pinned by model revision instead. The shaded
+inference block is expanded in Fig.~\ref{fig:arch}.}
+\label{fig:overview}
+\end{figure}
+
+\begin{algorithm}[h]
+\caption{Layer-1 detection with input views}
+\label{alg:l1}
+\begin{algorithmic}[1]
+\REQUIRE prompt $x$; stacker $F$; scaler $T^\star$; thresholds
+         $\tau_{\mathrm{low}},\tau_{\mathrm{high}}$; flags \textsc{norm}, \textsc{views}
+\ENSURE routed score $s^\star$ and decision $d$
+\IF{$x$ is empty}
+  \RETURN $(0.5,\ \textsc{gray zone})$
+\ENDIF
+\STATE $s^\star \leftarrow \textsc{Score}(x)$
+\STATE $\mathcal{F} \leftarrow \emptyset$
+\IF{\textsc{norm}}
+  \STATE $(x_{\mathrm{rec}},A) \leftarrow \textsc{Normalise}(x)$
+  \IF{$A \neq \emptyset$}
+    \STATE $\mathcal{F} \leftarrow \mathcal{F} \cup \{x_{\mathrm{rec}}\}$
+  \ENDIF
+  \STATE $\mathcal{F} \leftarrow \mathcal{F} \cup \textsc{Payloads}(x)$
+         \COMMENT{each decoded blob alone}
+\ENDIF
+\IF{\textsc{views}}
+  \STATE $\mathcal{F} \leftarrow \mathcal{F} \cup \textsc{ClauseViews}(x)$
+\ENDIF
+\FORALL{$x' \in \mathcal{F}$}
+  \STATE $s^\star \leftarrow \max\bigl(s^\star,\ \textsc{Score}(x')\bigr)$
+         \COMMENT{maximum only; cannot decrease}
+\ENDFOR
+\IF{$s^\star < \tau_{\mathrm{low}}$}
+  \STATE $d \leftarrow \textsc{allow}$
+\ELSIF{$s^\star > \tau_{\mathrm{high}}$}
+  \STATE $d \leftarrow \textsc{mitigate}$
+\ELSE
+  \STATE $d \leftarrow \textsc{gray zone}$
+\ENDIF
+\RETURN $(s^\star,\ d)$
+\STATE \rule{\linewidth}{0.3pt}
+\STATE \textbf{procedure} \textsc{Score}$(t)$
+\IF{$F$ reads the scoring-LM features}
+  \STATE $f_{\mathrm{curv}} \leftarrow \textsc{Curvature}(t)$;\ \
+         $f_{\mathrm{rank}} \leftarrow \textsc{LogRank}(t)$
+\ELSE
+  \STATE $f_{\mathrm{curv}},f_{\mathrm{rank}} \leftarrow 0.5,\,0.5$
+         \COMMENT{skipped, not computed}
+\ENDIF
+\STATE $g \leftarrow \textsc{Classifier}(t)$ \COMMENT{$P(\mathrm{allow}\mid t)$}
+\STATE $s_{\mathrm{raw}} \leftarrow
+        1 - F.P_{\mathrm{allow}}(f_{\mathrm{curv}},f_{\mathrm{rank}},g)$
+\RETURN $\sigma\bigl(\mathrm{logit}(s_{\mathrm{raw}})/T^\star\bigr)$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Layer-3 mitigation with the refusal veto}
+\label{alg:l3}
+\begin{algorithmic}[1]
+\REQUIRE prompt $x$; category $c$; severity $v$; escalation flag $e$;
+         constraint engine $E$; Guard-LLM $Q$; refuse-always set $\mathcal{R}$
+\ENSURE the mode actually served, and its output
+\STATE $\mathrm{trig} \leftarrow E.\textsc{Categories}(x)$
+\IF{$c \in \mathcal{R}$ \OR $\mathrm{trig} \cap \mathcal{R} \neq \emptyset$}
+  \STATE $m \leftarrow \textsc{refuse}$
+         \COMMENT{$\mathrm{trig}$ supplies the category the L1 route lacks}
+\ELSIF{$v \geq 0.99$ \OR $e$}
+  \STATE $m \leftarrow \textsc{refuse}$
+\ELSE
+  \STATE $m \leftarrow$ configured default, which is \textsc{refuse}
+\ENDIF
+\IF{$m \neq \textsc{safe-rewrite}$}
+  \RETURN $\textsc{Serve}(m)$
+\ENDIF
+\STATE $\mathrm{declined} \leftarrow \textsc{false}$;\ \ $C \leftarrow \emptyset$
+\FOR{$k = 1$ \TO $K'$}
+  \STATE $y \leftarrow Q.\textsc{Generate}(x,\ \text{temperature}=0.7)$
+  \IF{$y$ is the sentinel \textsc{refuse} \OR $y$ reads as a prose refusal}
+    \STATE $\mathrm{declined} \leftarrow \textsc{true}$
+    \STATE \textbf{if} refuse-on-decline \textbf{then break}
+           \COMMENT{the refusal veto}
+  \ELSE
+    \STATE $C \leftarrow C \cup \bigl\{(\,|E.\textsc{Check}(y)|,\ y)\bigr\}$
+  \ENDIF
+\ENDFOR
+\IF{$\mathrm{declined}$ \AND refuse-on-decline}
+  \RETURN $\textsc{Serve}(\textsc{refuse})$
+\ENDIF
+\STATE sort $C$ by violation count, ascending
+\IF{$C \neq \emptyset$ \AND $C[0]$ has zero violations}
+  \RETURN $\textsc{Serve}(\textsc{safe-rewrite},\ C[0])$
+\ENDIF
+\RETURN $\textsc{Serve}(\textsc{refuse})$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Cascade decision}
+\label{alg:cascade}
+\begin{algorithmic}[1]
+\REQUIRE prompt $x$; detector $D$; judge $J$ or $\bot$; mitigator $G$ or $\bot$
+\ENSURE prediction $\hat{y}$, harm score $h$, escalation flag
+\STATE $(s^\star,d) \leftarrow D.\textsc{Detect}(x)$
+       \COMMENT{Algorithm~\ref{alg:l1}}
+\IF{$d = \textsc{allow}$}
+  \RETURN $(1,\ s^\star,\ \textsc{false})$
+\ENDIF
+\IF{$d = \textsc{mitigate}$}
+  \STATE \textbf{if} $G \neq \bot$ \textbf{then} $G.\textsc{FromL1}(x,s^\star)$
+  \RETURN $(0,\ s^\star,\ \textsc{false})$
+\ENDIF
+\IF{$J = \bot$}
+  \RETURN $(1,\ s^\star,\ \textsc{false})$
+         \COMMENT{unresolved band allows}
+\ENDIF
+\STATE $r \leftarrow J.\textsc{Judge}(x)$
+\STATE $h \leftarrow \tfrac{1}{2}\bigl(s^\star + r.\mathrm{severity}\bigr)$
+\IF{$r.\mathrm{escalated}$}
+  \STATE \textbf{if} $G \neq \bot$ \textbf{then} $G.\textsc{FromL2}(x,r)$
+  \RETURN $(0,\ h,\ \textsc{true})$ \COMMENT{uncertainty blocks}
+\ENDIF
+\IF{$r.\mathrm{decision} = \textsc{allow}$}
+  \RETURN $(1,\ h,\ \textsc{false})$
+\ENDIF
+\STATE \textbf{if} $G \neq \bot$ \textbf{then} $G.\textsc{FromL2}(x,r)$
+\RETURN $(0,\ h,\ \textsc{false})$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{table}[h]
+\caption{Layer-1 stackers on the pool test split ($n=1912$, balanced). Identical
+inputs; scores quantised as the router serves them.}
+\label{tab:l1}
+\centering
+\footnotesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Classifier-only & Three-signal \\
+ & (configured) & (\texttt{fusion\_v2}) \\
+\midrule
+AUROC              & \best{0.9914} & 0.9892 \\
+AUPRC              & 0.9868 & \best{0.9877} \\
+FPR @ 95\% TPR     & 0.0220 & 0.0220 \\
+Accuracy           & 0.9629 & 0.9629 \\
+Referred to judge  & 15 & 15 \\
+Temperature $T^\star$ & 1.1908 & 1.1891 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{The pool test split of Table~\ref{tab:l1} in detail.} Fifteen of the
+1{,}912 prompts fall in the routing band, \SI{0.8}{\percent}, against the
+\SI{0.6}{\percent} the validation sweep of Table~\ref{tab:sweep} records on the selection
+set; the band is nearly empty here for the same reason it is out of
+distribution (Fig.~\ref{fig:scores}): a bimodal score. The false-positive rate
+at \SI{95}{\percent} recall, \SI{2.2}{\percent}, is the in-distribution benign
+cost of catching \SI{95}{\percent} of harmful prompts, and the reference for
+the final-test rates of Table~\ref{tab:rates}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=6.0cm,
+  xlabel={Safe blocked on PHTest (\%)},
+  ylabel={Harmful allowed on CatQA (\%)},
+  xmin=0,xmax=62,ymin=-3,ymax=58,
+  grid=both, grid style={line width=.2pt,draw=gray!22},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  every node near coord/.append style={font=\scriptsize},
+  scatter/classes={
+    a={mark=*,draw=cAccent,fill=cAccent},
+    b={mark=square*,draw=cSlate,fill=cSlate},
+    c={mark=triangle*,draw=cGood,fill=cGood,mark size=3.2pt},
+    d={mark=diamond*,draw=cBad,fill=cBad,mark size=3.2pt},
+    e={mark=pentagon*,draw=cPurple,fill=cPurple,mark size=3pt},
+    f={mark=otimes*,draw=cWarn,fill=cWarn,mark size=3pt},
+    g={mark=star,draw=cTeal,line width=1pt,mark size=4pt}},
+]
+\addplot[scatter,only marks,scatter src=explicit symbolic,
+         nodes near coords*={\label},
+         visualization depends on={value \thisrow{label} \as \label},
+         every node near coord/.append style={anchor=west,xshift=2pt}]
+table[meta=class] {
+x     y     class label
+42.8  19.2  a     {Cascade}
+42.1  23.6  b     {Layer 1}
+29.6  2.4   c     {Judge}
+15.0  51.2  e     {ShieldGemma}
+};
+\addplot[scatter,only marks,scatter src=explicit symbolic,
+         nodes near coords*={\label},
+         visualization depends on={value \thisrow{label} \as \label},
+         every node near coord/.append style={anchor=east,xshift=-3pt}]
+table[meta=class] {
+x     y     class label
+27.7  6.1   f     {Llama Guard}
+25.7  0.9   g     {Llama judge}
+55.9  0.2   d     {Granite}
+};
+\draw[->,cSlate,thick,opacity=.55] (axis cs:52,50) -- (axis cs:40,40);
+\node[font=\tiny,text=cSlate,anchor=west] at (axis cs:52,52) {better};
+\end{axis}
+\end{tikzpicture}
+\caption{Operating points on PHTest and CatQA. Lower-left is better on
+both axes at once. Llama Guard dominates the cascade here; Granite allows
+less harm but blocks far more safe prompts, so at its own operating point it is
+lower and to the \emph{right}, and dominates only at the matched threshold of
+Table~\ref{tab:matched}. ShieldGemma occupies the opposite corner. Llama Guard's
+advantage does not hold on Do-Not-Answer core, which this view does not show
+(Table~\ref{tab:rates}). The star is the cascade's own Layer-2 slot holding
+Llama-3.2-3B (Section~\ref{sec:judgeswap}): it dominates every arm here except
+the two extremes, and is closest to the lower-left corner on either coordinate
+taken together.}
+\label{fig:operating}
+\end{figure}
+
+\begin{figure*}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.48\textwidth, height=6.2cm,
+  xlabel={Safe blocked, macro over safe sources (\%)},
+  ylabel={Harmful allowed, macro over harmful sources (\%)},
+  xmin=0,xmax=60,ymin=0,ymax=50,
+  grid=both, grid style={line width=.2pt,draw=gray!22},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  legend style={font=\tiny,at={(0.98,0.97)},anchor=north east,draw=none,fill=white,fill opacity=0.85,text opacity=1},
+  legend cell align=left, title={(a) threshold frontiers}, title style={font=\scriptsize},
+]
+\addplot[gray!60,thin,no markers,forget plot] coordinates {(0.0,100.0) (9.92,51.75) (11.21,44.01) (12.38,41.7) (12.91,39.43) (13.38,38.95) (13.68,38.11) (14.15,37.2) (14.51,36.54) (14.81,36.18) (15.23,35.63) (15.4,35.45) (15.46,34.66) (15.82,34.0) (15.99,33.4) (16.19,33.16) (16.46,32.5) (16.74,31.83) (16.91,31.1) (17.28,30.68) (17.55,30.33) (17.78,29.96) (17.91,29.36) (18.44,29.24) (18.77,28.69) (18.8,28.27) (19.31,27.82) (19.54,27.39) (19.86,26.85) (20.13,26.21) (20.5,25.67) (20.97,25.42) (21.36,25.0) (21.78,24.7) (22.0,23.7) (22.2,23.52) (22.61,22.82) (23.07,22.46) (23.44,22.16) (23.74,21.8) (24.06,21.5) (24.27,20.89) (24.59,20.23) (24.86,19.63) (25.27,19.27) (25.54,19.15) (25.84,18.73) (26.46,18.43) (26.87,18.07) (27.46,17.83) (28.09,17.25) (28.6,16.5) (29.06,16.25) (29.71,16.25) (30.28,15.96) (30.54,15.84) (30.87,15.53) (31.52,15.35) (32.18,15.05) (32.72,14.93) (33.24,14.39) (33.63,14.21) (34.41,13.98) (34.98,13.67) (35.91,13.14) (36.27,12.66) (37.52,11.87) (39.85,10.45) (44.32,7.75) (100.0,0.0)};
+\addplot[gray!60,thin,no markers,forget plot] coordinates {(0.0,100.0) (9.41,50.98) (11.85,39.38) (12.73,35.85) (13.29,33.49) (14.02,32.19) (14.22,30.83) (14.59,30.34) (14.96,29.74) (15.16,29.2) (15.3,28.9) (15.65,27.87) (16.03,26.69) (16.15,25.96) (16.44,25.42) (16.77,25.0) (17.24,24.36) (17.77,23.99) (18.1,23.5) (18.4,22.96) (18.64,22.54) (18.94,22.0) (19.44,21.57) (19.67,21.09) (20.01,20.61) (20.33,20.24) (20.89,19.82) (21.31,19.57) (21.68,19.09) (22.05,18.79) (22.51,18.5) (22.85,18.2) (23.27,17.83) (23.93,17.59) (24.42,17.28) (24.89,16.92) (25.21,16.56) (25.6,16.2) (25.88,15.6) (26.27,15.12) (26.83,14.89) (27.39,14.71) (27.81,14.28) (28.2,13.86) (28.54,13.28) (29.05,12.77) (29.74,12.42) (30.04,12.29) (30.53,12.0) (31.15,11.94) (31.81,11.58) (32.61,11.58) (33.37,11.52) (33.87,11.11) (34.44,10.86) (35.16,10.62) (35.76,10.26) (36.08,9.9) (37.54,9.15) (37.97,8.97) (38.85,8.62) (39.88,7.7) (41.34,7.53) (43.19,7.1) (44.99,6.29) (47.3,5.53) (51.99,4.99) (58.16,4.09) (70.38,2.36) (100.0,0.0)};
+\addplot[gray!60,thin,no markers] coordinates {(0.0,100.0) (5.27,64.58) (7.54,52.96) (8.88,47.87) (9.45,45.47) (9.98,42.18) (10.22,41.15) (10.99,39.1) (11.16,38.74) (11.46,38.25) (11.83,37.34) (12.12,36.86) (12.38,36.51) (12.59,36.21) (12.72,35.43) (13.07,34.83) (13.33,34.28) (13.71,33.74) (14.06,32.77) (14.45,32.35) (14.62,31.53) (14.82,31.11) (15.19,30.57) (15.35,29.92) (15.65,29.49) (15.95,28.89) (16.28,28.34) (16.75,27.93) (17.01,27.45) (17.44,27.03) (17.72,26.49) (17.96,26.0) (18.23,25.24) (18.36,24.12) (18.78,23.75) (19.18,23.45) (19.48,22.63) (19.92,22.27) (20.24,21.79) (20.6,21.15) (21.04,20.91) (21.3,20.07) (21.63,19.77) (21.95,19.28) (22.09,18.8) (22.78,18.68) (23.21,18.38) (23.77,18.14) (23.9,17.6) (24.41,17.24) (24.68,16.7) (25.24,16.4) (26.08,15.92) (26.84,15.8) (27.18,15.04) (27.59,14.51) (28.31,14.33) (28.61,14.03) (29.2,13.61) (29.88,13.37) (30.63,12.89) (31.02,12.65) (31.59,12.4) (32.45,11.92) (33.63,11.2) (34.99,10.6) (37.7,9.32) (42.11,7.49) (58.67,5.03) (100.0,0.0)};
+\addlegendentry{Layer 1, retrained (3)}
+\addplot[cAccent,thick,no markers] coordinates {(0.0,100.0) (8.27,42.13) (9.6,37.69) (10.73,35.06) (11.37,33.86) (11.91,33.13) (12.11,32.76) (12.41,32.07) (12.74,30.88) (13.1,30.04) (13.52,29.44) (13.81,28.5) (14.1,28.02) (14.45,27.66) (14.68,27.0) (14.88,26.28) (15.18,25.43) (15.58,25.07) (15.9,24.58) (16.13,24.05) (16.4,23.63) (16.92,23.02) (17.28,22.32) (17.61,21.9) (17.85,21.54) (18.01,21.05) (18.75,20.45) (19.18,20.15) (19.42,19.85) (19.68,19.55) (20.13,18.86) (20.32,18.25) (20.81,17.53) (21.07,16.99) (21.35,16.57) (21.65,15.93) (22.09,15.63) (22.73,15.27) (23.63,14.91) (23.86,14.37) (24.42,14.25) (25.22,14.13) (25.53,13.54) (26.06,13.3) (26.84,12.89) (27.21,12.47) (27.8,12.23) (28.31,11.93) (28.77,11.75) (29.7,11.51) (30.16,11.21) (30.61,10.91) (31.17,10.67) (31.54,10.43) (32.32,10.07) (33.15,9.47) (33.71,8.56) (34.41,8.26) (35.29,7.96) (35.75,7.96) (36.22,7.54) (37.5,7.3) (38.16,7.18) (39.0,6.88) (39.73,6.76) (41.13,6.13) (42.59,5.32) (48.08,4.73) (57.98,2.79) (100.0,0.0)};
+\addlegendentry{Layer 1 (configured ckpt.)}
+\addplot[cGood,thick,no markers] coordinates {(0.0,100.0) (5.16,35.93) (5.97,31.02) (6.65,27.93) (6.9,27.75) (7.19,26.27) (7.39,25.74) (7.49,25.26) (7.9,24.85) (8.17,24.1) (8.51,23.74) (8.8,23.45) (9.03,23.04) (9.45,22.74) (9.79,22.51) (10.16,22.04) (10.43,21.4) (10.75,21.05) (10.92,20.88) (11.15,20.47) (11.47,19.84) (11.81,19.42) (12.34,18.56) (12.76,18.16) (13.04,17.35) (13.33,17.23) (13.78,16.99) (14.24,16.31) (14.5,15.9) (15.03,15.61) (15.43,15.09) (16.07,14.92) (16.17,14.8) (16.56,14.44) (17.05,13.87) (17.49,13.46) (17.92,12.83) (18.5,12.65) (18.75,12.47) (19.21,12.05) (19.51,11.82) (19.98,11.53) (20.68,11.47) (20.91,10.61) (21.38,10.49) (21.65,10.43) (22.15,10.26) (22.6,10.08) (23.0,9.9) (23.54,9.73) (23.99,9.38) (24.72,9.38) (24.89,9.32) (25.48,9.26) (25.94,9.2) (26.43,8.69) (27.31,8.63) (27.92,8.51) (28.7,8.33) (29.06,8.27) (29.66,8.1) (30.16,8.04) (30.7,7.8) (31.17,7.62) (32.09,7.33) (32.67,7.04) (32.94,6.98) (34.0,6.81) (36.13,6.29) (100.0,0.0)};
+\addlegendentry{Judge, Qwen2.5-3B}
+\addplot[cTeal,thick,densely dashed,no markers] coordinates {(0.0,100.0) (1.47,34.05) (1.8,29.49) (2.41,26.0) (2.89,23.82) (3.19,22.32) (3.59,20.44) (3.95,19.5) (4.29,18.28) (4.99,17.63) (5.49,17.04) (5.86,16.1) (6.5,15.46) (7.19,14.3) (7.87,14.01) (8.71,13.71) (9.53,13.41) (10.24,12.94) (11.17,12.77) (11.75,12.07) (12.38,11.66) (12.95,11.14) (13.95,10.2) (14.7,9.73) (15.48,9.27) (16.09,8.8) (16.59,8.39) (17.45,8.33) (18.17,8.16) (18.98,7.92) (19.78,7.86) (20.89,7.63) (21.53,7.46) (22.29,7.34) (23.02,6.99) (23.79,6.76) (24.72,6.58) (25.47,6.29) (26.07,6.06) (27.1,5.59) (28.03,5.42) (28.93,5.18) (29.98,4.95) (31.13,4.72) (31.83,4.66) (32.56,4.48) (33.49,4.37) (34.55,4.31) (35.78,4.19) (36.73,3.96) (37.53,3.72) (38.25,3.61) (39.13,3.49) (40.35,3.49) (41.38,3.43) (42.31,3.2) (43.17,3.03) (44.18,2.68) (44.95,2.44) (45.88,2.44) (46.76,2.09) (47.74,1.8) (48.73,1.8) (50.02,1.8) (51.12,1.75) (52.84,1.51) (53.98,1.51) (56.25,1.4) (60.25,1.11) (100.0,0.0)};
+\addlegendentry{Judge, Llama-3.2-3B$^\dag$}
+\addplot[cBad,thick,no markers] coordinates {(0.0,71.94) (0.0,76.25) (0.0,80.59) (0.0,84.4) (0.0,88.25) (0.0,92.86) (0.0,97.1) (0.0,100.0) (0.09,65.27) (0.09,70.21) (0.18,60.59) (0.28,49.2) (0.28,53.2) (0.31,48.42) (0.43,42.58) (0.53,38.78) (0.62,36.38) (0.82,31.38) (1.04,29.13) (1.46,25.99) (2.02,23.27) (2.92,21.74) (3.85,19.52) (4.9,17.96) (5.83,16.61) (6.59,15.43) (7.64,13.69) (8.69,12.92) (9.89,11.88) (11.47,11.19) (12.53,10.78) (14.38,10.3) (15.91,9.83) (17.42,9.65) (18.74,9.07) (19.74,7.93) (21.63,7.69) (23.27,7.46) (24.73,6.99) (26.34,6.53) (27.74,6.29) (29.3,6.05) (31.36,5.76) (33.21,5.53) (35.41,5.18) (37.09,4.95) (38.51,4.48) (40.57,4.19) (42.67,4.08) (44.56,3.66) (46.43,3.37) (47.92,3.2) (49.91,3.03) (52.32,2.56) (54.53,2.21) (56.71,1.8) (58.73,1.69) (60.87,1.34) (63.42,1.16) (65.83,0.81) (68.53,0.58) (71.47,0.52) (74.16,0.41) (77.42,0.35) (80.99,0.23) (84.77,0.12) (88.82,0.06) (92.03,0.0) (96.08,0.0) (100.0,0.0)};
+\addlegendentry{Granite Guardian}
+\addplot[cWarn,thick,no markers] coordinates {(0.0,92.68) (0.0,98.13) (0.03,87.55) (0.03,92.31) (0.1,82.89) (0.17,65.8) (0.17,71.52) (0.17,75.82) (0.23,64.78) (0.51,57.4) (0.61,51.68) (0.7,50.7) (0.91,45.7) (1.23,43.65) (1.69,40.67) (2.05,38.2) (2.5,34.3) (3.07,31.71) (3.65,29.98) (4.41,28.22) (5.35,26.69) (6.45,25.55) (7.46,23.4) (8.31,22.75) (9.44,21.38) (10.6,20.37) (12.17,19.42) (13.68,18.71) (14.76,17.88) (16.42,17.08) (18.31,16.49) (20.2,15.95) (21.66,15.6) (23.39,15.25) (24.85,14.72) (26.73,14.49) (28.69,13.96) (30.27,13.6) (31.98,12.9) (33.58,12.67) (35.3,12.25) (37.15,11.73) (38.67,11.43) (40.33,11.14) (42.02,10.85) (44.3,10.43) (46.06,10.08) (47.71,9.79) (49.43,8.98) (51.85,8.86) (53.75,8.28) (55.91,7.75) (57.56,7.35) (59.74,7.05) (62.01,6.76) (64.12,6.46) (66.48,6.0) (68.27,5.53) (70.6,5.24) (73.04,4.95) (75.1,4.25) (77.25,3.9) (79.43,3.49) (81.88,2.91) (84.73,2.27) (87.38,1.86) (90.83,1.4) (93.25,0.87) (96.62,0.47) (100.0,0.0)};
+\addlegendentry{Llama Guard}
+\addplot[cPurple,thick,densely dashed,no markers] coordinates {(0.0,89.39) (0.0,94.85) (0.0,100.0) (0.19,82.71) (0.25,79.63) (0.46,75.63) (0.84,71.94) (1.03,69.42) (1.28,65.87) (1.96,61.18) (2.21,58.62) (2.98,55.25) (3.45,51.82) (4.28,49.3) (5.67,47.1) (6.48,45.45) (7.84,44.07) (9.08,42.42) (10.15,40.33) (11.26,38.24) (12.22,35.85) (13.16,33.34) (14.26,31.83) (15.08,29.95) (16.3,27.35) (17.87,26.38) (18.92,24.32) (20.08,23.24) (21.51,22.14) (23.25,20.85) (24.56,19.18) (25.6,17.92) (27.2,16.66) (28.71,15.19) (30.05,14.52) (31.67,13.75) (33.27,12.58) (35.28,11.67) (36.75,10.65) (38.19,10.11) (39.55,8.8) (41.36,8.09) (42.78,7.19) (44.38,6.76) (46.04,6.17) (47.42,5.64) (49.03,4.59) (50.17,4.11) (51.93,3.34) (53.4,2.75) (54.85,2.33) (56.36,2.04) (58.38,1.81) (60.53,1.45) (62.1,1.28) (63.88,1.22) (66.27,1.22) (68.11,1.11) (70.42,1.05) (72.56,0.93) (74.87,0.93) (77.72,0.81) (80.42,0.58) (82.2,0.47) (84.67,0.41) (87.63,0.17) (90.86,0.17) (93.11,0.0) (96.64,0.0) (100.0,0.0)};
+\addlegendentry{ShieldGemma$^\dag$}
+\addplot[only marks,mark=*,mark size=1.6pt,black] coordinates {(20.6,16.0) (20.3,18.3) (19.0,12.3) (17.6,8.3) (32.2,5.7) (15.0,17.8) (9.6,41.6)};
+\addlegendentry{native operating points}
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.48\textwidth, height=6.2cm,
+  xlabel={Share of prompts routed to the judge (\%)},
+  ylabel={Rate, macro over sources (\%)},
+  xmin=0,xmax=20,ymin=10,ymax=26,
+  grid=both, grid style={line width=.2pt,draw=gray!22},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  legend style={font=\tiny,at={(0.98,0.97)},anchor=north east,draw=none,fill=white,fill opacity=0.85,text opacity=1},
+  legend cell align=left, title={(b) routing band swept offline}, title style={font=\scriptsize},
+]
+\addplot[gray!60,thin,no markers,forget plot] coordinates {(0.00,23.12) (0.14,23.18) (0.23,23.18) (0.38,23.00) (0.46,22.94) (0.67,22.88) (0.75,22.88) (0.84,22.88) (1.04,22.88) (1.10,22.88) (1.25,22.87) (1.30,22.87) (1.39,22.81) (1.48,22.81) (1.48,22.81) (1.59,22.69) (1.71,22.69) (1.85,22.69) (1.94,22.69) (2.09,22.57) (2.29,22.57) (2.37,22.51) (2.49,22.51) (2.69,22.51) (2.81,22.51) (3.04,22.38) (3.13,22.44) (3.24,22.38) (3.59,22.38) (3.65,22.38) (3.79,22.38) (4.05,22.32) (4.37,22.32) (4.58,22.14) (4.66,22.08) (4.95,22.07) (5.30,21.83) (5.56,21.71) (5.97,21.58) (6.34,21.40) (6.98,21.04) (7.30,20.92) (8.11,20.56) (8.75,20.49) (9.64,20.07) (11.24,19.47) (14.02,18.12) (61.92,6.19) (100.00,12.35) (100.00,12.35) (100.00,12.35)};
+\addplot[gray!60,thin,densely dotted,no markers,forget plot] coordinates {(0.00,22.20) (0.14,22.20) (0.23,22.14) (0.38,22.10) (0.46,22.07) (0.67,22.04) (0.75,22.04) (0.84,22.00) (1.04,21.94) (1.10,21.85) (1.25,21.85) (1.30,21.85) (1.39,21.85) (1.48,21.85) (1.48,21.85) (1.59,21.85) (1.71,21.85) (1.85,21.78) (1.94,21.69) (2.09,21.69) (2.29,21.59) (2.37,21.59) (2.49,21.49) (2.69,21.56) (2.81,21.49) (3.04,21.46) (3.13,21.49) (3.24,21.42) (3.59,21.37) (3.65,21.37) (3.79,21.40) (4.05,21.49) (4.37,21.19) (4.58,21.19) (4.66,21.15) (4.95,21.15) (5.30,20.99) (5.56,20.99) (5.97,20.82) (6.34,20.72) (6.98,20.75) (7.30,20.56) (8.11,20.53) (8.75,20.53) (9.64,20.46) (11.24,19.99) (14.02,20.02) (61.92,30.20) (100.00,19.01) (100.00,19.01) (100.00,19.01)};
+\addplot[gray!60,thin,no markers,forget plot] coordinates {(0.00,18.01) (0.09,18.01) (0.12,17.95) (0.26,17.95) (0.41,17.89) (0.46,17.89) (0.61,17.83) (0.75,17.89) (0.93,17.83) (0.96,17.83) (1.04,17.76) (1.13,17.76) (1.27,17.70) (1.36,17.70) (1.48,17.70) (1.62,17.70) (1.74,17.70) (1.85,17.70) (2.03,17.58) (2.14,17.64) (2.23,17.58) (2.26,17.52) (2.43,17.58) (2.66,17.52) (2.84,17.51) (3.04,17.45) (3.16,17.39) (3.36,17.33) (3.50,17.33) (3.62,17.33) (3.82,17.27) (4.03,17.33) (4.23,17.33) (4.52,17.26) (4.89,17.02) (5.13,16.96) (5.36,16.84) (5.56,16.84) (5.79,16.72) (6.17,16.78) (6.63,16.41) (7.30,16.23) (8.05,15.99) (8.83,15.93) (10.02,16.10) (12.25,15.04) (16.57,14.33) (100.00,12.35) (100.00,12.35) (100.00,12.35) (100.00,12.35)};
+\addplot[gray!60,thin,densely dotted,no markers,forget plot] coordinates {(0.00,22.98) (0.09,22.88) (0.12,22.88) (0.26,22.88) (0.41,22.85) (0.46,22.81) (0.61,22.78) (0.75,22.75) (0.93,22.74) (0.96,22.74) (1.04,22.74) (1.13,22.74) (1.27,22.70) (1.36,22.64) (1.48,22.70) (1.62,22.67) (1.74,22.64) (1.85,22.64) (2.03,22.57) (2.14,22.50) (2.23,22.57) (2.26,22.57) (2.43,22.69) (2.66,22.66) (2.84,22.59) (3.04,22.59) (3.16,22.59) (3.36,22.56) (3.50,22.46) (3.62,22.46) (3.82,22.49) (4.03,22.42) (4.23,22.39) (4.52,22.36) (4.89,22.32) (5.13,22.32) (5.36,22.32) (5.56,22.36) (5.79,22.32) (6.17,22.10) (6.63,21.93) (7.30,22.02) (8.05,21.76) (8.83,21.60) (10.02,21.38) (12.25,21.20) (16.57,20.49) (100.00,19.01) (100.00,19.01) (100.00,19.01) (100.00,19.01)};
+\addplot[gray!60,thin,no markers,forget plot] coordinates {(0.00,22.81) (0.14,22.69) (0.32,22.63) (0.38,22.69) (0.46,22.69) (0.64,22.69) (0.78,22.69) (0.98,22.63) (1.16,22.45) (1.27,22.33) (1.36,22.27) (1.53,22.14) (1.59,22.14) (1.68,22.09) (1.74,22.03) (1.91,21.96) (2.06,21.91) (2.09,21.91) (2.11,21.91) (2.20,21.51) (2.40,21.45) (2.55,21.50) (2.64,21.50) (2.75,21.44) (2.81,21.38) (3.07,21.38) (3.21,21.38) (3.42,21.32) (3.74,21.43) (3.91,21.37) (4.17,21.26) (4.37,21.19) (4.52,21.07) (4.69,21.13) (5.01,21.13) (5.21,21.00) (5.47,20.82) (5.82,20.82) (6.08,20.82) (6.72,20.40) (7.04,20.27) (7.82,20.09) (8.57,20.09) (9.53,19.72) (11.06,19.12) (14.71,17.33) (62.29,6.14) (64.06,6.49) (100.00,12.35) (100.00,12.35) (100.00,12.35)};
+\addplot[gray!60,thin,densely dotted,no markers,forget plot] coordinates {(0.00,19.42) (0.14,19.42) (0.32,19.25) (0.38,19.25) (0.46,19.22) (0.64,19.25) (0.78,19.25) (0.98,19.28) (1.16,19.32) (1.27,19.22) (1.36,19.15) (1.53,19.15) (1.59,19.12) (1.68,19.15) (1.74,19.15) (1.91,19.12) (2.06,19.08) (2.09,19.08) (2.11,19.08) (2.20,19.12) (2.40,19.12) (2.55,19.05) (2.64,19.01) (2.75,19.01) (2.81,19.01) (3.07,19.05) (3.21,19.08) (3.42,18.98) (3.74,18.98) (3.91,18.98) (4.17,18.98) (4.37,18.88) (4.52,18.81) (4.69,18.81) (5.01,18.81) (5.21,18.81) (5.47,18.81) (5.82,18.65) (6.08,18.61) (6.72,18.65) (7.04,18.51) (7.82,18.36) (8.57,18.20) (9.53,18.22) (11.06,18.28) (14.71,18.14) (62.29,29.04) (64.06,28.74) (100.00,19.01) (100.00,19.01) (100.00,19.01)};
+\addplot[cAccent,thick,no markers,forget plot] coordinates {(0.00,16.81) (0.20,16.93) (0.38,16.93) (0.58,16.81) (0.75,16.47) (0.98,16.41) (1.10,16.34) (1.16,16.34) (1.33,16.34) (1.51,16.28) (1.71,16.34) (1.82,16.34) (1.97,16.22) (2.06,16.22) (2.17,16.22) (2.26,16.22) (2.29,16.22) (2.40,16.16) (2.55,16.16) (2.69,16.04) (2.81,16.04) (3.07,16.03) (3.19,16.15) (3.36,16.09) (3.45,16.09) (3.68,16.09) (3.88,16.03) (4.23,15.91) (4.49,15.85) (4.66,15.79) (4.78,15.79) (4.98,15.73) (5.21,15.61) (5.53,15.42) (5.76,15.42) (6.20,15.31) (6.57,15.30) (7.10,15.36) (7.38,15.30) (7.70,15.30) (8.37,15.18) (9.09,14.94) (9.82,14.76) (10.60,14.64) (12.08,14.22) (14.07,13.79) (17.55,12.76) (61.54,6.53) (100.00,12.35) (100.00,12.35) (100.00,12.35)};
+\addplot[cAccent,thick,densely dotted,no markers,forget plot] coordinates {(0.00,21.16) (0.20,21.07) (0.38,21.07) (0.58,21.07) (0.75,21.04) (0.98,21.04) (1.10,21.04) (1.16,21.04) (1.33,21.01) (1.51,20.97) (1.71,20.91) (1.82,20.87) (1.97,20.91) (2.06,20.87) (2.17,20.87) (2.26,20.84) (2.29,20.84) (2.40,20.81) (2.55,20.75) (2.69,20.65) (2.81,20.62) (3.07,20.67) (3.19,20.67) (3.36,20.58) (3.45,20.55) (3.68,20.55) (3.88,20.55) (4.23,20.42) (4.49,20.50) (4.66,20.50) (4.78,20.54) (4.98,20.47) (5.21,20.54) (5.53,20.50) (5.76,20.34) (6.20,20.27) (6.57,20.24) (7.10,20.17) (7.38,20.13) (7.70,20.10) (8.37,20.03) (9.09,19.85) (9.82,19.66) (10.60,19.78) (12.08,19.74) (14.07,19.91) (17.55,20.08) (61.54,28.83) (100.00,19.01) (100.00,19.01) (100.00,19.01)};
+\addlegendimage{cAccent,thick}\addlegendentry{harmful allowed, configured ckpt.}
+\addlegendimage{cAccent,thick,densely dotted}\addlegendentry{safe blocked, configured ckpt.}
+\addlegendimage{gray!60,thin}\addlegendentry{retrained checkpoints (3)}
+\draw[dashed,cSlate] (axis cs:2.8,10) -- (axis cs:2.8,26);
+\node[font=\tiny,text=cSlate,anchor=west] at (axis cs:3.1,10.8) {configured band, 2.8\%};
+\end{axis}
+\end{tikzpicture}
+\caption{Post hoc frontiers on the final test set, computed from stored
+scores; no model was re-run. (a)~Each graded harm score with its threshold swept.
+Rates are macro-averaged over the three safe and the three primary harmful
+sources, so no source is weighted by its size; dots are the arms' native
+operating points. Thresholds read off this set are descriptive, not matched
+readings (Table~\ref{tab:matched}). (b)~The cascade's band $[0.5-w,\,0.5+w]$
+swept in steps of $0.01$ using each checkpoint's stored Layer-1 scores and the
+judge arm's stored decisions; $w=0.2$ is the configured band. Layer-1 scores
+span $[0.034, 0.976]$, so the last steps of the sweep route
+\SI{17.5}{\percent}, \SI{61.5}{\percent} and then every prompt, where the
+cascade coincides with the judge-alone arm (19.0\% safe blocked, 12.3\%
+harmful allowed); the axis is cut at \SI{20}{\percent}.}
+\label{fig:frontiers}
+\end{figure*}
+
+\noindent\textbf{Reading Fig.~\ref{fig:frontiers}.} Fig.~\ref{fig:frontiers} extends the operating points of Fig.~\ref{fig:operating}, post hoc, from the stored scores: one panel
+sweeps each graded score's threshold, rates macro-averaged over sources; the
+other sweeps the routing band offline, sending prompts inside a symmetric band
+to the judge arm's stored decision and the rest to Layer~1's. Thresholds read
+off the final test set are descriptive, and Table~\ref{tab:matched} remains the
+pre-registered comparison. At the cascade's macro safe-blocked level,
+\SI{20.6}{\percent}, the configured judge's frontier allows \SI{11.5}{\percent}
+of harmful prompts against Layer~1's \SI{18.0}{\percent}, the substitute
+judge's \SI{7.6}{\percent} and Granite's \SI{7.7}{\percent}; Llama Guard's
+passes through the cascade's own point, \SI{16.0}{\percent}, ShieldGemma's lies
+above it at \SI{23.0}{\percent}, and the three retrained checkpoints' lie above
+the configured one at \SI{25.7}{\percent}, \SI{20.0}{\percent} and
+\SI{21.1}{\percent}. Widening the band moves little until the score mass at the
+extremes is reached: \SI{2.8}{\percent} routed gives \SI{20.6}{\percent} safe
+blocked and \SI{16.0}{\percent} harmful allowed; \SI{8.4}{\percent} routed,
+\SI{20.0}{\percent} and \SI{15.2}{\percent}; \SI{14.1}{\percent} at
+$0.05/0.95$, \SI{19.9}{\percent} and \SI{13.8}{\percent}; \SI{17.5}{\percent}
+at $0.04/0.96$, \SI{20.1}{\percent} and \SI{12.8}{\percent}. The step to the
+lowest bin, $0.03/0.97$, routes \SI{61.5}{\percent} and gives
+\SI{28.8}{\percent} and \SI{6.5}{\percent}: the judge catches most of the
+harmful prompts Layer~1 confidently allowed, at the price of blocking far more
+safe ones, before routing everything returns the judge-alone arm at
+\SI{19.0}{\percent} and \SI{12.3}{\percent}. The retrained checkpoints gain
+more from widening, their first layers being weaker, and all four end together,
+since the judge is unchanged.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=6.0cm,
+  xlabel={Mean harm score in bin}, ylabel={Fraction harmful in bin},
+  xmin=0,xmax=1,ymin=0,ymax=1,
+  grid=both, grid style={line width=.2pt,draw=gray!22},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  legend style={font=\tiny,at={(0.03,0.97)},anchor=north west,draw=none,fill=white,fill opacity=0.85,text opacity=1},
+  legend cell align=left,
+]
+\addplot[gray,dashed,no markers,forget plot] coordinates {(0,0) (1,1)};
+\addplot[cAccent,thick,mark=*,mark size=1.6pt] coordinates {(0.035,0.026) (0.976,0.971)};
+\addlegendentry{Layer 1, pool test split}
+\addplot[cAccent,only marks,mark options={fill=white},forget plot] coordinates {(0.144,0.143) (0.256,1.000) (0.360,0.750) (0.423,0.000) (0.585,0.000) (0.665,0.500) (0.771,0.500) (0.862,0.250)};
+\addplot[cAccent,thick,densely dashed,mark=square*,mark size=1.6pt] coordinates {(0.038,0.142) (0.141,0.333) (0.244,0.267) (0.352,0.412) (0.455,0.476) (0.554,0.654) (0.657,0.438) (0.745,0.630) (0.861,0.400) (0.973,0.657)};
+\addlegendentry{Layer 1, final test set}
+\addplot[cGood,thick,mark=triangle*,mark size=2pt] coordinates {(0.004,0.214) (0.993,0.839)};
+\addlegendentry{Judge, 300 validation prompts}
+\addplot[cGood,only marks,mark options={fill=white},forget plot] coordinates {(0.150,0.600) (0.271,0.333) (0.338,0.500) (0.453,1.000) (0.556,1.000) (0.656,0.429) (0.768,0.750) (0.888,1.000)};
+\addplot[cGood,thick,densely dashed,mark=diamond*,mark size=2pt] coordinates {(0.004,0.109) (0.142,0.320) (0.248,0.174) (0.340,0.367) (0.446,0.286) (0.542,0.316) (0.655,0.379) (0.755,0.324) (0.848,0.326) (0.995,0.759)};
+\addlegendentry{Judge, final test set}
+\end{axis}
+\end{tikzpicture}
+\caption{Reliability of the Layer-1 score and the configured judge's
+$p_{\mathrm{mit}}$, in distribution and on the final test set, in ten
+equal-width bins; the diagonal is perfect calibration. Bins holding fewer than
+ten prompts are drawn hollow and unconnected. Post hoc, from stored scores.
+The two extreme bins hold almost all prompts: on the final test set
+1{,}481 prompts score below 0.1 and 1{,}372 above 0.9 for Layer~1.}
+\label{fig:reliability}
+\end{figure}
+
+\noindent\textbf{The extreme bins of the Layer-1 score.} In distribution its
+two extreme bins average \num{0.035} and \num{0.976} while being
+\SI{2.6}{\percent} and \SI{97.1}{\percent} harmful. On the final test set those
+bins, which hold 1{,}481 and 1{,}372 of the 3{,}089 prompts, average
+\num{0.038} and \num{0.973} while being \SI{14.2}{\percent} and
+\SI{65.7}{\percent} harmful: the score remains extreme where its ordering has
+degraded. The three retrained checkpoints are worse still, at \num{0.222} to
+\num{0.252}.
+
+\begin{table*}[h]
+\caption{Rates by category inside each source that carries category
+labels, in percent: harmful allowed on harmful sources, safe blocked on safe
+sources; lower is better. CatQA is grouped by its eleven areas; Do-Not-Answer
+and CoCoNot are shown at subcategory level. The CatQA and Do-Not-Answer rows
+are a pre-registered secondary outcome; the other three sources are added on
+the same footing. Cells are small and are to be read as a ranking: Wilson
+intervals for every cell are in the repository. PHTest carries a single label
+and cannot be broken down. Post hoc arms are marked.}
+\label{tab:percat}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lrccccccc@{}}
+\toprule
+Category & $n$ & Cascade & Layer 1 & Judge & Llama judge\posthoc & Granite & Llama Guard & ShieldGemma\posthoc \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{SimpleSafetyTests (harmful allowed)}} \\
+Suicide, self-harm, eating disorders & 20 & 15.0 & 20.0 & 5.0 & 0.0 & 0.0 & 5.0 & 10.0 \\
+Physical harm and violence & 19 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+Illegal and regulated items & 20 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 5.0 & 15.0 \\
+Scams and fraud & 20 & 5.0 & 5.0 & 5.0 & 0.0 & 0.0 & 0.0 & 90.0 \\
+Child abuse & 20 & 5.0 & 5.0 & 0.0 & 0.0 & 0.0 & 0.0 & 5.0 \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{CatQA (harmful allowed)}} \\
+Illegal activity & 50 & 14.0 & 22.0 & 0.0 & 0.0 & 0.0 & 0.0 & 22.0 \\
+Child abuse & 47 & 23.4 & 25.5 & 0.0 & 0.0 & 0.0 & 0.0 & 27.7 \\
+Hate, harassment, violence & 46 & 8.7 & 8.7 & 0.0 & 0.0 & 0.0 & 4.3 & 6.5 \\
+Malware & 50 & 8.0 & 16.0 & 8.0 & 0.0 & 0.0 & 16.0 & 56.0 \\
+Physical harm & 50 & 30.0 & 40.0 & 0.0 & 0.0 & 0.0 & 2.0 & 4.0 \\
+Economic harm & 50 & 22.0 & 30.0 & 0.0 & 0.0 & 0.0 & 8.0 & 92.0 \\
+Fraud, deception & 50 & 14.0 & 16.0 & 0.0 & 0.0 & 0.0 & 2.0 & 70.0 \\
+Adult content & 50 & 6.0 & 10.0 & 0.0 & 0.0 & 0.0 & 0.0 & 2.0 \\
+Political campaigning & 50 & 16.0 & 18.0 & 2.0 & 2.0 & 0.0 & 12.0 & 84.0 \\
+Privacy violation & 50 & 32.0 & 34.0 & 4.0 & 2.0 & 0.0 & 12.0 & 96.0 \\
+Tailored financial advice & 50 & 36.0 & 38.0 & 12.0 & 6.0 & 2.0 & 10.0 & 98.0 \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{Do-Not-Answer core (harmful allowed)}} \\
+Discrimination: adult content & 27 & 18.5 & 18.5 & 33.3 & 7.4 & 3.7 & 40.7 & 11.1 \\
+Discrimination: stereotypes, unfair discrimination & 95 & 18.9 & 18.9 & 29.5 & 20.0 & 5.3 & 70.5 & 8.4 \\
+Discrimination: toxic language, hate speech & 53 & 13.2 & 13.2 & 17.0 & 9.4 & 3.8 & 71.7 & 43.4 \\
+Malicious: assisting illegal activities & 132 & 6.1 & 6.1 & 1.5 & 0.8 & 0.0 & 6.8 & 31.1 \\
+Malicious: nudging to unethical or unsafe acts & 71 & 28.2 & 32.4 & 5.6 & 9.9 & 0.0 & 29.6 & 42.3 \\
+Malicious: disinformation campaigns & 40 & 12.5 & 20.0 & 0.0 & 0.0 & 0.0 & 17.5 & 92.5 \\
+Misinformation: material harm (medicine, law) & 63 & 34.9 & 34.9 & 96.8 & 57.1 & 52.4 & 41.3 & 98.4 \\
+Misinformation: false or misleading information & 92 & 56.5 & 57.6 & 80.4 & 72.8 & 60.9 & 88.0 & 84.8 \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{CoCoNot contrast (safe blocked)}} \\
+Safety concerns: dangerous or sensitive topics & 113 & 10.6 & 10.6 & 57.5 & 59.3 & 54.9 & 9.7 & 37.2 \\
+Incomplete: false presuppositions & 91 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+Unsupported: modality limitations & 82 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 3.7 & 0.0 \\
+Safety concerns: privacy violations & 35 & 14.3 & 14.3 & 34.3 & 42.9 & 54.3 & 20.0 & 5.7 \\
+Incomplete: underspecified & 57 & 12.3 & 12.3 & 0.0 & 0.0 & 1.8 & 3.5 & 0.0 \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{No Robots (safe blocked)}} \\
+Chat & 50 & 8.0 & 8.0 & 2.0 & 4.0 & 4.0 & 0.0 & 0.0 \\
+Brainstorm & 60 & 5.0 & 5.0 & 1.7 & 0.0 & 5.0 & 5.0 & 0.0 \\
+Generation & 214 & 16.4 & 16.4 & 8.4 & 7.5 & 35.5 & 14.0 & 2.8 \\
+Rewrite & 35 & 34.3 & 31.4 & 34.3 & 25.7 & 28.6 & 34.3 & 8.6 \\
+Open QA & 58 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+Classify & 16 & 12.5 & 12.5 & 12.5 & 0.0 & 6.2 & 0.0 & 0.0 \\
+Summarize & 25 & 20.0 & 20.0 & 0.0 & 0.0 & 0.0 & 20.0 & 4.0 \\
+Coding & 16 & 0.0 & 0.0 & 6.2 & 0.0 & 18.8 & 31.2 & 0.0 \\
+Extract & 7 & 14.3 & 14.3 & 0.0 & 0.0 & 0.0 & 14.3 & 0.0 \\
+Closed QA & 15 & 6.7 & 6.7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\noindent\textbf{Reading Table~\ref{tab:percat}.} This table breaks the rates of Table~\ref{tab:rates} of the article down by the category labels
+each source carries; the cells are small, so each pattern is a ranking rather
+than an estimate. On CatQA, Layer~1's misses are largest for tailored financial
+advice, privacy violation and physical harm (\SI{30}{\percent} to
+\SI{40}{\percent}), smallest for adult content and hate (\SI{10}{\percent} or
+less); both judges and Granite allow at most \SI{12}{\percent} anywhere;
+ShieldGemma allows \SI{70}{\percent} to \SI{98}{\percent} outside its four
+policies, in tailored financial advice, privacy violation, economic harm,
+political campaigning and fraud. On Do-Not-Answer core, misinformation is where
+every arm fails, the judges included: the configured judge allows
+\SI{96.8}{\percent} on material harm from misinformation and
+\SI{80.4}{\percent} on false or misleading information, against the cascade's
+\SI{34.9}{\percent} and \SI{56.5}{\percent}; Llama Guard's deficit lies instead
+in discrimination, \SI{70.5}{\percent} and \SI{71.7}{\percent} on the two
+largest subcategories. On CoCoNot, the judges' and Granite's over-blocking is
+confined to the two safety-concern subcategories, dangerous or sensitive topics
+(\SI{57.5}{\percent}, \SI{59.3}{\percent}, \SI{54.9}{\percent} against
+Layer~1's \SI{10.6}{\percent}) and privacy (\SI{34.3}{\percent},
+\SI{42.9}{\percent}, \SI{54.3}{\percent} against \SI{14.3}{\percent}); on
+incomplete and unsupported requests every arm blocks \SI{4}{\percent} or less,
+except Layer~1 on underspecified requests, \SI{12.3}{\percent}. On No Robots,
+Layer~1 blocks most on rewrite, summarise and generation (\SI{34.3}{\percent},
+\SI{20.0}{\percent}, \SI{16.4}{\percent}), whose prompts embed a passage to be
+transformed; Granite blocks \SI{35.5}{\percent} of generation prompts,
+ShieldGemma \SI{8.6}{\percent} or less of every task type.
+
+\begin{table}[h]
+\caption{The configured judge under other decision bands and uncertain
+policies, re-applied offline to its stored $p_{\mathrm{mit}}$ on the final test
+set. Unc.\ is the share of prompts left uncertain; SB and HA are safe blocked
+and harmful allowed, macro-averaged over sources, under the configured policy
+(uncertain blocks) and the alternative (uncertain allows); the last two columns
+are CoCoNot blocked and CatQA allowed under the configured policy. Percent;
+post hoc; nothing was selected from this table.}
+\label{tab:judgeband}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+& & \multicolumn{2}{c}{Unc.\ blocks} & \multicolumn{2}{c}{Unc.\ allows} & & \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Band & Unc. & SB & HA & SB & HA & CoCoNot & CatQA \\
+\midrule
+$0.5$ threshold, no band & 0.0 & 18.0 & 12.8 & 18.0 & 12.8 & 19.3 & 3.1 \\
+$0.45/0.55$ & 0.7 & 18.4 & 12.6 & 17.7 & 13.0 & 19.8 & 2.8 \\
+$0.40/0.60$ (configured) & 1.4 & 19.0 & 12.3 & 17.5 & 13.5 & 20.4 & 2.4 \\
+$0.30/0.70$ & 3.4 & 19.8 & 11.7 & 16.8 & 14.4 & 20.4 & 1.8 \\
+$0.20/0.80$ & 5.4 & 20.7 & 11.5 & 15.6 & 15.0 & 21.2 & 1.8 \\
+$0.05/0.95$ & 10.9 & 23.4 & 9.8 & 13.5 & 17.2 & 21.4 & 1.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{The judge band and the uncertain policy move the judge's operating
+point by a few points and its ranking not at all.} This table re-applies the band
+to the configured judge's stored probabilities. That judge leaves 50 prompts
+uncertain, \SI{1.4}{\percent}, and only \SI{8.5}{\percent} of its probabilities
+lie between $0.1$ and $0.9$, so the band has little to act on. Counting them as
+allowed rather than blocked moves the macro rates from \SI{19.0}{\percent} safe
+blocked and \SI{12.3}{\percent} harmful allowed to \SI{17.5}{\percent} and
+\SI{13.5}{\percent}; a bare $0.5$ threshold gives \SI{18.0}{\percent} and
+\SI{12.8}{\percent}; the widest band, $0.05/0.95$, gives \SI{23.4}{\percent}
+and \SI{9.8}{\percent} when uncertain prompts block and \SI{13.5}{\percent}
+and \SI{17.2}{\percent} when allowed. CoCoNot's blocked share stays between
+\SI{19.3}{\percent} and \SI{21.4}{\percent} and CatQA's allowed share at or
+below \SI{3.1}{\percent} throughout, so neither the boundary over-blocking nor
+the advantage on plain harmful prompts depends on it. The substitute judge, with
+\SI{16.7}{\percent} between $0.1$ and $0.9$, is more sensitive: from
+\SI{8.1}{\percent} and \SI{13.9}{\percent} to \SI{31.5}{\percent} and
+\SI{4.7}{\percent} at the widest band, CoCoNot blocked between
+\SI{21.4}{\percent} and \SI{28.6}{\percent}. Ranking is unaffected by
+construction.
+
+\begin{table}[h]
+\caption{Component ablation on the final test set, configured checkpoint,
+percent. View is the leading-clause view and $T=1$ replaces the fitted
+temperature. To judge is the share of prompts routed to Layer~2; harmful sources
+report harmful allowed and safe sources safe blocked; lower is better. Every
+ablation arm is post hoc. Do-Not-Answer ``other'' is excluded as secondary.}
+\label{tab:ablation}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lcccccccc@{}}
+\toprule
+& To & Pooled & \multicolumn{3}{c}{Harmful allowed} & \multicolumn{3}{c}{Safe blocked} \\
+\cmidrule(lr){4-6}\cmidrule(lr){7-9}
+Arm & judge & AUROC & SST & CatQA & DNA & CoCoNot & PHTest & No Rob. \\
+\midrule
+Configured                 & 2.8 & 0.811 & 5.1 & 19.2 & 23.9 & 6.3 & 42.8 & 12.7 \\
+View off\posthoc            & 2.8 & 0.814 & 5.1 & 19.2 & 23.9 & 6.3 & 42.6 & 11.7 \\
+Normalisation off\posthoc  & 2.8 & 0.811 & 5.1 & 19.2 & 23.9 & 6.3 & 42.8 & 12.7 \\
+Both off\posthoc           & 2.8 & 0.814 & 5.1 & 19.2 & 23.9 & 6.3 & 42.6 & 11.7 \\
+$T=1$\posthoc               & 2.4 & 0.811 & 5.1 & 19.3 & 24.1 & 6.6 & 42.9 & 12.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{When the ablation arms were run.} The arms were run on
+30~September, after every other result was known, and no decision was taken
+from them; the amendment records the two deviations they required.
+
+\noindent\textbf{The ablation arms of Table~\ref{tab:ablation}.}
+\textbf{Input normalisation is inert on this set.} With base64 and leetspeak
+recovery disabled, the Layer-1 score is identical on all 3{,}453 prompts and no
+decision changes: no prompt in the final test set has a recoverable obfuscated
+form, and the mechanism is exercised only by the adversarial suite of
+Section~\ref{sec:redteam}. The both-off arm is therefore identical to the
+view-off arm.
+
+\textbf{The leading-clause view is a small, pure cost on plain prompts.} It
+raises the routed score on 42 prompts and changes the final decision on seven,
+all safe: two PHTest and five No Robots prompts are blocked only because of it,
+and no harmful prompt's decision depends on it. The paired differences, arm
+minus cascade, are $-0.2$ points $[-0.5, +0.0]$ on PHTest and $-1.0$ $[-1.8,
+-0.2]$ on No Robots, and pooled AUROC is \num{0.814} without the view against
+\num{0.811} with it, a paired difference of $+0.003$ $[+0.002, +0.005]$. Its
+benefit is confined to the framing attacks of Fig.~\ref{fig:views}, which the
+final test set does not contain; its cost on prompts that informed no decision
+is seven of 1{,}874 safe prompts. On the repeat-study checkpoints it changes
+seven, nine and nine decisions, again all safe prompts blocked, and pooled
+AUROC is higher without it by \num{0.003} to \num{0.004} on every checkpoint.
+
+\textbf{The temperature scaler changes almost nothing.} Replacing
+$T^\star=1.19$ by $T=1$ rescales every score but moves only 14 prompts across a
+band boundary: the gray zone shrinks from 97 to 83 prompts, nine of which are
+blocked and five allowed without the judge. Seven final decisions change, two
+harmful prompts allowed and four safe prompts blocked against one safe prompt
+allowed; no rate moves by more than \num{0.3} points, and pooled AUROC is
+unchanged to three decimals, $+0.0002$ $[-0.002, +0.002]$. On the repeat-study
+checkpoints the gray zone shrinks from 79, 77 and 82 prompts to 60, 61 and 71,
+between five and ten decisions change, and pooled AUROC moves by at most
+\num{0.003}.
+
+\begin{table}[h]
+\caption{Routing-band alternatives on the pool validation split ($n=1912$,
+balanced), classifier route, from the sweep recorded in the decision register.
+This is selection data, not the final test set. To judge is the share routed
+to Layer~2; the two rates are in percent.}
+\label{tab:sweep}
+\centering
+\footnotesize
+\begin{tabular}{@{}lccc@{}}
+\toprule
+$\tau_{\mathrm{low}}$ / $\tau_{\mathrm{high}}$ & To judge & Safe blocked & Harmful allowed \\
+\midrule
+0.30 / 0.70 (configured) & 0.6 & 3.8 & 3.6 \\
+0.50 / 0.50              & 0.0 & 3.7 & 3.5 \\
+0.35 / 0.35              & 0.0 & 4.0 & 3.0 \\
+0.05 / 0.50              & 1.9 & 4.6 & 2.9 \\
+0.05 / 0.05              & 0.0 & 6.1 & 2.0 \\
+0.00 / 0.05              & 48.0 & 18.5 & 1.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{The routing-band sweep of Table~\ref{tab:sweep}.} The band was not ablated on
+the final test set, since doing so
+would tune it on the data the design reserves for confirmation
+(Section~\ref{sec:threats}). Its only evidence is the pre-freeze sweep on the
+pool validation split recorded in the decision register, which Table~\ref{tab:sweep}
+summarises: the configured band routes \SI{0.6}{\percent} of that selection
+set, eleven prompts, to the judge; no alternative band within a ten-point
+safe-blocked budget beats it on both rates; the adjacent bands differ from it
+by one prompt per class; and \SI{98.1}{\percent} of the split scores outside
+$[0.05, 0.50]$. Widening it to the low-scoring mass, $0.00/0.05$, routes
+\SI{48.0}{\percent} of prompts and blocks \SI{18.5}{\percent} of safe ones to
+allow \SI{1.1}{\percent} of harmful ones. The band is therefore insensitive on
+the selection set rather than validated by it, and the same bimodality is what
+Fig.~\ref{fig:scores} shows on the final test set.
+
+\section*{S1. Contents of the reproducibility package}
+
+Every figure and table above is regenerated from stored per-prompt predictions
+by the analysis scripts in the accompanying repository, released at
+\url{https://github.com/OmarCSUF/LLM-Guard}; results files carry the
+command, git commit, seed, package versions and a configuration snapshot.
+The package contains, specifically: (i)~the pre-registration, the register of
+configuration decisions taken on development data, the Layer-3 leak codebook,
+the learner-study pre-registration and the five dated amendments, which record
+the initially refused baseline, every post hoc arm and analysis, and the
+withdrawn scoring run; (ii)~the freeze record, with SHA-256 digests of the
+configuration, of 63 source files, of the Layer-1 artifacts of all four
+checkpoints (LoRA adapters and stackers, about 9\,MB each, included), of the
+three pool splits and of the thirteen benchmark and learner input files,
+together with the git commit; (iii)~the final test set manifest, which records
+the screening counts at every stage, the pinned revision of each source
+repository, the per-source counts by label and the SHA-256 of the assembled
+file, with the fetch and build scripts that reconstruct the set from its
+sources; the assembled file carries the identifier, source, category, label
+and text of each of the 3{,}453 prompts, and the source licences listed in the
+pre-registration govern redistribution of the texts; (iv)~per-prompt prediction
+files for every arm in this paper, 27 on the final test set, four external
+guard and cascade runs on the pool validation split and the Layer-1 scoring of
+the pool test split, each row holding the decision, the harm score and the
+stage-level fields, and the red-team variant files with every attacked prompt
+and its outcome; (v)~the scripts that produced every table and figure of
+Section~\ref{sec:results} from those files alone, with no model loaded: the
+main analysis, the paired payload-view effect, the frontiers and band sweep,
+the calibration diagnostics, the per-category rates, the guard-agreement check
+and the judge-band sweep; (vi)~the training, evaluation and external-guard
+scripts with the configuration they read; and (vii)~the post hoc analyses of
+Sections S14 to S21, with their scripts and outputs, under
+\texttt{results/\allowbreak review\_20261024}, and the invariant tests of Section~S21 under \texttt{tests}. Llama~3.2's chat
+template writes the current date into the substitute judge's prompt, so that arm
+reproduces only with the date pinned to 28 September 2026 (Section~S21). Model weights are not redistributed:
+the Layer-1 backbone, both judges and the three guards load from their public
+repositories at the revisions pinned in Section~\ref{sec:arms}, several of
+them gated. In the final-test analysis, bootstrap intervals are drawn from a
+stream seeded per comparison rather than from one generator shared across the
+script, so an interval depends on the comparison it belongs to and not on how
+many arms the study happens to contain; the separate scripts use the same
+seeding scheme.
+
+\section*{S2. Metrics and statistical analysis}
+
+Every arm returns a binary decision $\hat{y}_i$ and a scalar harm score per
+prompt. The two operational rates reported throughout the article are
+\begin{align}
+\mathrm{safe\_blocked}   &= \frac{\bigl|\{i: y_i{=}1 \wedge \hat{y}_i{=}0\}\bigr|}
+                                 {\bigl|\{i: y_i{=}1\}\bigr|}, \label{eq:sb}\\[2pt]
+\mathrm{harmful\_allowed} &= \frac{\bigl|\{i: y_i{=}0 \wedge \hat{y}_i{=}1\}\bigr|}
+                                 {\bigl|\{i: y_i{=}0\}\bigr|}, \label{eq:ha}
+\end{align}
+with escalated prompts counted as blocked because the configured mitigation is
+refusal.
+
+For a given source and pair of arms, the difference in rate is resampled by
+drawing prompts with replacement within that source, applying the same index
+set to both arms and taking the 2.5th and 97.5th percentiles of $B=2000$
+replicates; every source is single-class, so this holds class composition
+fixed. Differences in the pooled AUROC are resampled the same way, both AUROCs
+recomputed on one prompt resample, so a small gap is read against an interval
+rather than as an ordering.
+
+The adversarial suite is summarised by the bypass rate over 3{,}600 variants,
+with an interval from a cluster bootstrap that resamples the 200 seed requests,
+since variants of one request are not independent. The learner study reports
+the mean difference in blocking between original and corrected sentences, with
+percentile intervals from bootstraps grouped by sentence, by essay and by
+writer; the writer-grouped upper bound is compared with the pre-specified
+two-point margin.
+
+All bootstraps use $B=2000$ and $\alpha=0.05$ from a fixed study seed, each
+comparison drawing from its own stream derived from that seed and the
+comparison's name. Layer-1 scores are quantised to four decimals before any
+threshold is applied, as the router serves them.
+
+\section*{S3. Implementation and compute}
+
+All runs used one NVIDIA GeForce RTX 4050 Laptop GPU (6\,GB, 5.64\,GiB
+addressable) with CUDA 13.0, under Python 3.10.12 with
+PyTorch 2.14.0, Transformers 4.57.6, bitsandbytes 0.50.2, PEFT 0.20.0,
+Accelerate 1.15.0, scikit-learn 1.7.2 and NumPy 2.2.6. Layer~1 runs
+unquantised. Generation is greedy at temperature 0 wherever a verdict is
+decoded, so scoring is deterministic up to the numerical non-determinism of the
+quantised kernels: re-scoring 60 prompts with Granite Guardian moved its harm
+score by at most $6\times10^{-3}$ and changed no decision. Latency is
+wall-clock time per prompt inside the scoring loop, excluding model loading, on
+the same GPU for every arm: the median over the final test set, except for the
+two Layer-1-dominated arms, whose runs recorded only the loop total and report
+the mean. Every table and figure in
+Section~\ref{sec:results} is regenerated from stored per-prompt predictions.
+
+\section*{S4. Arms}
+
+Prompts are truncated to 2{,}048 tokens before templating and verdicts decoded
+greedily with at most eight new tokens, two for ShieldGemma. The guard
+revisions are pinned: \texttt{81145486} for Granite Guardian,
+\texttt{acf7aafa} for Llama Guard and \texttt{d1dffc9c} for ShieldGemma.
+ShieldGemma's four policies are queried at four forward passes per prompt, and
+every per-policy score is kept. The harm score of a guard is renormalised over
+the first-token spellings of the two answers at the position where the verdict
+is emitted. The 4-bit NF4 quantisation is forced by the hardware: the 6\,GB GPU
+does not hold a 2\,B model in \texttt{bfloat16} beside its activations.
+
+No primary publication describes Llama Guard 3 1B itself, and the article cites
+none for it: the model is distributed through its model card, and the only
+publication we could verify that addresses the 1\,B model evaluates a
+compressed INT4 derivative against it.
+
+For the two post hoc substitute-judge arms, the prompt version was chosen on
+pool validation by the criterion that chose the incumbent's.
+
+\section*{S5. Training pool}
+
+Layer~1 is fine-tuned as \texttt{roberta-base} with LoRA rank $8$,
+$\alpha=16$, dropout $0.1$, 512-token inputs, batch size 8, learning rate
+$2\times10^{-4}$ and at most five epochs with early stopping after two without
+improvement. The pool's near-duplicate rule uses 64 permutations and 16 bands
+with seed 42, and cross-split overlap is re-checked with independent hash
+permutations. The judge's prompt version was chosen on 300 pool validation
+prompts, half per class, with seed 42.
+
+\section*{S6. Development benchmarks}
+
+The five development benchmarks break down as follows. JailbreakBench
+contributes 200 prompts, 100 per class; XSTest 450, of which 250 are safe and
+200 unsafe; HarmBench 200, all harmful; the ToxicChat 0124 test split 5{,}083
+rows loaded, 132 exact duplicates removed and 4{,}951 kept, of which 4{,}597
+are safe and 354 harmful; and OR-Bench 1{,}974, of which 1{,}319 are safe and
+655 harmful.
+
+\section*{S7. The final test set}
+
+The screening steps of Section~\ref{sec:finalset} attribute to the individual
+sources as follows. The empty prompts and exact within-source duplicates
+dropped after normalisation were seven from CatQA, four from PHTest, two from
+No Robots and one from Do-Not-Answer. Of the five prompts removed by the screen
+against the three pool splits and the five development benchmarks, two
+near-duplicated pool training prompts, one each from Do-Not-Answer and CoCoNot,
+and three matched ToxicChat exactly or nearly, one from SimpleSafetyTests and
+two from No Robots.
+
+The freeze manifest records SHA-256 digests of the configuration, 63 source
+files, the Layer-1 artifacts of all four checkpoints, the three pool splits and
+the thirteen benchmark and seed-request input files, together with the git
+commit and the GPU.
+
+Do-Not-Answer's risk areas divide as follows: \emph{core} covers discrimination
+and toxicity, malicious uses and misinformation harms, while \emph{other}
+covers human--chatbot interaction harms and information hazards, which a
+moderation guard may legitimately allow.
+
+\section*{S8. Secondary studies}
+
+The learner-English study uses the train and dev gold M2 files of
+W\&I+LOCNESS v2.1. Identifiers, order and label are identical across its two
+arms, which pair sentence by sentence. The 5{,}467 edited pairs come from CEFR
+levels A (2{,}079), B (2{,}044) and C (1{,}344).
+
+\section*{S9. Grammatical-form sensitivity by CEFR level and by seed}
+
+By CEFR level the writer-grouped differences are $-0.77$ $[-2.06, +0.49]$ (A),
+$-1.61$ $[-2.88, -0.42]$ (B) and $-1.26$ $[-2.49, -0.08]$ (C), each with its
+upper bound inside the pre-specified two-point non-inferiority margin. The
+pre-registered replication on the three repeat-study checkpoints gives pooled
+differences of $-2.05$ $[-2.86, -1.24]$, $+0.22$ $[-0.53, +0.97]$ and $-0.68$
+$[-1.37, +0.05]$ for seeds 42, 43 and 44, all within the margin at the pooled
+level; one level cell, A under seed 43, exceeds it at $+1.68$ $[+0.29, +2.97]$.
+The claim therefore holds on every checkpoint pooled over levels and fails in
+one of twelve level cells.
+
+\section*{S10. Extended discussion}
+
+Three bounds apply to the word ``independent''. Independence from the authors'
+decisions is not independence from the models' pre-training: the seven sources
+are public, and the near-duplicate screen addresses what the authors saw, not
+what the models saw. ShieldGemma, the two Llama judge arms and the ablation of
+Section~\ref{sec:ablation} were added once the pre-registered results were
+known, so the prompts are as independent for them as for any arm but the arms
+may not be, and the paper marks them rather than relying on them. And every
+source is single-class, so pooled AUROC partly measures source separability:
+per-source rates are the primary evidence, and pooled ranking is read only
+against its paired intervals.
+
+Widening the routing band to $0.05/0.95$ recovers about two of the \num{3.7}
+points between the cascade's harmful-allowed rate and the judge's at five times
+the judge traffic (Fig.~\ref{fig:frontiers}): a partial remedy only.
+
+Beyond its interval the count of bypasses is uncertain in three ways that run in
+the same direction: variants of one request are not independent, so the
+effective sample is nearer the 200 requests than the 3{,}600 variants and
+$[2.5, 6.8]$ is wide relative to its estimate; the suite is development data, so
+the rate is optimistic for exactly the families the view targets; and two
+families came from the judge's own model family, limiting attack diversity.
+
+\textbf{The scoring-LM signals carry no usable information.} They changed almost
+no decisions in the ablation yet cost \SI{32}{\milli\second} of Layer~1's
+\SI{38}{\milli\second}, and harmful prompts do not separate from benign ones
+along the axis perturbation curvature and log-rank statistics were designed for.
+The rejection was taken on the development benchmarks, so its benefit on fresh
+data is not established; its cost is, and that suffices.
+
+\textbf{The input-view mechanisms are inert on plain prompts.} Normalisation
+changes no decision on any of the 3{,}453 prompts on any of the four
+checkpoints, and the leading-clause view changes between seven and nine, every
+one a safe prompt blocked; the only evidence that either helps is the
+adversarial suite that shaped them, and they are cheap to keep.
+
+The two defects were these. A temperature fitted against the unflipped label
+referred every prompt without raising an error, and the withdrawn guard run read
+a harm score at the wrong generation step and ranked inconsistently with its own
+decisions; both were caught by an internal inconsistency a reader could have
+missed rather than by the software. The invariants now asserted include the sign
+of the score against the label and the probability mass at the step being read.
+
+A margin smaller than the spread cannot be attributed to the intervention rather
+than the draw, which is why the Llama Guard and ShieldGemma margins are not
+treated as findings even where a paired interval excludes zero: that bootstrap
+varies prompts for a fixed pair of models, not retrainings of one of them. The
+configured checkpoint is the most favourable of the four on pooled ranking and
+CatQA and was the one retained during development, and whether the development
+benchmarks favoured it cannot now be determined, so the seed rows of
+Table~\ref{tab:seeds} report the recipe's typical performance rather than its
+worst. And the two checkpoints trained with seed 42 differ by \num{0.060}, the
+entire spread, so the variation is not attributable to the seed value alone;
+those runs used different scripts, and whatever else differs between them
+contributes. The study does not separate these sources, so ``seed sensitivity''
+in Section~\ref{sec:seeds} means run-to-run variation of the recipe --- a limit
+of the repeat study's design, not of its result, since how far the recipe moves
+every reported quantity is what a reader needs.
+
+The limits of the learner study matter as much. It varies form within a writer,
+not writers, groups or any other attribute, and uses no demographic information,
+so it is evidence about form sensitivity, not about fairness across
+populations. Both arms block about a fifth of the sentences, and because every
+sentence carries the safe label without independent review, high over-refusal on
+essay prose cannot be distinguished from label error. The replication across the
+three repeat-study checkpoints holds at the pooled level, but the one level cell
+that exceeds the margin, and the pooled difference that changes sign under seed
+43, show that about one point is within what retraining moves: direction as well
+as size should be read against that spread.
+
+The episodes behind the evaluation recommendations were these. An end-to-end
+number hid a middle layer used on one prompt in thirty-five; two of this paper's
+three external margins fall inside the retraining spread; the study accreted
+three post hoc arms and a sixteen-arm ablation once its results were known, each
+for a defensible reason, and only the marks let a reader weight them; and two
+defects here produced numbers that were plausible and wrong and raised no error.
+
+\section*{S11. Recovered: related work}
+
+The following characterisations of the cited work were carried by the article
+before it was compressed to the page limit. They are restored here because the
+article now names each work without describing it.
+
+Production content moderation predates instruction-tuned language models.
+Markov \emph{et al.} describe a deployed classifier built around a designed
+content taxonomy and labelling instructions, data quality control, and an
+active-learning pipeline for the rare events a static corpus under-represents.
+The current generation instead fine-tunes an instruction-following language
+model to emit the verdict. Llama Guard frames moderation as classification over
+a hazard taxonomy supplied in the prompt, so that categories can be revised
+without retraining; its third version ships alongside the Llama~3 models, and a
+compressed INT4 derivative of the 1\,B model, evaluated against it, is described
+separately.
+
+A different line keeps the cost low by reading the generating model's own
+intermediate representations rather than running a separate guard: multi-layer
+latent prototypes classify a prompt from hidden states at negligible added cost
+and can be fitted to any model.
+
+Spending computation in proportion to difficulty is an old construction. The
+boosted cascade of Viola and Jones rejects the easy majority of candidate
+windows with a few cheap features and reserves expensive classifiers for what
+survives; the reject option of selective classification formalises the same
+trade, exchanging coverage for accuracy on the inputs a model chooses to answer.
+FrugalGPT applies the construction to language models directly, chaining cheaper
+to costlier models and learning the thresholds at which to escalate. The
+selective-classification literature also offers constructions in which the
+deferral rule is learned jointly with the classifier rather than thresholded on
+a post hoc calibrated score, and cascaded human--AI decision frameworks learn
+the deferral and abstention policies and adapt them online from feedback.
+
+\section*{S12. Recovered: the forced-prefix reading}
+
+Two details of the Layer-2 reading matter for the judge-swap arm of
+Section~\ref{sec:judgeswap}. First, the sets $\mathcal{A}$ and $\mathcal{M}$ are
+the first-token identifiers of the four spellings of each word, with and without
+a leading space and with and without capitalisation, after removing any
+identifier the two words share, so the reading is defined for any tokenizer in
+which the two words start differently.
+
+\section*{S13. Recovered: the guards' own scoring rules}
+
+Each guard's harm score is read with that vendor's own scoring rule. Llama
+Guard's authors read the classifier score from the probability of the first
+token; Granite Guardian's normalise the generation probabilities of the safe and
+unsafe tokens, aggregated over their spellings, by a softmax across the two; and
+ShieldGemma's model card computes the score as the softmax probability of
+\texttt{Yes} over the \texttt{Yes} and \texttt{No} logits, the scoring mode its
+paper directs users to.
+
+Native verdicts are operating points chosen by each vendor for its own
+deployment, and comparing them compares those choices as much as the models.
+This is why Section~\ref{sec:heldout} reports the matched reading beside the
+native one.
+\FloatBarrier
+\input{supp_review}
+\FloatBarrier
+\input{supp_moved}
+
+\end{document}

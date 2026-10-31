@@ -1,0 +1,150 @@
+\section*{S22. The templated suite in detail}
+
+The article reports the leading-clause view's effect on the templated suite in text; the per-family rates and the per-checkpoint counts are here.
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth, height=4.6cm,
+  ybar, bar width=6pt,
+  ylabel={Bypass rate (\%)},
+  symbolic x coords={tech.,jailbrk,roleplay,prefix,lang,decode,ALL},
+  xtick=data, x tick label style={font=\scriptsize,rotate=25,anchor=east},
+  ymin=0,ymax=33,
+  grid=major, grid style={line width=.2pt,draw=gray!20},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  legend style={font=\scriptsize,at={(0.98,0.97)},anchor=north east,draw=none},
+  nodes near coords, every node near coord/.append style={font=\tiny},
+]
+\addplot[draw=cBad,fill=cBad,fill opacity=.75] coordinates {
+(tech.,29.2)(jailbrk,16.5)(roleplay,13.0)(prefix,11.0)(lang,5.8)(decode,4.3)(ALL,13.3)};
+\addlegendentry{views off}
+\addplot[draw=cGood,fill=cGood,fill opacity=.75] coordinates {
+(tech.,3.0)(jailbrk,3.7)(roleplay,2.7)(prefix,11.0)(lang,2.8)(decode,4.3)(ALL,4.6)};
+\addlegendentry{views on}
+\end{axis}
+\end{tikzpicture}
+\caption{Guard-bypass rate over 3{,}600 paired variants, with and without
+leading-clause payload views. The intervention targets framing attacks and
+leaves the two it does not address, \texttt{prefix\_rewrite} and
+\texttt{decoding\_manipulation}, exactly unchanged.}
+\label{fig:views}
+\end{figure}
+
+\begin{table}[!htbp]
+\caption{HarmBench attack pass, 200 requests $\times$ 6 attacks $\times$ 3
+variants, by checkpoint. Intervals are seed-clustered.}
+\label{tab:attack}
+\centering
+\scriptsize
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Checkpoint & Bypassed / variants & Rate & 95\% CI \\
+\midrule
+Historical & 165 / 3600 & \best{4.6}\% & [2.5, 6.8] \\
+Seed 43    & 180 / 3600 & 5.0\% & [2.8, 7.4] \\
+Seed 42    & 226 / 3600 & 6.3\% & [3.9, 9.1] \\
+Seed 44    & 282 / 3600 & 7.8\% & [5.2, 10.9] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{S23. Calibration error by arm}
+
+The article quotes these values in text; the table gives every arm with its interval.
+
+\begin{table}[!htbp]
+\caption{Expected calibration error of the graded harm scores, ten
+equal-width bins, with 95\% bootstrap intervals over prompts. In distribution:
+the pool test split for Layer~1 ($n=1912$, balanced) and the 300 pool-validation
+prompts of the tuning run for the judges. Final test set: the 3{,}089 primary
+prompts, pooled over single-class sources (1{,}874 safe, 1{,}215 harmful), so
+these values are conditional on that mixture. Post hoc, from stored scores.}
+\label{tab:ece}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Score & In distribution & Final test set \\
+\midrule
+Layer 1, configured checkpoint & 0.013 [0.008, 0.021] & 0.204 [0.191, 0.221] \\
+Layer 1, retrained s42 / s43 / s44 & --- & 0.252 / 0.226 / 0.222 \\
+Judge, Qwen2.5-3B & 0.191 [0.153, 0.242] & 0.172 [0.159, 0.186] \\
+Judge, Llama-3.2-3B\posthoc & 0.102 [0.072, 0.141] & 0.129 [0.117, 0.141] \\
+Granite Guardian & --- & 0.211 [0.199, 0.225] \\
+Llama Guard & --- & 0.155 [0.143, 0.169] \\
+ShieldGemma\posthoc & --- & 0.167 [0.153, 0.182] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{S24. Sensitivity to the training seed}
+
+The article quotes the spread in text; the table gives every source.
+
+\begin{table}[!htbp]
+\caption{The identical training recipe under three seeds, scored on the final
+test set. Ranges are observed spreads, not confidence intervals.}
+\label{tab:seeds}
+\centering
+\scriptsize
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Source & Historical & s42 & s43 & s44 \\
+\midrule
+CatQA (harmful allowed)     & 19.2 & 34.8 & 22.3 & 35.7 \\
+DNA core (harmful allowed)  & 23.9 & 25.8 & 23.4 & 23.6 \\
+PHTest (safe blocked)       & 42.8 & 45.9 & 46.3 & 42.2 \\
+No Robots (safe blocked)    & 12.7 & 14.1 & 15.3 & 10.5 \\
+\midrule
+Pooled AUROC                & 0.811 & 0.751 & 0.773 & 0.777 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{S25. Agreement of each guard's two readings}
+
+Moved from the article, which keeps the summary. On the final test set the native verdict and the harm score thresholded at
+$0.5$ agree on
+\SI{99.8}{\percent} of prompts for Granite Guardian, \SI{99.97}{\percent} for
+Llama Guard and \SI{100}{\percent} for ShieldGemma, and on at least
+\SI{99.8}{\percent} on the pool validation split; every native output parsed.
+The seven final-test disagreements are ties: the two spellings differ by less
+than $3\times10^{-5}$ and the most probable token is safe. Answer tokens hold
+at least \num{0.92} of the mass at the step read, median above \num{0.9997} for every guard, and Llama Guard's verdict was
+at the second generated step for all 3{,}453 prompts, the condition the
+withdrawn run failed. ShieldGemma's two readings coincide per policy and overall.
+
+\section*{S26. The judge slot under two models, by source}
+
+The article quotes the per-source differences with their intervals; the table gives every rate.
+
+\begin{table}[!htbp]
+\caption{The Layer-2 slot under two models, against the cascade that contains
+it. Percent; harmful sources report harmful allowed, safe sources safe blocked;
+lower is better throughout. Both Llama arms are post hoc. Do-Not-Answer
+``other'' is excluded as secondary, as in Table~\ref{tab:rates}; it is the
+source on which the substitute trails the cascade most, at \SI{69.0}{\percent}
+against \SI{48.9}{\percent}.}
+\label{tab:judgeswap}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& & \multicolumn{3}{c}{Layer-2 slot, judged alone} \\
+\cmidrule(lr){3-5}
+Source & Cascade & Qwen2.5 & Llama v1\posthoc & Llama v2\posthoc \\
+\midrule
+SimpleSafetyTests  & 5.1 & 2.0 & \best{0.0} & \best{0.0} \\
+CatQA              & 19.2 & 2.4 & \best{0.9} & 1.8 \\
+Do-Not-Answer core & \best{23.9} & 32.6 & \best{23.9} & 32.5 \\
+\midrule
+CoCoNot contrast   & \best{6.3} & 20.4 & 21.7 & 13.5 \\
+PHTest harmless    & 42.8 & 29.6 & 25.7 & \best{17.2} \\
+No Robots          & 12.7 & 7.1 & 5.4 & \best{2.4} \\
+\bottomrule
+\end{tabular}
+\end{table}
